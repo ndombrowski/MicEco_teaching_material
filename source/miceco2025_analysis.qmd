@@ -604,13 +604,46 @@ df["identity"] = df["nmatch"] / df["alen"].replace(0, pd.NA)
 # add tax
 df_tax = df.merge(taxon_df, left_on = "tname", right_on = 'tname')
 
-# remove dubs 
-df_best = df_tax.sort_values(
+# remove dubs (for intermediate checking of results)
+df_no_dub = df_tax.sort_values(
         ["qname", "identity", "AS", "mapq", "qcov", "alen"],
         ascending=[True, False, False, False, False, False],
     ).drop_duplicates("qname")
 
-strepto_data = df_best[df_best['genus'] == 'Streptococcus']
+# Check some data
+strepto_data = df_no_dub[df_no_dub['genus'] == 'Streptococcus']
+ecoli_g3_c1 = df_no_dub[
+    (df_no_dub['genus'] == 'Escherichia') &
+    (df_no_dub['sample'].isin(['h_bc01','h_bc09', 'h_bc17' ]))
+    ]
+
+ecoli_g3_c2 = df_best[
+    (df_no_dub['genus'] == 'Escherichia') &
+    (df_no_dub['sample'].isin(['h_bc03','h_bc11', 'h_bc19' ]))
+    ]
+
+# Filter out bad reads
+df_filtered = df_tax[
+        (df_tax.qcov >= coverage_threshold)
+        & (df_tax.identity >= identity_threshold)
+        & ((df_tax.mapq == 0) | (df_tax.mapq >= mapq_threshold))
+    ]
+
+# For final counts 
+df_best = df_filtered.sort_values(
+        ["qname", "AS", "mapq", "qcov", "alen"],
+        ascending=[True, False, False, False, False],
+    ).drop_duplicates("qname")
+
+good_reads = set(df_filtered["qname"].unique())
+bad_reads_all = set(df["qname"].unique())
+unassigned_reads = bad_reads_all - good_reads
+
+df_bad_read = df_no_dub[df_no_dub['qname'].isin(unassigned_reads)]
+
+len(good_reads)
+len(bad_reads_all)
+len(unassigned_reads)
 
 # Search individual seqa 
 # zcat results/chopper/*gz | grep -A2 "af394f78-8fc9-4075-aad8-e8284c38071e"
@@ -624,6 +657,13 @@ Notes:
   - 000177cd-140f-4d44-87e5-d4e9db9a5c6f : 80% similar to stretococcus, blastn all hits to Blautia (at high id)
   - 00045f5e-d1fc-4b74-a827-834253091336: again, all hits to Blautia
 
+- Ecoli hits:
+  - Group3 Culture 1: 
+    - 16,242 hits share 0.98-1.0 id to reference Ecoli. Of these 9,000 hits have > 0.99 identity
+    - 25,00 hits share 0.96-0.98 id
+  - Group 3 Culture 2:
+    - 4,000 hits share 0.99-1.00 id to reference Ecoli.
+    - 3,000 hits hace 
 
 ## Analyse count table  (not started yet)
 
@@ -715,7 +755,7 @@ p2 <- ggplot(df_s, aes(x = barcode, y = rel_abundance)) +
     vjust = 0, hjust = 0, size = 3, angle = 80
     ) +
     labs(
-        title = "Human-related strain interactions",
+        title = "Soil-related strain interactions",
         y = "Relative abundance (%)",
         x = "",
         fill = "Genus"

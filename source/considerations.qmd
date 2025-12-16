@@ -1,0 +1,16 @@
+---
+execute:
+  eval: false
+engine: knitr
+---
+
+# Notes
+
+For those that want to analyse all files:
+
+- Option 1: For-loops
+    - Follow these instructions: https://scienceparkstudygroup.github.io/ibed-bioinformatics-page/source/core_tools/bash-for-loops.html
+    - Run seqkit, chopper and minimap2 on all files
+    - The python script runs on a folder with paf files, so can be run as is
+- Option 2: https://github.com/ndombrowski/MicEco2025/blob/main/source/miceco2025_analysis.qmd
+    - Go to line 193 and rerun seqkit, chopper and minimap2 on all samples (beware that you use the right input files)

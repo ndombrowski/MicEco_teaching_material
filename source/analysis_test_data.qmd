@@ -771,6 +771,149 @@ grep -c "Root935" results/mapping_counts/test/*paf
 Summary: Even by adding more E.coli 16S sequences, we can't find any reads mapping to that strain
 
 
+
+## Analyse PAF files in more detail
+
+```{python}
+import pandas as pd
+from pathlib import Path
+import argparse
+import sys
+import matplotlib.pyplot as plt
+
+
+def read_paf_with_AS(paf_file):
+    """
+    Reads a PAF file, keeping the first 12 standard columns and the AS:i: optional field.
+    Returns a DataFrame with AS as a separate column.
+    """
+    rows = []
+    with open(paf_file) as f:
+        for line in f:
+            if line.startswith("#") or not line.strip():
+                continue
+            parts = line.strip().split("\t")
+            # First 12 standard columns
+            std_cols = parts[:12]
+            # Look for AS:i:<value> in optional fields
+            AS = None
+            for opt in parts[12:]:
+                if opt.startswith("AS:i:"):
+                    AS = int(opt.split(":")[-1])
+                    break
+            # Append row (first 12 + AS)
+            rows.append(std_cols + [AS])
+
+   # Create DataFrame
+    colnames = [
+        "qname",
+        "qlen",
+        "qstart",
+        "qend",
+        "strand",
+        "tname",
+        "tlen",
+        "tstart",
+        "tend",
+        "nmatch",
+        "alen",
+        "mapq",
+        "AS",
+    ]
+    df = pd.DataFrame(rows, columns=colnames)
+    return df
+
+# Define data paths
+input_folder = Path("../analyse_test_data/results/mapping_counts/")
+taxon_path = Path("data/accession_to_genus.tsv")
+coverage_threshold = 0.9 
+identity_threshold = 0.9 
+mapq_threshold = 30
+
+# Read in data
+taxon_df = pd.read_csv(taxon_path, sep="\t")
+if "tname" not in taxon_df.columns:
+    taxon_df.columns = ["tname", "genus"]
+
+all_files = list(input_folder.glob("*.paf"))
+dfs = []
+
+# On all files
+for paf_file in all_files:
+    barcode = paf_file.stem
+    df = read_paf_with_AS(paf_file)
+    df["sample"] = barcode
+    dfs.append(df)
+
+df = pd.concat(dfs, ignore_index=True)
+
+df = df.copy()
+numeric_cols = [
+    "qlen",
+    "qstart",
+    "qend",
+    "tlen",
+    "tstart",
+    "tend",
+    "nmatch",
+    "alen",
+    "mapq",
+    "AS",
+]
+df[numeric_cols] = df[numeric_cols].apply(pd.to_numeric, errors="coerce")
+
+# Calculate query coverage and identity
+df["qcov"] = (df.qend - df.qstart) / df.qlen
+df["identity"] = df["nmatch"] / df["alen"].replace(0, pd.NA)
+
+# add tax
+df_tax = df.merge(taxon_df, left_on = "tname", right_on = 'tname')
+
+# remove dubs (for intermediate checking of results)
+df_no_dub = df_tax.sort_values(
+        ["qname", "identity", "AS", "mapq", "qcov", "alen"],
+        ascending=[True, False, False, False, False, False],
+    ).drop_duplicates("qname")
+
+# Check some data
+strepto_data = df_no_dub[df_no_dub['genus'] == 'Streptococcus']
+
+# Filter out bad reads
+df_filtered = df_tax[
+        (df_tax.qcov >= coverage_threshold)
+        & (df_tax.identity >= identity_threshold)
+        & ((df_tax.mapq == 0) | (df_tax.mapq >= mapq_threshold))
+    ]
+
+# For final counts 
+df_best = df_filtered.sort_values(
+        ["qname", "AS", "mapq", "qcov", "alen"],
+        ascending=[True, False, False, False, False],
+    ).drop_duplicates("qname")
+
+strepto_data_best = df_best[df_best['genus'] == 'Streptococcus']
+lacto_data_best = df_best[df_best['genus'] == 'Lactococcus']
+
+
+good_reads = set(df_filtered["qname"].unique())
+bad_reads_all = set(df["qname"].unique())
+unassigned_reads = bad_reads_all - good_reads
+
+df_bad_read = df_no_dub[df_no_dub['qname'].isin(unassigned_reads)]
+
+len(good_reads)
+len(bad_reads_all)
+len(unassigned_reads)
+
+# Search individual seqa 
+# zcat results/chopper/*gz | grep -A2 "af394f78-8fc9-4075-aad8-e8284c38071e"
+# grep "0000521d-cfa9-4914-b76c-3ff885795a61" results/mapping_counts/*paf
+```
+
+Notes:
+
+
+
 ## Consensus analysis with NGSpeciesID (ongoing)
 
 ### V1
