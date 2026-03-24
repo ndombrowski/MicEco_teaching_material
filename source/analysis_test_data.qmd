@@ -1122,3 +1122,32 @@ sbatch scripts/ngspeciesid.sh
 # Only marginal changes to the above
 grep ">" results/ngspeciesid/v3/barcode*/medaka_*/consensus.fasta | ./scripts/ngspecies_summary.sh
 ```
+
+
+```{bash}
+# Step1 
+## Go to classification folder 
+cd classifications/demo/minimap
+
+## get script 
+wget https://raw.githubusercontent.com/ndombrowski/NanoClass2/refs/heads/main/scripts/filter_paf.py
+ 
+ ## Filter table
+for sample in *paf; do 
+  fname=$(basename $sample .minimap.paf)
+  
+  sed 's/AS:i://' ${fname}.minimap.paf |\
+    awk -F'\t' -v OFS='\t' '{{len=$2; start=$3; end=$4; print $1, $6, $12, $15, len, start, end, $10, $11, (end-start+1)/len*100, $10/$11}}' |\
+    python3 filter_paf.py -i - -o ${fname}.minimap.filtered.paf -c 0.9
+done
+
+for sample in *fastq.gz; do 
+  fname=$(basename $sample .fastq.gz)
+  echo $fname 
+  nanoplot ${fname}.fastq.gz
+done
+ 
+sed 's/AS:i://' R1A.minimap.paf |\
+ awk -F'\t' -v OFS='\t' '{{len=$2; start=$3; end=$4; print $1, $6, $12, $15, len, start, end, $10, $11, (end-start+1)/len*100, $10/$11}}' |\
+python3 filter_paf.py -i - -o R1A.minimap.filtered.paf -c 0.9
+```

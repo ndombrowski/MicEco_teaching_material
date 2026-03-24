@@ -513,7 +513,7 @@ from pathlib import Path
 import argparse
 import sys
 import matplotlib.pyplot as plt
-
+import seaborn as sns
 
 def read_paf_with_AS(paf_file):
     """
@@ -600,6 +600,17 @@ df[numeric_cols] = df[numeric_cols].apply(pd.to_numeric, errors="coerce")
 # Calculate query coverage and identity
 df["qcov"] = (df.qend - df.qstart) / df.qlen
 df["identity"] = df["nmatch"] / df["alen"].replace(0, pd.NA)
+
+# Check plots 
+sns.histplot(data=df, x="identity")
+sns.histplot(data=df, x="mapq")
+sns.scatterplot(data=df, x="mapq", y="identity", alpha=0.3, s=10)
+
+# Define MAPQ categories (adjust as needed)
+bins = [-1, 0, 10, 30, 60]
+labels = ["0", "1–10", "11–30", "31–60"]
+df["mapq_bin"] = pd.cut(df["mapq"], bins=bins, labels=labels)
+sns.violinplot(data=df, x="mapq_bin", y="identity", inner="quartile", cut=0)
 
 # add tax
 df_tax = df.merge(taxon_df, left_on = "tname", right_on = 'tname')
@@ -711,6 +722,84 @@ df_all <- merge(df, mapping, by.x = "barcode", by.y = "unique_barcode", all.y = 
 ### Plotting
 
 ```{r}
+df_s <- df_all |> 
+    filter(microbes_used == "s") |>
+    mutate(rel_abundance = tidyr::replace_na(rel_abundance, 0)) |>
+    mutate(new_label = paste(community, d, replicate, sep = "-"))
+
+df_s$new_label
+length(unique(df_s$new_label))
+
+ggplot(df_h, aes(x = barcode, y = rel_abundance)) +
+    geom_col(aes(fill = genus), width = 0.95) +
+    scale_fill_brewer(palette = "Paired", na.translate = FALSE, direction = -1) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.12)) ) +
+    labs(
+        title = "Human-related strain interactions",
+        y = "Relative abundance (%)",
+        x = "",
+        fill = "Genus"
+    ) +
+    facet_grid(cols = vars(community), rows = vars(d), scales = "free") +
+    theme_classic()    +
+    theme(
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+    ) +
+    guides(fill = guide_legend(reverse = TRUE))
+```
+
+```{r}
+library(tidyverse)
+library(patchwork) 
+
+df_s_d0 <- df_all |> 
+    filter(microbes_used == "s" & d == "d0") |>
+    mutate(rel_abundance = tidyr::replace_na(rel_abundance, 0))
+
+df_s_d2 <- df_all |> 
+    filter(microbes_used == "s" & d == "d2") |>
+    mutate(rel_abundance = tidyr::replace_na(rel_abundance, 0))
+
+p1a <- ggplot(df_s_d0, aes(x = barcode, y = rel_abundance)) +
+    geom_col(aes(fill = genus), width = 0.95) +
+    scale_fill_brewer(palette = "Paired", na.translate = FALSE, direction = -1) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.12)) ) +
+    labs(
+        title = "Soil-related strain interactions Day0",
+        y = "Relative abundance (%)",
+        x = "",
+        fill = "Genus"
+    ) +
+    facet_grid(cols = vars(community, d), scales = "free", drop = FALSE) +
+    theme_classic()    +
+    theme(
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+    ) +
+    guides(fill = guide_legend(reverse = TRUE))
+
+p1b <- ggplot(df_s_d2, aes(x = barcode, y = rel_abundance)) +
+    geom_col(aes(fill = genus), width = 0.95) +
+    scale_fill_brewer(palette = "Paired", na.translate = FALSE, direction = -1) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.12)) ) +
+    labs(
+        title = "Soil-related strain interactions Day2",
+        y = "Relative abundance (%)",
+        x = "",
+        fill = "Genus"
+    ) +
+    facet_grid(cols = vars(community, d), scales = "free", drop = FALSE) +
+    theme_classic()    +
+    theme(
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+    ) +
+    guides(fill = guide_legend(reverse = TRUE))
+
+p1a / p1b
+```
+
+
+
+```{r}
 df_h <- df_all |> filter(microbes_used == "h") 
 df_s <- df_all |> filter(microbes_used == "s")
 
@@ -749,11 +838,6 @@ p2 <- ggplot(df_s, aes(x = barcode, y = rel_abundance)) +
     geom_col(aes(fill = genus), width = 0.95) +
     scale_fill_brewer(palette = "Paired", na.translate = FALSE, direction = -1) +
     scale_y_continuous(expand = expansion(mult = c(0, 0.12)) ) +
-    geom_text(
-    data = sample_counts_s, 
-    aes(x = barcode, y = 101, label = total),  # y = 1 puts labels above 100% stacked bars
-    vjust = 0, hjust = 0, size = 3, angle = 80
-    ) +
     labs(
         title = "Soil-related strain interactions",
         y = "Relative abundance (%)",
@@ -768,4 +852,23 @@ p2 <- ggplot(df_s, aes(x = barcode, y = rel_abundance)) +
     guides(fill = guide_legend(reverse = TRUE))
 
 p1 / p2
+```
+
+```{r}
+ggplot(df_s, aes(x = barcode, y = rel_abundance)) +
+    geom_col(aes(fill = genus), width = 0.95) +
+    scale_fill_brewer(palette = "Paired", na.translate = FALSE, direction = -1) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.12)) ) +
+    labs(
+        title = "Soil-related strain interactions",
+        y = "Relative abundance (%)",
+        x = "",
+        fill = "Genus"
+    ) +
+    facet_grid(cols = vars(community, d), scales = "free") +
+    theme_classic()    +
+    theme(
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+    ) +
+    guides(fill = guide_legend(reverse = TRUE))
 ```
