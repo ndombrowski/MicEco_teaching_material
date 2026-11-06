@@ -53,7 +53,7 @@ def parse_args():
         "--mapq",
         type=int,
         default=30,
-        help="Minimum MAPQ threshold (default: 30, keeps multimappers (mapq 0)",
+        help="Minimum MAPQ threshold (default: 30, keeps multimappers (mapq 0))",
     )
 
     return parser.parse_args()
@@ -128,9 +128,10 @@ def main():
         mapq_threshold = 30
 
     # ------------------------------- Read in taxa info --------------------------- #
-    taxon_df = pd.read_csv(taxon_path, sep="\t")
-    if "tname" not in taxon_df.columns:
-        taxon_df.columns = ["tname", "genus"]
+    # The file has no header line: read every line as data
+    taxon_df = pd.read_csv(taxon_path, sep="\t", header=None, names=["tname", "genus"])
+    # If a file does have a header line "tname genus", drop it
+    taxon_df = taxon_df[taxon_df["tname"] != "tname"]
 
     # ------------------------------- Read in PAFs ------------------------------- #
     all_files = list(input_folder.glob("*.paf"))
