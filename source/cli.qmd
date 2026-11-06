@@ -609,6 +609,7 @@ For example, suppose you have a list of all the accessions that were used in the
 GCF_000009425
 GCF_000253315
 GCF_000714595
+GCF_002055965
 GCF_014058685
 LjRoot303
 LjRoot44

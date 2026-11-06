@@ -5,3 +5,6 @@ data_analysis/
 **/*.quarto_ipynb
 slides/_extensions/
 source/*_files/
+_tests/
+CLAUDE.md
+PLAN.md

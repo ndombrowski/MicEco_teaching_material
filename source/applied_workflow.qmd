@@ -47,7 +47,7 @@ Do the following:
   - Discard reads with a too low phred score 
 - Check the [tools manual](https://github.com/wdecoster/chopper) carefully for how to deal with `.gz` files. Hint: Closely check the example section
 
-> **IMPORTANT**: After chopper finished you will see something like "Kept 1985conda de reads out of 3785 reads". If you see less than 50% of the reads remaining use less strict length and quality filters. You need enough reads for the next steps
+> **IMPORTANT**: After chopper finished you will see something like "Kept 1985 reads out of 3785 reads". If you see less than 50% of the reads remaining use less strict length and quality filters. You need enough reads for the next steps
 
 
 **Task 2: Assess the quality of the filtering step**
@@ -183,7 +183,7 @@ This file (`amplicons_nr.fasta`) contains one to two representative 16S rRNA seq
 
 Next, you will map your filtered reads against the reference database using minimap2.
 
-Before running, make sure to check all the available options with `minimap2 -h` and then make sure tha tyou:
+Before running, make sure to check all the available options with `minimap2 -h` and then make sure that you:
 
 - Create a folder to store your results
 - Use srun with 2 CPUs and 20G of memory

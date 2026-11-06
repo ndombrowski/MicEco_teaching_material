@@ -1,0 +1,605 @@
+---
+title: "Prepare the 16S reference (2026)"
+
+author: Nina Dombrowski
+date-modified: last-modified
+date: 11/06/2026
+
+engine: knitr
+
+execute:
+  eval: false
+format:
+  html:
+    toc: true
+    embed-resources: true
+---
+
+# Notes for how 16S strains are prepared
+
+## Description
+
+This recipe builds the 16S reference for the 2026 course. It is copied from
+`teaching_material/source/analysis_test_data.qmd` (2025), sections "Get genomes
+and 16S sequences" and "Investigate 16S amplicon sequence". The commands were adjusted as needed for the new 2026 version.
+
+Where this runs:
+
+- All code runs on Crunchomics in `/home/${USER}/personal/teaching/2026/miceco/prep_16S`.
+- All relative paths (`data/`, `results/`, `scripts/`) start in this folder.
+- The local folder `16S_prep` (next to `teaching_material`) is a partial copy
+  for local checks only.
+- This file is a copy of `16S_prep/prep_16S_2026.qmd`, made when the prep was
+  finished (2026-11-06). The copy in `16S_prep` is the working version.
+
+Strains for 2026 (ground truth: `teaching_material/data/strains_2026.tsv`):
+
+| ID            | Genus             | Source    | Group | Role 2026      |
+|---------------|-------------------|-----------|-------|----------------|
+| GCF_000009425 | Lactococcus       | NCBI      | human | community      |
+| GCF_000253315 | Streptococcus     | NCBI      | human | community      |
+| GCF_000714595 | Escherichia       | NCBI      | human | community      |
+| GCF_002055965 | Bacillus          | NCBI      | human | community, new in 2026 |
+| GCF_014058685 | Lactobacillus     | NCBI      | human | reference_only |
+| LjRoot60      | Pseudoxanthomonas | AT-sphere | root  | community      |
+| LjRoot59      | Pseudomonas       | AT-sphere | root  | community      |
+| Root401       | Pseudomonas       | AT-sphere | root  | community      |
+| Root935       | Flavobacterium    | AT-sphere | root  | community      |
+| LjRoot44      | Microbacterium    | AT-sphere | root  | community      |
+| Root68        | Pseudomonas       | AT-sphere | root  | reference_only |
+| LjRoot303     | Streptomyces      | AT-sphere | root  | reference_only |
+
+Files that go back into `teaching_material/data/`:
+
+- `amplicons_nr.fasta`: this is `data/amplicons/amplicons_nr_final.fasta` from this recipe.
+- `accession_to_genus.tsv`
+- `<id>.fasta.gz`: the 16S sequences of one strain (student files in `cli.qmd`).
+
+## Get genomes and 16S sequences
+
+Strain names were provided by the lab staff. The info was used to download the
+assemblies and rRNA sequences from
+[AT-sphere](https://www.at-sphere.com/ccquery/ccview/?sort=-GFFs) into
+`data/16S` and `data/genomes`. These genomes already have the genomeID in the
+fasta header, so no cleaning needed to be done for those genomes.
+
+AT-sphere download links (checked 2026-11-06):
+
+- Genome: `https://www.at-sphere.com/download/assemblies/<ID>.fna.gz`.
+  Headers look like `>LjRoot60_contig_1`.
+- 16S: `https://www.at-sphere.com/download/rRNA_sequences/<ID>.fasta.gz`.
+  On the web page, this column only shows after selecting "rRNA sequences"
+  under "Filter Columns". Each file has 1 sequence with the header `>ID`.
+  For all 7 root strains the sequence is identical to the 2025 file in
+  `teaching_material/data/<ID>.fasta.gz`.
+- The `http://` links redirect to `https://`.
+
+The genomes from NCBI were first downloaded and some initial cleaning of the
+header done for standardization of the two sources.
+
+```{bash}
+mkdir -p data/genomes data/16S 
+
+# Genome
+## Download 5 NCBI genomes
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/014/058/685/GCF_014058685.1_ASM1405868v1/GCF_014058685.1_ASM1405868v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/009/425/GCF_000009425.1_ASM942v1/GCF_000009425.1_ASM942v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/253/315/GCF_000253315.1_ASM25331v1/GCF_000253315.1_ASM25331v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/714/595/GCF_000714595.1_ASM71459v1/GCF_000714595.1_ASM71459v1_genomic.fna.gz
+# Added 2026: B. subtilis NCIB 3610
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/055/965/GCF_002055965.1_ASM205596v1/GCF_002055965.1_ASM205596v1_genomic.fna.gz
+
+ll *gz | wc -l 
+
+## Parse NCBI genomes
+gzip -d *gz
+
+for file in *fna; do
+  genome=$(echo $file | cut -f1 -d ".")
+
+  echo "Processing $genome..."
+
+    sed -E "/^>/ {
+    s/^>/>${genome}-/;   # prefix genome name
+    s/ .*//;             # remove anything after first space
+    s/\./_/g;            # replace dot with underscore
+    }" "$file" > data/genomes/${genome}.fna
+done
+
+rm *fna
+
+# Sanity checks 
+## All files generated and note empty 
+## Header looks as expected: >GCF_000009425-NC_009004_1
+ll data/genomes/
+head data/genomes/GCF_000009425.fna
+
+## Added 2026: download AT-sphere genomes (root strains) directly into data/genomes
+## (not into the working folder, else the NCBI loop above would prefix them)
+wget -P data/genomes https://www.at-sphere.com/download/assemblies/LjRoot60.fna.gz
+wget -P data/genomes https://www.at-sphere.com/download/assemblies/LjRoot59.fna.gz
+wget -P data/genomes https://www.at-sphere.com/download/assemblies/Root401.fna.gz
+wget -P data/genomes https://www.at-sphere.com/download/assemblies/Root935.fna.gz
+wget -P data/genomes https://www.at-sphere.com/download/assemblies/LjRoot44.fna.gz
+wget -P data/genomes https://www.at-sphere.com/download/assemblies/Root68.fna.gz
+wget -P data/genomes https://www.at-sphere.com/download/assemblies/LjRoot303.fna.gz
+
+gzip -d data/genomes/*Root*.fna.gz
+ls -la data/genomes
+head data/genomes/Root401.fna
+
+## Do some parsing for At-sphere genomes to have a clear `-` separator
+for genome in data/genomes/*Root*.fna; do
+  sed -i 's/_/-/' $genome
+done
+
+head data/genomes/Root401.fna
+
+# Amplicon
+## Download
+wget  https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/014/058/685/GCF_014058685.1_ASM1405868v1/GCF_014058685.1_ASM1405868v1_rna_from_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/009/425/GCF_000009425.1_ASM942v1/GCF_000009425.1_ASM942v1_rna_from_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/253/315/GCF_000253315.1_ASM25331v1/GCF_000253315.1_ASM25331v1_rna_from_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/714/595/GCF_000714595.1_ASM71459v1/GCF_000714595.1_ASM71459v1_rna_from_genomic.fna.gz
+# Added 2026: B. subtilis NCIB 3610
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/055/965/GCF_002055965.1_ASM205596v1/GCF_002055965.1_ASM205596v1_rna_from_genomic.fna.gz
+
+## Extract only 16S sequence from these 5 files and deal with multi-line fasta
+gzip -d *.gz
+
+ll *fna | wc -l
+head GCF_000009425.1_ASM942v1_rna_from_genomic.fna
+grep "16S ribosomal" *fna
+
+for file in *_rna_from_genomic.fna; do
+  genome=$(echo $file | cut -f1 -d ".")
+  echo "Extracting 16S from $genome..."
+
+  awk -v g="$genome" '
+    # Find headers
+    /^>/ {
+      # Default: stop capturing once we hit a new header
+      capture=0
+      # Find headers from 16S sequences
+      if ($0 ~ /16S ribosomal/) {
+        # Turn on capturing for the following lines
+        capture=1
+        # Extract the identifier immediately after "rrna_"
+        if (match($0, /rrna_([^ ]+)/, a)) {
+          id=a[1]
+          print ">" g "-" id
+        } else {
+          print ">" g "-unknown"
+        }
+      }
+      next
+    }
+    # for all non-header lines print if capturing is on
+    capture { print }
+  ' "$file" > data/16S/${genome}_16S.fasta
+done
+
+## Added 2026: download AT-sphere 16S (root strains) into data/16S
+wget -P data/16S https://www.at-sphere.com/download/rRNA_sequences/LjRoot60.fasta.gz
+wget -P data/16S https://www.at-sphere.com/download/rRNA_sequences/LjRoot59.fasta.gz
+wget -P data/16S https://www.at-sphere.com/download/rRNA_sequences/Root401.fasta.gz
+wget -P data/16S https://www.at-sphere.com/download/rRNA_sequences/Root935.fasta.gz
+wget -P data/16S https://www.at-sphere.com/download/rRNA_sequences/LjRoot44.fasta.gz
+wget -P data/16S https://www.at-sphere.com/download/rRNA_sequences/Root68.fasta.gz
+wget -P data/16S https://www.at-sphere.com/download/rRNA_sequences/LjRoot303.fasta.gz
+gzip -d data/16S/*Root*.fasta.gz
+ls -la data/16S
+
+grep -c ">" data/16S/*.fasta
+rm *fna
+```
+
+Found 16S sequences per genome:
+
+```
+data/16S/GCF_000009425_16S.fasta:6
+data/16S/GCF_000253315_16S.fasta:6
+data/16S/GCF_000714595_16S.fasta:9
+data/16S/GCF_002055965_16S.fasta:10
+data/16S/GCF_014058685_16S.fasta:7
+data/16S/LjRoot303.fasta:1
+data/16S/LjRoot44.fasta:1
+data/16S/LjRoot59.fasta:1
+data/16S/LjRoot60.fasta:1
+data/16S/Root401.fasta:1
+data/16S/Root68.fasta:1
+data/16S/Root935.fasta:1
+```
+
+
+## Investigate 16S amplicon sequence
+
+### Extract amplicon
+
+Next, I used the primer information from the lab staff to extract the exact
+amplicon sequence from the genome. I did this to check if we get more than one
+amplicon and also compared the extracted sequence with the downloaded 16s.
+
+rev_rc: AAGTCGTAACAAGGTAACCG
+
+```{bash}
+mkdir data/amplicons
+
+# Run in silico PCR on all genomes
+for genome in data/genomes/*fna; do
+    id=$(basename $genome .fna)
+
+    echo "-------------------------------------"
+    echo "Start analysis of $id"
+    echo "-------------------------------------"
+
+    python scripts/insilico_pcr.py \
+        --fasta $genome \
+        --fasta_out ./${id}_16S_amplicon.fna \
+        --fwd_primer AGAGTTTGATCMTGGCTCAG \
+        --rev_primer CGGTTACCTTGTTACGACTT \
+        --max_errors 1 \
+        --min_len 1000 \
+        --max_len 1600
+
+done
+
+# Run in silico PCR on published fasta for Root68
+# (since fwd sits on end of contig when run on the genome and thus only a very short 16s is extracted)
+python scripts/insilico_pcr.py \
+        --fasta data/16S/Root68.fasta \
+        --fasta_out data/amplicons/Root68_16S_amplicon.fna \
+        --fwd_primer AGAGTTTGATCMTGGCTCAG \
+        --rev_primer CGGTTACCTTGTTACGACTT \
+        --max_errors 1 \
+        --min_len 1000 \
+        --max_len 1600
+
+
+# To add: Move files to the right folder 
+mv *amplicon.fna data/amplicons 
+ls -la data/amplicons
+
+# Standardize the name
+sed -i "s/_/-/" data/amplicons/Root68_16S_amplicon.fna
+ls -la data/amplicons
+ll data/amplicons/*fna | wc -l
+
+# Combine 42 amplicons (coming from 12 genomes)
+grep -c ">" data/amplicons/*fna
+grep -c ">" data/amplicons/*fna | awk -F':' '{sum += $2} END {print sum}'
+
+cat data/amplicons/*.fna > data/amplicons/all_amplicons.fasta
+```
+
+#### Results of the in-silico PCR (2026 run)
+
+Run on Crunchomics on 2026-11-06. For all genomes used in 2025, the
+amplicons are identical to 2025 (same count, positions and lengths).
+
+| Strain        | Genus             | 16S in annotation | Amplicons | Length (bp)  | Note |
+|---------------|-------------------|------------------:|----------:|--------------|------|
+| GCF_000009425 | Lactococcus       | 6                 | 6         | 1509         | |
+| GCF_000253315 | Streptococcus     | 6                 | 6         | 1510         | |
+| GCF_000714595 | Escherichia       | 9                 | 6         | 1470 to 1504 | 3 annotated 16S copies give no amplicon (see below) |
+| GCF_002055965 | Bacillus          | 10                | 10        | 1511 to 1512 | New in 2026. Each amplicon lies inside one annotated 16S gene |
+| GCF_014058685 | Lactobacillus     | 7                 | 7         | 1535         | |
+| LjRoot303     | Streptomyces      | 1                 | 1         | 1448         | |
+| LjRoot44      | Microbacterium    | 1                 | 1         | 1487         | |
+| LjRoot59      | Pseudomonas       | 1                 | 1         | 1499         | |
+| LjRoot60      | Pseudoxanthomonas | 1                 | 1         | 1507         | |
+| Root401       | Pseudomonas       | 1                 | 1         | 1499         | |
+| Root68        | Pseudomonas       | 1                 | 0         | (1386)       | No amplicon from the genome (see below). Taken from the AT-sphere 16S instead |
+| Root935       | Flavobacterium    | 1                 | 1         | 1476         | |
+
+- "16S in annotation": number of sequences in `data/16S` (NCBI annotation or
+  AT-sphere 16S file).
+- Total: 40 amplicons from 11 genomes, plus 1 for Root68 from the AT-sphere 16S.
+
+Notes:
+
+- **Root68**: the script finds only the forward primer
+  (`Root68-contig_4`, position 457687) and no reverse primer. It stops with
+  `ValueError: No plausible amplicon pairs found`. The loop continues with the
+  next genome. The 2025 notes say the primer sits about 450 bp from the end of
+  the contig. So the step after the loop runs the in-silico PCR on the
+  AT-sphere 16S of Root68 instead. 2025 result:
+  `Contig=Root68 start=1 end=1386 length=1386 orientation=fwd_to_end`.
+- **GCF_000714595** (E. coli): 9 annotated 16S copies, 6 amplicons. 2025
+  notes list 2 annotated copies without an amplicon:
+  - `ECOLIN_RS22205_97`, location 4339815..4341330 (1515 bp)
+  - `ECOLIN_RS27490_147`, location complement(5360896..5362258) (1362 bp)
+- With `--max_len 2000`, GCF_000714595 gives even more matches (2025 note).
+- Orientation: `fwd+rev_rc` means the gene is on the plus strand,
+  `fwd_rc+rev` means it is on the minus strand.
+
+::: {.callout-note collapse="true"}
+## All amplicons with positions (2026 run)
+
+The 16S gene is the annotated 16S rRNA gene that holds the amplicon. For the
+2025 genomes it is taken from the 2025 notes (positions are unchanged). For
+GCF_002055965 it was matched to the positions in its `rna_from_genomic` file.
+
+| Strain        | Nr | Contig                       | Start   | End     | Length | Orientation | 16S gene           |
+|---------------|---:|------------------------------|--------:|--------:|-------:|-------------|--------------------|
+| GCF_000009425 | 1  | GCF_000009425-NC_009004_1    | 511430  | 512938  | 1509   | fwd+rev_rc  | LLMG_RS02645_19    |
+| GCF_000009425 | 2  | GCF_000009425-NC_009004_1    | 2134334 | 2135842 | 1509   | fwd_rc+rev  | LLMG_RS10890_60    |
+| GCF_000009425 | 3  | GCF_000009425-NC_009004_1    | 2374924 | 2376432 | 1509   | fwd_rc+rev  | LLMG_RS12185_65    |
+| GCF_000009425 | 4  | GCF_000009425-NC_009004_1    | 2422293 | 2423801 | 1509   | fwd_rc+rev  | LLMG_RS12390_69    |
+| GCF_000009425 | 5  | GCF_000009425-NC_009004_1    | 2503641 | 2505149 | 1509   | fwd_rc+rev  | LLMG_RS12830_80    |
+| GCF_000009425 | 6  | GCF_000009425-NC_009004_1    | 2527146 | 2528654 | 1509   | fwd_rc+rev  | LLMG_RS12960_86    |
+| GCF_000253315 | 1  | GCF_000253315-NC_017595_1    | 14961   | 16470   | 1510   | fwd+rev_rc  | SALIVA_RS00070_1   |
+| GCF_000253315 | 2  | GCF_000253315-NC_017595_1    | 66026   | 67535   | 1510   | fwd+rev_rc  | SALIVA_RS00375_22  |
+| GCF_000253315 | 3  | GCF_000253315-NC_017595_1    | 125158  | 126667  | 1510   | fwd+rev_rc  | SALIVA_RS00700_39  |
+| GCF_000253315 | 4  | GCF_000253315-NC_017595_1    | 130961  | 132470  | 1510   | fwd+rev_rc  | SALIVA_RS00765_52  |
+| GCF_000253315 | 5  | GCF_000253315-NC_017595_1    | 338038  | 339547  | 1510   | fwd+rev_rc  | SALIVA_RS01750_58  |
+| GCF_000253315 | 6  | GCF_000253315-NC_017595_1    | 2011832 | 2013341 | 1510   | fwd_rc+rev  | SALIVA_RS09150_83  |
+| GCF_000714595 | 1  | GCF_000714595-NZ_CP007799_1  | 232809  | 234278  | 1470   | fwd+rev_rc  | ECOLIN_RS01105_1   |
+| GCF_000714595 | 2  | GCF_000714595-NZ_CP007799_1  | 4606816 | 4608319 | 1504   | fwd+rev_rc  | ECOLIN_RS22915_102 |
+| GCF_000714595 | 3  | GCF_000714595-NZ_CP007799_1  | 5079706 | 5081175 | 1470   | fwd+rev_rc  | ECOLIN_RS25280_120 |
+| GCF_000714595 | 4  | GCF_000714595-NZ_CP007799_1  | 2966212 | 2967713 | 1502   | fwd_rc+rev  | ECOLIN_RS14660_58  |
+| GCF_000714595 | 5  | GCF_000714595-NZ_CP007799_1  | 5344772 | 5346275 | 1504   | fwd_rc+rev  | ECOLIN_RS26725_141 |
+| GCF_000714595 | 6  | GCF_000714595-NZ_CP007799_1  | 5347640 | 5349143 | 1504   | fwd_rc+rev  | ECOLIN_RS26740_144 |
+| GCF_002055965 | 1  | GCF_002055965-NZ_CP020102_1  | 9857    | 11368   | 1512   | fwd+rev_rc  | B4U62_RS00040_1    |
+| GCF_002055965 | 2  | GCF_002055965-NZ_CP020102_1  | 30325   | 31835   | 1511   | fwd+rev_rc  | B4U62_RS00155_8    |
+| GCF_002055965 | 3  | GCF_002055965-NZ_CP020102_1  | 90581   | 92092   | 1512   | fwd+rev_rc  | B4U62_RS00485_15   |
+| GCF_002055965 | 4  | GCF_002055965-NZ_CP020102_1  | 96437   | 97948   | 1512   | fwd+rev_rc  | B4U62_RS00545_27   |
+| GCF_002055965 | 5  | GCF_002055965-NZ_CP020102_1  | 160937  | 162448  | 1512   | fwd+rev_rc  | B4U62_RS00945_30   |
+| GCF_002055965 | 6  | GCF_002055965-NZ_CP020102_1  | 166546  | 168057  | 1512   | fwd+rev_rc  | B4U62_RS00990_39   |
+| GCF_002055965 | 7  | GCF_002055965-NZ_CP020102_1  | 171548  | 173059  | 1512   | fwd+rev_rc  | B4U62_RS01005_42   |
+| GCF_002055965 | 8  | GCF_002055965-NZ_CP020102_1  | 635484  | 636995  | 1512   | fwd+rev_rc  | B4U62_RS03370_59   |
+| GCF_002055965 | 9  | GCF_002055965-NZ_CP020102_1  | 946743  | 948254  | 1512   | fwd+rev_rc  | B4U62_RS04865_64   |
+| GCF_002055965 | 10 | GCF_002055965-NZ_CP020102_1  | 3177136 | 3178647 | 1512   | fwd_rc+rev  | B4U62_RS16755_114  |
+| GCF_014058685 | 1  | GCF_014058685-NZ_CP059055_1  | 539624  | 541158  | 1535   | fwd+rev_rc  | H0I41_RS02480_10   |
+| GCF_014058685 | 2  | GCF_014058685-NZ_CP059055_1  | 1614395 | 1615929 | 1535   | fwd_rc+rev  | H0I41_RS07675_36   |
+| GCF_014058685 | 3  | GCF_014058685-NZ_CP059055_1  | 1621063 | 1622597 | 1535   | fwd_rc+rev  | H0I41_RS07770_55   |
+| GCF_014058685 | 4  | GCF_014058685-NZ_CP059055_1  | 1635512 | 1637046 | 1535   | fwd_rc+rev  | H0I41_RS07945_85   |
+| GCF_014058685 | 5  | GCF_014058685-NZ_CP059055_1  | 1830821 | 1832355 | 1535   | fwd_rc+rev  | H0I41_RS08825_91   |
+| GCF_014058685 | 6  | GCF_014058685-NZ_CP059055_1  | 1836336 | 1837870 | 1535   | fwd_rc+rev  | H0I41_RS08855_97   |
+| GCF_014058685 | 7  | GCF_014058685-NZ_CP059055_1  | 1841851 | 1843385 | 1535   | fwd_rc+rev  | H0I41_RS08885_103  |
+| LjRoot303     | 1  | LjRoot303-contig_38          | 32606   | 34053   | 1448   | fwd+rev_rc  | AT-sphere 16S      |
+| LjRoot44      | 1  | LjRoot44-contig_8            | 3781    | 5267    | 1487   | fwd_rc+rev  | AT-sphere 16S      |
+| LjRoot59      | 1  | LjRoot59-contig_41           | 3600    | 5098    | 1499   | fwd_rc+rev  | AT-sphere 16S      |
+| LjRoot60      | 1  | LjRoot60-contig_3            | 469224  | 470730  | 1507   | fwd+rev_rc  | AT-sphere 16S      |
+| Root401       | 1  | Root401-contig_30            | 64818   | 66316   | 1499   | fwd+rev_rc  | AT-sphere 16S      |
+| Root935       | 1  | Root935-contig_4             | 25      | 1500    | 1476   | fwd+rev_rc  | AT-sphere 16S      |
+
+: {.striped .responsive .sm}
+:::
+
+
+### Prepare amplicons for analysis
+
+Next, I removed 100% identical sequences to better deal with multiple rrn
+operons in the same genome. Genomes that still have more than one sequence are
+clustered with vsearch at 99% identity. The centroids are named
+`<genome>_1`, `<genome>_2`, ... The suffix also shows that a genome had more
+than one 16S copy.
+
+- 2025: 5 amplicons left for GCF_000714595, clustered into 2. 11 taxa, 12
+  amplicon sequences.
+- 2026: 22 sequences after deduplication. GCF_000714595 (Escherichia): 5 seqs
+  into 2 clusters (as in 2025). GCF_002055965 (Bacillus): 7 seqs into 1
+  cluster. 12 taxa, 13 amplicon sequences.
+
+```{bash}
+mkdir -p results/vsearch/
+
+# Deduplicate at 100% identity
+## 20 duplicated records removed
+# 22 seqs kept
+seqkit rmdup -s data/amplicons/all_amplicons.fasta \
+  > data/amplicons/amplicons_nr.fasta
+
+grep -c ">" data/amplicons/amplicons_nr.fasta
+
+# Count sequences per genome after deduplication
+grep ">" data/amplicons/amplicons_nr.fasta | sed 's/>//; s/-.*//' | sort | uniq -c
+
+# Genomes with more than one sequence get clustered at 99% identity
+# 2026: GCF_000714595 (Escherichia; 5 seqs) and GCF_002055965 (Bacillus; 7 seqs)
+grep ">" data/amplicons/amplicons_nr.fasta | sed 's/>//; s/-.*//' | sort | uniq -c \
+  | awk '$1 > 1 {print $2}' > data/amplicons/genomes_to_cluster.txt
+
+cat data/amplicons/genomes_to_cluster.txt
+
+conda activate vsearch_2.30.1
+
+for genome in $(cat data/amplicons/genomes_to_cluster.txt); do
+  echo "Clustering amplicons of $genome..."
+
+  # Extract the sequences of this genome
+  seqkit grep -r -p ${genome} data/amplicons/amplicons_nr.fasta \
+    > results/vsearch/${genome}_amplicons.fasta
+  
+  grep -c ">" results/vsearch/${genome}_amplicons.fasta
+
+  # Test if we can merge them
+  vsearch --cluster_fast results/vsearch/${genome}_amplicons.fasta \
+    --id 0.99 \
+    --centroids results/vsearch/${genome}_centroids.fasta \
+    --uc results/vsearch/${genome}_clusters.uc \
+    --strand both \
+    --query_cov 0.9
+
+  # Clean IDs: <genome>_1, <genome>_2, ...
+  awk -v g="$genome" '/^>/{i++ ; print ">" g "_" i ; next} {print}' \
+    results/vsearch/${genome}_centroids.fasta \
+    > results/vsearch/${genome}_centroids_clean.fasta
+  
+  grep -c ">" results/vsearch/${genome}_centroids_clean.fasta
+done
+
+# 2026 results:
+# GCF_000714595: 5 seqs (1470 to 1504 bp) -> 2 clusters (sizes 4 and 1)
+# GCF_002055965: 7 seqs (1511 to 1512 bp) -> 1 cluster (size 7)
+
+# Combine: remove all copies of the clustered genomes, append their centroids, trim headers
+# Note: amplicons_nr_final will be named amplicons_nr.fasta for the tutorial
+# results/vsearch must hold only centroid files from this run
+seqkit grep -v -r -f data/amplicons/genomes_to_cluster.txt data/amplicons/amplicons_nr.fasta | \
+  cat - results/vsearch/*_centroids_clean.fasta | \
+  awk '/^>/{sub(/-.*/,"")}1' > data/amplicons/amplicons_nr_final.fasta
+
+# 2026: 13 seqs
+# GCF_000009425, GCF_000253315, GCF_014058685, LjRoot303, LjRoot44, LjRoot59,
+# LjRoot60, Root401, Root68, Root935, GCF_000714595_1, GCF_000714595_2, GCF_002055965_1
+grep -c ">" data/amplicons/amplicons_nr_final.fasta
+grep ">" data/amplicons/amplicons_nr_final.fasta
+
+# Compare sequence identity
+# Matching query sequences: 12 of 13 (92.31%)
+vsearch --allpairs_global data/amplicons/amplicons_nr_final.fasta \
+        --acceptall --maxaccepts 0 \
+        --blast6out results/vsearch/amplicons_identity.tsv
+
+conda deactivate
+
+# Create summary
+python scripts/pivot_vsearch.py
+less -S results/vsearch/amplicons_identity_matrix.csv
+
+# Make one db with all E.coli sequences
+awk '/^>/ {
+  header=$0
+  # Extract genome name (before the first '-')
+  if (match(header, /^>([^-]+)-/, a)) genome=a[1]
+  else if (match(header, /^>([^_]+)_/, a)) genome=a[1]
+  else genome=substr(header, 2)
+  count[genome]++
+  print ">" genome "-" count[genome]
+  next
+} !/^>/ { print }' data/amplicons/amplicons_nr.fasta > data/amplicons/amplicons_nr_clean.fasta
+
+```
+
+**Compare 16S sequence identity across amplicons (2026 result):**
+
+Percent identity from `vsearch --allpairs_global`, pivoted with
+`scripts/pivot_vsearch.py`. New in 2026: column GCF_002055965_1 (Bacillus).
+All other values are identical to 2025.
+
+|qseqid         |GCF_002055965_1|GCF_000714595_2|GCF_000714595_1|Root935|Root68|Root401|LjRoot60|LjRoot59|LjRoot44|LjRoot303|GCF_014058685|GCF_000253315|
+|---------------|---------------|---------------|---------------|-------|------|-------|--------|--------|--------|---------|-------------|-------------|
+|GCF_000009425  |84.0           |74.3           |75.9           |72.2   |78.4  |78.6   |77.7    |78.5    |76.4    |75.0     |84.6         |89.5         |
+|GCF_000253315  |85.0           |76.0           |76.8           |71.5   |78.1  |78.0   |76.7    |78.0    |77.9    |75.1     |84.6         |             |
+|GCF_014058685  |85.6           |74.3           |75.6           |69.8   |76.3  |76.4   |75.4    |76.3    |75.6    |74.7     |             |             |
+|LjRoot303      |77.2           |73.8           |74.8           |71.1   |75.8  |75.3   |75.5    |75.3    |86.3    |         |             |             |
+|LjRoot44       |78.5           |74.4           |75.5           |72.8   |77.3  |76.6   |78.0    |76.5    |        |         |             |             |
+|LjRoot59       |79.9           |83.9           |85.6           |73.2   |98.3  |99.9   |86.0    |        |        |         |             |             |
+|LjRoot60       |78.2           |81.3           |83.1           |73.4   |85.5  |85.9   |        |        |        |         |             |             |
+|Root401        |80.0           |83.8           |85.6           |73.3   |98.4  |       |        |        |        |         |             |             |
+|Root68         |80.3           |83.2           |84.9           |73.9   |      |       |        |        |        |         |             |             |
+|Root935        |72.6           |70.3           |70.9           |       |      |       |        |        |        |         |             |             |
+|GCF_000714595_1|77.1           |97.4           |               |       |      |       |        |        |        |         |             |             |
+|GCF_000714595_2|75.6           |               |               |       |      |       |        |        |        |         |             |             |
+
+: {.striped .responsive .sm}
+
+
+Potential problematic comparisons since the percent identity is very close
+(same as 2025):
+
+- Root401 vs LjRoot59 (99.9)
+- Root68 vs LjRoot59 (98.3)
+- Root68 vs Root401 (98.4)
+- GCF_000253315 vs GCF_000009425 (89.5)
+- GCF_000714595_1 vs GCF_000714595_2 (97.4)
+
+GCF_002055965_1 (Bacillus): highest identity is 85.6, with GCF_014058685
+(Lactobacillus). All other values are 72.6 to 85.0.
+
+
+## Make the files for teaching_material/data (added 2026)
+
+In 2025 these steps were not recorded. `accession_to_genus.tsv` was probably
+made by hand. All three products go into one folder,
+`data/for_teaching_material`, to copy them to the repo in one go.
+
+- `<id>.fasta.gz`: the 16S sequences of one strain, for the student
+  exercises in `cli.qmd`. These are the files in `data/16S`, gzipped. The
+  2025 files in the repo have the same headers, sequence counts and line
+  layout as `data/16S`.
+- `amplicons_nr.fasta`: a copy of `data/amplicons/amplicons_nr_final.fasta`.
+- `accession_to_genus.tsv`: one line per header in `amplicons_nr.fasta`, with
+  its genus. It is made from the fasta headers, so the IDs match the
+  reference exactly. The genus per strain comes from a small lookup table,
+  typed in from `teaching_material/data/strains_2026.tsv`.
+
+```{bash}
+mkdir -p data/for_teaching_material
+
+# Student files: one gzipped 16S fasta per strain
+# NCBI files are named <id>_16S.fasta, AT-sphere files <id>.fasta
+for file in data/16S/*.fasta; do
+  id=$(basename $file .fasta | sed 's/_16S$//')
+  echo "Compressing $file into data/for_teaching_material/${id}.fasta.gz"
+  gzip -c $file > data/for_teaching_material/${id}.fasta.gz
+done
+
+ls -la data/for_teaching_material
+
+# 2026: same counts as the 2025 files in teaching_material/data
+# GCF_000009425: 6, GCF_000253315: 6, GCF_000714595: 9, GCF_014058685: 7,
+# 7 root strains: 1 each. New: GCF_002055965: 10
+for file in data/for_teaching_material/*.fasta.gz; do
+  echo "$file: $(zcat $file | grep -c '>') sequences"
+done
+
+# Reference for minimap2 (named amplicons_nr.fasta in the tutorial)
+cp data/amplicons/amplicons_nr_final.fasta data/for_teaching_material/amplicons_nr.fasta
+grep -c ">" data/for_teaching_material/amplicons_nr.fasta
+
+# Lookup table: strain ID -> genus, typed in from strains_2026.tsv
+printf "GCF_000009425\tLactococcus\n"        >  data/strain_to_genus.tsv
+printf "GCF_000253315\tStreptococcus\n"      >> data/strain_to_genus.tsv
+printf "GCF_000714595\tEscherichia\n"        >> data/strain_to_genus.tsv
+printf "GCF_002055965\tBacillus\n"           >> data/strain_to_genus.tsv
+printf "GCF_014058685\tLactobacillus\n"      >> data/strain_to_genus.tsv
+printf "LjRoot60\tPseudoxanthomonas\n"       >> data/strain_to_genus.tsv
+printf "LjRoot59\tPseudomonas\n"             >> data/strain_to_genus.tsv
+printf "Root401\tPseudomonas\n"              >> data/strain_to_genus.tsv
+printf "Root935\tFlavobacterium\n"           >> data/strain_to_genus.tsv
+printf "LjRoot44\tMicrobacterium\n"          >> data/strain_to_genus.tsv
+printf "Root68\tPseudomonas\n"               >> data/strain_to_genus.tsv
+printf "LjRoot303\tStreptomyces\n"           >> data/strain_to_genus.tsv
+
+cat data/strain_to_genus.tsv
+
+# All headers of the final reference, one per line, without ">"
+grep ">" data/amplicons/amplicons_nr_final.fasta | sed 's/>//' \
+  > data/amplicons/amplicons_nr_final_ids.txt
+
+cat data/amplicons/amplicons_nr_final_ids.txt
+
+# Give each header its genus
+# Headers with a copy number at the end (e.g. GCF_000714595_1) are not in the
+# lookup table, so remove the copy number (_1, _2) and look up the strain ID
+awk -F'\t' '
+  # First file: the lookup table
+  NR==FNR { genus[$1]=$2; next }
+  # Second file: one header per line
+  {
+    strain=$1
+    if (!(strain in genus)) sub(/_[0-9]+$/, "", strain)
+    print $1 "\t" genus[strain]
+  }' data/strain_to_genus.tsv data/amplicons/amplicons_nr_final_ids.txt \
+  > data/for_teaching_material/accession_to_genus.tsv
+
+# 2026: 13 lines, one per header in amplicons_nr_final.fasta, no header without genus.
+# Same as the 2025 file plus GCF_002055965_1 Bacillus, minus the unused line GCF_000714595
+cat data/for_teaching_material/accession_to_genus.tsv
+wc -l data/amplicons/amplicons_nr_final_ids.txt data/for_teaching_material/accession_to_genus.tsv
+
+# Headers without a genus (this should print nothing)
+awk -F'\t' '$2==""' data/for_teaching_material/accession_to_genus.tsv
+```
+
+Copy `data/for_teaching_material/*` into `teaching_material/data/`.
+
+Differences to the 2025 `accession_to_genus.tsv`:
+
+- 2025 also had a line `GCF_000714595  Escherichia` without a copy number.
+  No header in `amplicons_nr.fasta` has this ID, so the line was not used.
+  The new file leaves it out.
+- 2025 had no newline after the last line.
