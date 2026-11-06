@@ -531,7 +531,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Next, let’s download a fasta file that contains the sequence of a 16S rRNA gene. This file will be useful to learn about some other commands. Below, we use the <code>wget</code> command to fetch a fasta file from an online website as follows:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the example fasta file into the current directory</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/LjRoot303.fasta.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot303.fasta.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -547,7 +547,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -O: save the file under its oroginal name </span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -L: Tells curl that if the server tells it to go somewhere else, follow it until you reach the actual file</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-LO</span> https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/LjRoot303.fasta.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-LO</span> https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot303.fasta.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -628,7 +628,7 @@ Important
 <ul>
 <li>Download the fasta file from GCF_000714595 with wget
 <ul>
-<li>Use this path <code>https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/GCF_000714595.fasta.gz</code></li>
+<li>Use this path <code>https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/GCF_000714595.fasta.gz</code></li>
 </ul></li>
 <li>Make sure that the new file stored in the data folder</li>
 <li>Check the file size (hint: use the -h option with ls)</li>
@@ -647,7 +647,7 @@ Important
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the file</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/GCF_000714595.fasta.gz</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/GCF_000714595.fasta.gz</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Move the file to the data folder</span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> GCF_000714595.fasta.gz data</span>
@@ -668,7 +668,7 @@ Important
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download another file  </span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Here, we use the -P option to directly download the file into the data folder </span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-P</span> data https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/LjRoot303.fasta.gz</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-P</span> data https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot303.fasta.gz</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that this worked </span></span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># You now should see two files</span></span>
@@ -711,7 +711,7 @@ Important
 <div class="callout-body-container callout-body">
 <p>For Mac users that use <code>curl</code> instead of <code>wget</code>, you can redirect the file to a specific folder like this:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">--output-dir</span> data <span class="at">-LO</span> https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/LjRoot303.fasta.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">--output-dir</span> data <span class="at">-LO</span> https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot303.fasta.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -906,9 +906,9 @@ Important
 <p><strong>Hint</strong>: If you downloaded one of the genomes in the exercise before, then you don’t need to run this wget command.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download some more data </span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-P</span> data https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/GCF_000009425.fasta.gz</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-P</span> data https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/GCF_000253315.fasta.gz</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-P</span> data https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/LjRoot59.fasta.gz</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-P</span> data https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/GCF_000009425.fasta.gz</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-P</span> data https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/GCF_000253315.fasta.gz</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-P</span> data https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot59.fasta.gz</span>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Check what was done</span></span>
 <span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -946,7 +946,7 @@ Root935</code></pre>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Download all genomes at once</span></span>
 <span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> accession <span class="kw">in</span> <span class="va">$(</span><span class="fu">cat</span> accessions.txt<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">wget</span> <span class="at">-P</span> playground https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/<span class="va">${accession}</span>.fasta.gz</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">wget</span> <span class="at">-P</span> playground https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/<span class="va">${accession}</span>.fasta.gz</span>
 <span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here’s what happens:</p>

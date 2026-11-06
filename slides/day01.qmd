@@ -172,6 +172,6 @@ You will have today and Monday to work on a practical and learn how to:
 - Work on an HPC
 - Analyze sequencing data
 
-{{< qrcode https://ndombrowski.github.io/MicEco2025// qr1 width=150 height=150 colorDark='#2d3e3f' >}}
+{{< qrcode https://ndombrowski.github.io/MicEco_teaching_material/ qr1 width=150 height=150 colorDark='#2d3e3f' >}}
 
-[https://ndombrowski.github.io/MicEco2025/](https://ndombrowski.github.io/MicEco2025/){.small}
+[https://ndombrowski.github.io/MicEco_teaching_material/](https://ndombrowski.github.io/MicEco_teaching_material/){.small}

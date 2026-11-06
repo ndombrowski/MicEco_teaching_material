@@ -432,7 +432,7 @@ window.Quarto = {
 <p><strong>Task 1: Get the reference database</strong></p>
 <p>We have already prepared a non-redundant database of 16S rRNA gene sequences. Download it to your <code>data/</code> folder using:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>wget https<span class="sc">:</span><span class="er">//</span>raw.githubusercontent.com<span class="sc">/</span>ndombrowski<span class="sc">/</span>MicEco2025<span class="sc">/</span>refs<span class="sc">/</span>heads<span class="sc">/</span>main<span class="sc">/</span>data<span class="sc">/</span>amplicons_nr.fasta <span class="sc">-</span>P data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>wget https<span class="sc">:</span><span class="er">//</span>raw.githubusercontent.com<span class="sc">/</span>ndombrowski<span class="sc">/</span>MicEco_teaching_material<span class="sc">/</span>refs<span class="sc">/</span>heads<span class="sc">/</span>main<span class="sc">/</span>data<span class="sc">/</span>amplicons_nr.fasta <span class="sc">-</span>P data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This file (<code>amplicons_nr.fasta</code>) contains one to two representative 16S rRNA sequences per strain used in the lab. View the file with <code>head</code> and use <code>grep</code> to count how many sequences are in the file.</p>
 <p><strong>Task 2: Run minimap2</strong></p>
@@ -628,8 +628,8 @@ window.Quarto = {
 <p><strong>Task 2: Get the python scripts</strong></p>
 <p>Download the two required files:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/ndombrowski/MicEco2025/refs/heads/main/scripts/paf_to_matrix.py <span class="at">-P</span> scripts</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/ndombrowski/MicEco2025/refs/heads/main/data/accession_to_genus.tsv <span class="at">-P</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/refs/heads/main/scripts/paf_to_matrix.py <span class="at">-P</span> scripts</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/refs/heads/main/data/accession_to_genus.tsv <span class="at">-P</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><code>paf_to_matrix.py</code> is the python script that filters alignment results and generates count tables</li>

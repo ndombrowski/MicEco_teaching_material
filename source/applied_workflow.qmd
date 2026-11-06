@@ -174,7 +174,7 @@ Minimap2 is installed by default on Crunchomics.
 We have already prepared a non-redundant database of 16S rRNA gene sequences. Download it to your `data/` folder using: 
 
 ```{r}
-wget https://raw.githubusercontent.com/ndombrowski/MicEco2025/refs/heads/main/data/amplicons_nr.fasta -P data
+wget https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/refs/heads/main/data/amplicons_nr.fasta -P data
 ```
 
 This file (`amplicons_nr.fasta`) contains one to two representative 16S rRNA sequences per strain used in the lab. View the file with `head` and use `grep` to count how many sequences are in the file.
@@ -315,8 +315,8 @@ mamba create -n python_3.10.18 -c conda-forge python=3.10.18 matplotlib pandas
 Download the two required files:
 
 ```{bash}
-wget https://raw.githubusercontent.com/ndombrowski/MicEco2025/refs/heads/main/scripts/paf_to_matrix.py -P scripts
-wget https://raw.githubusercontent.com/ndombrowski/MicEco2025/refs/heads/main/data/accession_to_genus.tsv -P data
+wget https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/refs/heads/main/scripts/paf_to_matrix.py -P scripts
+wget https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/refs/heads/main/data/accession_to_genus.tsv -P data
 ```
 
 - `paf_to_matrix.py` is the python script that filters alignment results and generates count tables

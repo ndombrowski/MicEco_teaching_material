@@ -51,8 +51,8 @@ This course is designed for students in microbial ecology with little or no prio
 
 The accompanying slides can be found here:
 
-- [Day1](https://ndombrowski.github.io/MicEco2025/slides/day01.html)
-- [Day2](https://ndombrowski.github.io/MicEco2025/slides/day02.html)
+- [Day1](https://ndombrowski.github.io/MicEco_teaching_material/slides/day01.html)
+- [Day2](https://ndombrowski.github.io/MicEco_teaching_material/slides/day02.html)
 
 
 ::: {.content-hidden}
@@ -65,6 +65,7 @@ ls ../data/*fasta.gz
 
 ```{bash}
 # Standalone rendering 
+# Standalone rendering (always name a file; renders into standalone/)
 quarto render --profile standalone source/terminal.qmd
 quarto render --profile standalone source/documentation.qmd
 quarto render --profile standalone source/cli.qmd
@@ -75,11 +76,12 @@ quarto render --profile standalone source/applied_workflow.qmd
 cd slides 
 quarto render
 
-# Render main doc (if needed)
+# Render main site: required after standalone renders,
+# copies standalone/source/*.html and slides/*.html into docs/ (see _quarto-site.yml)
 cd ..
 quarto render
 
-quarto render .\source\miceco2025_analysis.qmd --execute-dir .
+quarto render .\source\miceco_analysis.qmd --execute-dir .
 ```
 
 ::: {.callout-question .callout-warning collapse=false}

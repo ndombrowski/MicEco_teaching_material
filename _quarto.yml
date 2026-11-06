@@ -2,9 +2,11 @@ project:
   type: book
   output-dir: docs
   execute-dir: project
-  resources:
-    - standalone/source/*html
-    - slides/*html
+
+# resources for the main site live in _quarto-site.yml,
+# so the standalone profile does not copy its own pages into itself
+profile:
+  default: site
 
 book:
   title: "Microbial Ecology: Introduction into Data Analysis"

@@ -40,7 +40,7 @@ Analyses were executed on AlmaLinux 8.10 (x86_64), that info was extracted via `
 - nanoplot v1.42.0
 - chopper v0.11.0
 - minimap2 2.22-r1105-dirty
-- Custom scripts that are available [via github](https://github.com/ndombrowski/MicEco2025/tree/refs/heads/main/scripts)
+- Custom scripts that are available [via github](https://github.com/ndombrowski/MicEco_teaching_material/tree/refs/heads/main/scripts)
     - combine_nanoplot_html.py
     - paf_to_matrix.py
     - Dependencies: Python 3.10.18, pandas v2.3.0, matplotlib v3.9.2 (determined via `pip show package`)
@@ -52,7 +52,7 @@ Data was analysed on the Uva Crunchomics HPC:
 
 ```{bash}
 # Define project directory
-wdir="/home/ndombro/personal/miceco2025_da"
+wdir="/home/<user>/personal/miceco2025_da"
 cd $wdir
 ```
 
@@ -62,7 +62,7 @@ cd $wdir
 
 We work with the following data:
 
-- Sequencing data was provided as zipped folder called `Microbiocourse2025.zip` by Peter Kuperus December 10, 2025 via SurfDrive and stored in the data folder 
+- Sequencing data was provided as zipped folder called `Microbiocourse2025.zip` by the sequencing facility December 10, 2025 via SurfDrive and stored in the data folder 
 
 To analyse the data, individual fastq files per sample were first combined into a single file.
 
@@ -371,8 +371,8 @@ The reference sequences were generated as is discussed in `source/analysis_test_
 mkdir results/mapping_counts results/tables
 
 # Get reference database and accession to genus mapping file
-wget https://raw.githubusercontent.com/ndombrowski/MicEco2025/refs/heads/main/data/amplicons_nr.fasta -P data
-wget https://raw.githubusercontent.com/ndombrowski/MicEco2025/refs/heads/main/data/accession_to_genus.tsv -P data
+wget https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/refs/heads/main/data/amplicons_nr.fasta -P data
+wget https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/refs/heads/main/data/accession_to_genus.tsv -P data
 
 # Run minimap 
 for file in results/chopper/*.fastq.gz; do

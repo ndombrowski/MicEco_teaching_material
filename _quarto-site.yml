@@ -1,0 +1,4 @@
+project:
+  resources:
+    - /standalone/source/*html
+    - /slides/*html

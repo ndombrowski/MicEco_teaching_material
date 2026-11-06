@@ -257,7 +257,7 @@ Next, let's download a fasta file that contains the sequence of a 16S rRNA gene.
 
 ```{bash}
 # Download the example fasta file into the current directory
-wget https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/LjRoot303.fasta.gz
+wget https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot303.fasta.gz
 ```
 
 ::: {.callout-important}
@@ -268,7 +268,7 @@ For Mac users wget is not installed by default. If you do not want to install it
 ```{bash}
 # -O: save the file under its oroginal name 
 # -L: Tells curl that if the server tells it to go somewhere else, follow it until you reach the actual file
-curl -LO https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/LjRoot303.fasta.gz
+curl -LO https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot303.fasta.gz
 ```
 :::
 
@@ -346,7 +346,7 @@ Also, NEVER run `rm -r` or `rm -rf` on the root `/` folder or any important path
 Download another fasta file:
 
 - Download the fasta file from GCF_000714595 with wget
-    - Use this path `https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/GCF_000714595.fasta.gz`
+    - Use this path `https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/GCF_000714595.fasta.gz`
 - Make sure that the new file stored in the data folder
 - Check the file size (hint: use the -h option with ls)
 
@@ -355,7 +355,7 @@ Download another fasta file:
 
 ```{bash}
 # Download the file
-wget https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/GCF_000714595.fasta.gz
+wget https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/GCF_000714595.fasta.gz
 
 # Move the file to the data folder
 mv GCF_000714595.fasta.gz data
@@ -375,7 +375,7 @@ You might have noticed that the file we downloaded ends with `.gz`. This extensi
 ```{bash}
 # Download another file  
 # Here, we use the -P option to directly download the file into the data folder 
-wget -P data https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/LjRoot303.fasta.gz
+wget -P data https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot303.fasta.gz
 
 # Check that this worked 
 # You now should see two files
@@ -409,7 +409,7 @@ apt-get install wget
 For Mac users that use `curl` instead of `wget`, you can redirect the file to a specific folder like this:
 
 ```{bash}
-curl --output-dir data -LO https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/LjRoot303.fasta.gz
+curl --output-dir data -LO https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot303.fasta.gz
 ```
 :::
 
@@ -590,9 +590,9 @@ So far, we have worked with single files. In practice, sequencing data often com
 
 ```{bash}
 # Download some more data 
-wget -P data https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/GCF_000009425.fasta.gz
-wget -P data https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/GCF_000253315.fasta.gz
-wget -P data https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/LjRoot59.fasta.gz
+wget -P data https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/GCF_000009425.fasta.gz
+wget -P data https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/GCF_000253315.fasta.gz
+wget -P data https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot59.fasta.gz
 
 # Check what was done
 ls -lh data
@@ -627,7 +627,7 @@ mkdir playground
 
 # Download all genomes at once
 for accession in $(cat accessions.txt); do
-    wget -P playground https://raw.githubusercontent.com/ndombrowski/MicEco2025/main/data/${accession}.fasta.gz
+    wget -P playground https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/${accession}.fasta.gz
 done
 ```
 
