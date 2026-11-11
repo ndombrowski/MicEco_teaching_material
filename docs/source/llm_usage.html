@@ -219,8 +219,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#lines-that-llms-add-to-loops-and-job-scripts" id="toc-lines-that-llms-add-to-loops-and-job-scripts" class="nav-link" data-scroll-target="#lines-that-llms-add-to-loops-and-job-scripts"><span class="header-section-number">7.7</span> Lines that LLMs add to loops and job scripts</a></li>
   <li><a href="#the-ai-found-nothing-is-not-nothing-exists" id="toc-the-ai-found-nothing-is-not-nothing-exists" class="nav-link" data-scroll-target="#the-ai-found-nothing-is-not-nothing-exists"><span class="header-section-number">7.8</span> “The AI found nothing” is not “nothing exists”</a></li>
-  <li><a href="#writing-down-your-use-of-an-llm-in-your-notebook" id="toc-writing-down-your-use-of-an-llm-in-your-notebook" class="nav-link" data-scroll-target="#writing-down-your-use-of-an-llm-in-your-notebook"><span class="header-section-number">7.9</span> Writing down your use of an LLM in your notebook</a></li>
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">7.10</span> Further reading</a></li>
+  <li><a href="#your-notes-make-an-llm-more-useful" id="toc-your-notes-make-an-llm-more-useful" class="nav-link" data-scroll-target="#your-notes-make-an-llm-more-useful"><span class="header-section-number">7.9</span> Your notes make an LLM more useful</a></li>
+  <li><a href="#writing-down-your-use-of-an-llm-in-your-notebook" id="toc-writing-down-your-use-of-an-llm-in-your-notebook" class="nav-link" data-scroll-target="#writing-down-your-use-of-an-llm-in-your-notebook"><span class="header-section-number">7.10</span> Writing down your use of an LLM in your notebook</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">7.11</span> Further reading</a></li>
   </ul>
 </nav>
     </div>
@@ -924,12 +925,42 @@ cut -f1 results/minimap2/barcode07.paf | sort -u | wc -l
 </div>
 </div>
 </section>
-<section id="writing-down-your-use-of-an-llm-in-your-notebook" class="level2" data-number="7.9">
-<h2 data-number="7.9" class="anchored" data-anchor-id="writing-down-your-use-of-an-llm-in-your-notebook"><span class="header-section-number">7.9</span> Writing down your use of an LLM in your notebook</h2>
+<section id="your-notes-make-an-llm-more-useful" class="level2" data-number="7.9">
+<h2 data-number="7.9" class="anchored" data-anchor-id="your-notes-make-an-llm-more-useful"><span class="header-section-number">7.9</span> Your notes make an LLM more useful</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="A real example: redoing something from a year ago (optional)">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>A real example: redoing something from a year ago (optional)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>For this course, I wanted a second version of each chapter without the answers, to put on Canvas. I had done exactly this for another course a year earlier, but I no longer remembered how. I asked an LLM tool that can read the files on my computer (Claude Code, November 2026) to look at the material of the old course and tell me how much work it would be to do the same here.</p>
+<p>It found the old solution in a few minutes: a settings file and a small script that removes the answer boxes while the page is made. It also saw that the solution would not work here unchanged, because the answer boxes in this course have a different title. It then changed the solution and tested it on one chapter.</p>
+<p>The first test failed without any error message. The page was made, but all the answers were still in it. The tool only noticed this because it counted the answer boxes in the new page and compared that with the normal page. After one fix, the count went from 4 to 0, and the tasks and tips stayed.</p>
+<p>On my own, this would have taken much longer. Most of that time would have gone into remembering what exactly I did a year ago.</p>
+<p><strong>Lessons</strong></p>
+<ul>
+<li>An LLM is good at redoing something that worked once, if the old work is written down. It found the solution because the old files still existed. It could not have found something that was only in my head</li>
+<li>The same goes for your notebook: the clearer your notes, the easier it is for you, a fellow student or an LLM to redo a step later</li>
+<li>A solution that worked in one place can need changes in another. Check the result again, even if the old solution was tested</li>
+<li>Check with a number, not by whether it ran. “The page was made” did not mean “the answers are gone”</li>
+<li>You don’t need a tool that runs on your computer for this. In UvA AI Chat, you can upload your old notes as a file (the + button), or give it a link if the material is online. Leave out names and other private details first</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="writing-down-your-use-of-an-llm-in-your-notebook" class="level2" data-number="7.10">
+<h2 data-number="7.10" class="anchored" data-anchor-id="writing-down-your-use-of-an-llm-in-your-notebook"><span class="header-section-number">7.10</span> Writing down your use of an LLM in your notebook</h2>
 <p>[TO FILL IN: once the notebook format in <code>documentation.qmd</code> is decided. Suggested content: when you used an LLM, which tool, the question you asked (copy it), what you did with the answer, and how you checked it. Your own interpretation of results is written by you, not by an LLM. Also: write down the model, not only the tool. The default model of UvA AI Chat changed between October 2026 (Claude Sonnet 5.5, AWK tutorial) and November 2026 (Claude Sonnet 4.6, this page).]</p>
 </section>
-<section id="further-reading" class="level2" data-number="7.10">
-<h2 data-number="7.10" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">7.10</span> Further reading</h2>
+<section id="further-reading" class="level2" data-number="7.11">
+<h2 data-number="7.11" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">7.11</span> Further reading</h2>
 <ul>
 <li><a href="https://ndombrowski.github.io/cli_workshop/source/llm_usage.html">Using LLMs to understand and check code</a>, from the CLI workshop: a longer version of this page, with a worked example of a job script written by an LLM, and how to judge new tools and websites made with LLMs</li>
 <li><a href="https://scienceparkstudygroup.github.io/ibed-bioinformatics-page/source/core_tools/bash-for-loops.html">On GenAI usage</a>, at the end of the IBED page on for-loops: what to look out for in loops written by an LLM</li>

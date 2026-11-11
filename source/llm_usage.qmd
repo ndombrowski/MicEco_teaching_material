@@ -506,6 +506,26 @@ One question, three kinds of answer: a wrong "no", a checked "yes", and a real b
 -   An empty result can be a failed command, not a finding. In the same session, a download returned nothing because a redirect was not followed. That looked like "0 sequences"
 :::
 
+## Your notes make an LLM more useful
+
+::: {.callout-tip title="A real example: redoing something from a year ago (optional)" collapse="true"}
+For this course, I wanted a second version of each chapter without the answers, to put on Canvas. I had done exactly this for another course a year earlier, but I no longer remembered how. I asked an LLM tool that can read the files on my computer (Claude Code, November 2026) to look at the material of the old course and tell me how much work it would be to do the same here.
+
+It found the old solution in a few minutes: a settings file and a small script that removes the answer boxes while the page is made. It also saw that the solution would not work here unchanged, because the answer boxes in this course have a different title. It then changed the solution and tested it on one chapter.
+
+The first test failed without any error message. The page was made, but all the answers were still in it. The tool only noticed this because it counted the answer boxes in the new page and compared that with the normal page. After one fix, the count went from 4 to 0, and the tasks and tips stayed.
+
+On my own, this would have taken much longer. Most of that time would have gone into remembering what exactly I did a year ago.
+
+**Lessons**
+
+-   An LLM is good at redoing something that worked once, if the old work is written down. It found the solution because the old files still existed. It could not have found something that was only in my head
+-   The same goes for your notebook: the clearer your notes, the easier it is for you, a fellow student or an LLM to redo a step later
+-   A solution that worked in one place can need changes in another. Check the result again, even if the old solution was tested
+-   Check with a number, not by whether it ran. "The page was made" did not mean "the answers are gone"
+-   You don't need a tool that runs on your computer for this. In UvA AI Chat, you can upload your old notes as a file (the + button), or give it a link if the material is online. Leave out names and other private details first
+:::
+
 ## Writing down your use of an LLM in your notebook
 
 \[TO FILL IN: once the notebook format in `documentation.qmd` is decided. Suggested content: when you used an LLM, which tool, the question you asked (copy it), what you did with the answer, and how you checked it. Your own interpretation of results is written by you, not by an LLM. Also: write down the model, not only the tool. The default model of UvA AI Chat changed between October 2026 (Claude Sonnet 5.5, AWK tutorial) and November 2026 (Claude Sonnet 4.6, this page).\]

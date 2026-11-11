@@ -1,0 +1,22 @@
+# _quarto-noanswers.yml
+# Same as _quarto-standalone.yaml, but without the answer boxes.
+# For the Canvas upload. Output: standalone_noanswers/ (gitignored).
+project:
+  execute-dir: project
+  output-dir: standalone_noanswers
+  resources: "!slides"
+
+format:
+  html:
+    extends: html
+    embed-resources: true
+    toc: true
+    toc-title: Contents
+    toc-expand: 1
+    sidebar: false
+    page-navigation: false
+
+filters:
+  - scripts/hide-answers.lua
+
+lightbox: true
