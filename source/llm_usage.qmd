@@ -6,9 +6,9 @@ engine: knitr
 
 # Using LLMs to understand and check your analysis
 
-<!-- DRAFT 2026-11-06. Not yet in _quarto.yml. Placeholders are marked [TO FILL IN]. -->
+<!-- DRAFT 2026-11-06. In the book since 2026-11-11. Placeholders are marked [TO FILL IN]. -->
 
-This page is optional. You can read it after the course, at your own pace. It is about tools like UvA AI Chat, ChatGPT, Claude or Gemini, and how you can use them for the analysis in this tutorial without losing control over it.
+This page is optional. If you are interested, read it at your own pace after the course. The page is about tools like UvA AI Chat, ChatGPT, Claude or Gemini, and how you can use them for the analysis in this tutorial and still understand what your code does.
 
 All these tools are built on a **large language model (LLM)**: a program that was trained on huge amounts of text, including a lot of code, and that writes an answer by predicting which words are likely to come next. On this page, I use "LLM" for all of these chat tools.
 
@@ -20,14 +20,14 @@ The short version:
 -   **Check every answer** with the commands you already know: `ls`, `head`, `wc -l`, `grep`, the help page of the tool
 -   You need to be able to **explain and justify** every step in your notebook and in your presentation, whoever wrote the code
 
-In the tests on this page and in two related tutorials, the LLMs were right more often than wrong. But their mistakes were hidden in details: one option, one number, one sentence. They sounded convincing and were easy to miss. Some of them would have changed the results without any error message: a quality cutoff that would have removed 92% of the reads in our example file, a job script that ran a quality cleaning tool without the trimming options, and means that came out too low because of empty fields. Each mistake could be caught with a basic command from this tutorial, such as `ls`, `head`, `wc -l`, `grep` or the help page of the tool. That is why it is worth learning the basics first.
+In the tests I did for writing this page and for two related tutorials, the LLMs most answers were correct but that was also a problem: the wrong ones looked just as convincing. The mistakes were hidden in details: one option, one number, one sentence. Some of them would have changed the results without any error message: a quality cutoff that would have removed 92% of the reads in our example file, a job script that ran a quality cleaning tool without the trimming options, and means that came out too low because of empty fields. Each mistake could be caught with a basic command from this tutorial, such as `ls`, `head`, `wc -l`, `grep` or the help page of the tool. That is why it is important learning the basics first.
 
 ## Why learn the command line if an LLM can write the code?
 
 Even if you use an LLM, someone still has to:
 
--   **Read the code**, to know what it will do to your reads before you run it. For example: which reads does chopper remove, and why?
--   **Run the code** in the right place: on Crunchomics, in your project folder, on the login node or with `srun` or `sbatch`. The LLM does not know your folders, your file names or Crunchomics
+-   **Read the code**, to know what it will do to your reads before you run it. For example: which reads does chopper remove, why are they removed and can I continue with my analysis or do I have to use other chopper settings?
+-   **Run the code** in the right place: on Crunchomics, in your project folder, on the login node or with `srun` or `sbatch`. The LLM does not know your folders, your file names or Crunchomics setup
 -   **Check the input and output**: did chopper keep enough reads, did minimap2 produce alignments, does the count table fit the strains you grew in the lab?
 -   **Explain and justify** your choices, in your notebook and in your presentation. "The LLM chose this cutoff" is not an acceptable answer
 
@@ -47,26 +47,28 @@ So during the tutorial:
 
 ### Rules at the UvA
 
-Checked on 6 November 2026. Rules may change, so check the linked pages yourself.
+I checked this on 6 November 2026. These rules may change, so check the linked pages yourself.
 
--   The UvA offers its own tool, [UvA AI Chat](https://www.uva.nl/en/about-the-uva/about-the-university/ai/ai-in-education/uva-ai-chat/uva-ai-chat.html). It is free with your UvAnetID, and every student gets the same features. According to the UvA, what you type stays within the UvA environment and is not used to train models
--   The UvA writes that commercial tools such as ChatGPT are [not allowed in the context of your studies](https://student.uva.nl/en/information/ai-tools-and-your-studies), because they don't comply with the UvA privacy rules
+-   The UvA offers its own tool, [UvA AI Chat](https://www.uva.nl/en/about-the-uva/about-the-university/ai/ai-in-education/uva-ai-chat/uva-ai-chat.html). It is free with your UvAnetID, and every student gets the same features. What you type stays within the UvA environment and is not used to train models
+-   Commercial tools such as ChatGPT are [not allowed in the context of your studies](https://student.uva.nl/en/information/ai-tools-and-your-studies), because they don't comply with the UvA privacy rules
 -   The same page also says that the use of UvA AI Chat and other AI tools is forbidden unless your course explicitly allows it, and that you may use it to support your learning, not to do your work
 -   The normal rules for privacy and research data still apply, also in UvA AI Chat. The UvA [page on responsible use](https://www.uva.nl/en/about-the-uva/about-the-university/ai/ai-in-education/uva-ai-chat/uva-ai-chat-rai.html) says, for example, never to upload lists of names of students, patients or research participants
 
-**In this course:** \[TO DO: **discuss with the course coordinator what we allow**: e.g. "You may use UvA AI Chat to explain code, options and error messages. You may not use it to write your notebook entries or the interpretation of your results. Note any use in your notebook (see below)."\]
+**In this course:** you may use UvA AI Chat only for the exercises on this page. Any other use of AI tools in this course is not allowed.
+
+<!-- TO DO (instructor): check this rule with the course coordinator before the course starts. -->
 
 Everything on this page works with UvA AI Chat, with free access and only a chat window. If you use a tool that runs commands for you, the advice matters even more: you see less of what happens, so checking the result is even more important.
 
 ::: {.callout-important title="Don't paste your data into an LLM" collapse="false"}
-You rarely need to. To ask about a problem, a few lines are usually enough: the command you ran, the error message, maybe the first lines of a file, and what is special about your data (see "How to ask" below). You don't need to upload your fastq files, your plots or your count table. Describe what you see in words instead, for example: "most reads are between 1400 and 1550 bp" or "chopper kept only 30% of my reads".
+You rarely need to do this. To ask about a problem, a few lines are usually enough: the command you ran, the error message, maybe the first lines of a file, and what is special about your data (see "How to ask" below). You don't need to upload your fastq files, your plots or your count table. Describe what you see in words instead, for example: "most reads are between 1400 and 1550 bp" or "chopper kept only 30% of my reads".
 :::
 
 ## How to ask
 
 -   **Ask it to explain, not only to write.** You can say it directly: "Explain, but do NOT give me a code solution"
 -   **Be specific.** Give the one command, the exact error message and the biological context: "Nanopore reads of the full 16S rRNA gene"
--   **Tell it what is special about your data.** The LLM only knows what you write. Things you noted in your QC change what a good answer is, for example: "my length plot has a second peak at around 700 bp", "my barcode has only 800 reads" or "this sequencing run had a low yield". In tables, small details such as empty columns can change the result of a command without any error message. My [AWK tutorial](https://ndombrowski.github.io/AWK_tutorial/source/check_llm_code.html) shows an example: one sentence, "column 4 has empty fields for missing values", would have prevented wrong means. You can only add this if you know your data. That is one more reason to look at it first.
+-   **Tell it what is special about your data.** The LLM only knows what you write it doesn't have the full context of your analysis. For example, things you noted in your QC change what a good answer is, for example: "my length plot has a second peak at around 700 bp", "my barcode has only 800 reads" or "this sequencing run had a low yield". In tables, small details such as empty columns can change the result of a command without any error message. My [AWK tutorial](https://ndombrowski.github.io/AWK_tutorial/source/check_llm_code.html) shows an example: one sentence, "column 4 has empty fields for missing values", would have prevented wrong means and significance values. You can only add this if you know your data. That is one more reason to look at it first.
 -   **Ask one thing at a time.** Long answers are hard to check. "Only explain what `-q` does" gives an answer you can actually test
 -   **Ask for the simplest version.** LLMs tend to add extra checks and variables. That makes the code longer and harder to understand
 -   **Ask which version it describes.** Tools change. Your help page (`chopper -h`) describes the version you actually use. If the LLM and the help page differ, the help page wins
@@ -112,28 +114,20 @@ In the HPC chapter, you filled in a NanoPlot job script. Let's see what an LLM s
 ::: {.callout-answer .callout-warning collapse="true"}
 # Click to see the answer
 
-I asked this question to UvA AI Chat (with Claude Sonnet 4.6) and to ChatGPT in November 2026, both without any memory of earlier chats. They gave two different commands:
+I asked this question to UvA AI Chat (with Claude Sonnet 4.6) and to ChatGPT in November 2026, both without any memory of earlier chats. They gave two different commands, and both sounded equally sure:
 
--   UvA AI Chat: `--plots hex dot`. It also added a table with six other options, and recommended `--loglength` "for Nanopore data"
+-   UvA AI Chat: `--plots hex dot`. It also added a table with six other options that I hadn't asked for, and recommended `--loglength` "for Nanopore data"
 -   ChatGPT: `--plots dot --legacy hex`. It wrote that hex under `--plots` is ignored in newer versions
 
-Neither answer said which version of NanoPlot it describes, and both sounded equally sure.
+Neither answer said which version of NanoPlot it describes. The help page of NanoPlot 1.48.0 doesn't settle it: it lists both options, and its own example uses `--plots hex dot`. So I ran both commands on the example file `barcode07.fastq.gz`.
 
-The help page of NanoPlot 1.48.0 doesn't settle it. It lists both options, and its example at the end even uses `--plots hex dot`. So I ran both commands on the example file `barcode07.fastq.gz` (on my own computer, November 2026).
-
-The command from UvA AI Chat printed a warning, and made no hex plot:
+The command from UvA AI Chat printed a warning and made no hex plot:
 
 ```         
 WARNING: hex as part of --plots has been deprecated and will be ignored. To get the hex output, rerun with --legacy hex.
 ```
 
-The command from ChatGPT matches the NanoPlot documentation. It printed:
-
-```         
-NanoPlot needs seaborn and matplotlib with --legacy
-```
-
-Again, there was no hex plot. These are two Python packages that our installation of NanoPlot doesn't include. So I installed them in a new environment and ran the command again. This time NanoPlot crashed:
+The command from ChatGPT matches the NanoPlot documentation. It printed `NanoPlot needs seaborn and matplotlib with --legacy`. These are two Python packages that our installation of NanoPlot doesn't include. With the two packages installed, NanoPlot crashed:
 
 ```         
 If you read this then NanoPlot 1.48.0 has crashed :-(
@@ -141,26 +135,21 @@ If you read this then NanoPlot 1.48.0 has crashed :-(
 AttributeError: PolyCollection.set() got an unexpected keyword argument 'stat_func'
 ```
 
-This is a known problem. I found it by searching for the last line of the error message in the [issues of NanoPlot on GitHub](https://github.com/wdecoster/NanoPlot/issues). That is the page where users report problems and the developers answer them. The same error was reported in 2023 and again in 2026. The developer suggested trying an older version of seaborn (0.10.1), and explained that the hex plot uses older code that is no longer fully supported: "that is why it is --legacy".
+I searched for the last line of this error in the [issues of NanoPlot on GitHub](https://github.com/wdecoster/NanoPlot/issues), the page where users report problems and the developers answer. It is a known bug, reported in 2023 and again in 2026. The developer explained that the hex plot uses older code that is no longer fully supported. On Crunchomics, NanoPlot 1.46.1 and 1.42.0 made no hex plot either.
 
-So neither answer gives you a hex plot with NanoPlot 1.48.0, and there is no quick fix. For this tutorial, that is fine: we only need the dot plot.
+So neither answer gives you a hex plot, and there is no quick fix. For this tutorial, that is fine: we only need the dot plot.
 
-**Bugs are normal.** Every tool has them, and having an LLM doesn't mean every problem has an easy solution. If you paste a crash into an LLM, it may suggest a fix that sounds convincing. But it may not know about the bug, especially if it was reported recently. The people who know are the developers and the other users of the tool. So when a tool crashes with an error you don't understand, search for the error message in the tool's issues on GitHub. By default, GitHub shows only open issues. Remove that filter from the search box, because the answer is often in an issue that was already closed. You don't need to do this during this course. But it is a good habit, and sometimes the honest answer is "this doesn't work right now, use something else".
+**Bugs are normal.** If you paste a crash into an LLM, it may suggest a fix that sounds convincing, even for a bug it doesn't know about. The developers and other users of the tool know more. Search for the error message in the tool's GitHub issues, and remove the "is:open" filter, because the answer is often in a closed issue. Sometimes the honest answer is "this doesn't work right now, use something else".
 
-Look at what the crashed run left behind, though. Its output folder held the dot plot, the histograms and `NanoStats.txt`, almost the same files as a run that worked. Only `NanoPlot-report.html` was missing. If you only glance at the folder, the crash is easy to miss.
-
-On Crunchomics (November 2026), NanoPlot 1.46.1 gave the same two messages, and an older installation with NanoPlot 1.42.0 gave the same warning for `--plots hex dot`. None of these versions made a hex plot.
+Look at what the crashed run left behind. Its output folder held the dot plot, the histograms and `NanoStats.txt`. Only `NanoPlot-report.html` was missing. If you only glance at the folder, the crash is easy to miss.
 
 **Key points**
 
--   Two tools, two answers, the same confidence, and neither worked. In the AT-sphere example further down, UvA AI Chat was the tool with the right answer. No tool is always right
--   Even an answer that matches the documentation can fail. It depends on your version and on what else is installed. An LLM can't see your environment
--   Read what the tool prints. A warning or an error message often names the problem in one line. In a job script, these lines end up in your `.err` or `.out` file (see Exercise C)
--   Check the output with `ls`, and compare it with what you expect. A run that failed halfway can leave files that look normal
--   If an LLM's fix leads to a new error, stop and ask yourself whether you need this at all. Here, the dot plot was all we needed
--   Bugs are normal. For a crash, the tool's GitHub issues often know more than an LLM
--   Be careful with advice you didn't ask for. `--loglength` puts read length on a log scale. That helps when read lengths range from hundreds to tens of thousands of bases. Your amplicons are all around 1,500 bp, so it adds little here
--   Write the version in your notebook (`NanoPlot --version`). We didn't pin the NanoPlot version when we installed it, and options can change between versions, as `hex` did here
+-   Two tools, two answers, the same confidence, and neither worked. No tool is always right: in the AT-sphere example further down, UvA AI Chat had the right answer
+-   An answer that matches the documentation can still fail. It depends on your version and on what else is installed, and an LLM can't see either. We didn't pin the NanoPlot version, so write it in your notebook (`NanoPlot --version`)
+-   Read what the tool prints, and check the output with `ls`. A crashed run can leave files that look normal
+-   If a fix leads to a new error, ask yourself whether you need this at all. For a crash, the tool's GitHub issues often know more than an LLM
+-   LLMs often give you more than you asked for, such as the table with six extra options. Every extra is one more thing to check, and it may not fit what you want. For example, I was recommended to use `--loglength`, which only helps when read lengths range from hundreds to tens of thousands of bases. Your amplicons are all around 1,500 bp, so it adds little here
 :::
 ::::
 
@@ -199,7 +188,7 @@ What this shows:
 
 -   **The quality cutoff matters most for this file.** With the same length range, going from quality 12 to 15 drops the reads from 1,903 to 296
 -   **Which quality you can expect depends on the sequencing chemistry**, that is, the flow cell, the kit and the basecalling model. The sequencing for this course uses an older chemistry, where few reads reach quality 15. An LLM can't know this. ChatGPT asked about it, and that was the right question. Can you answer it? If not, your lab notes or the lab staff can
--   **Some advice doesn't fit your data.** The primers were already removed from your reads (see the chopper section). Porechop removes adapters, not primers, and its author declared it unsupported in 2018. And you can't basecall the reads again yourself
+-   **Some advice doesn't fit your data.** The primers were already removed from your reads (see the chopper section). Porechop removes adapters, not primers. And you can't basecall the reads again yourself
 -   **Check the reasons, not only the numbers.** UvA AI Chat wrote that the minimum length removes chimeras. But chimeras (two amplicons joined together) are usually too *long*, so the maximum length removes them
 -   **One option doesn't exist.** ChatGPT's table uses `-L` for the maximum length. chopper stops with `error: unexpected argument '-L' found`. A loud error like this is easy to spot. The real risk is a setting that runs fine and quietly changes your results
 -   **Even the tutorial's settings aren't a rule.** For this file, they keep 47% of the reads, just under the 50% that the chopper section recommends. I chose them for my own data. For this file, I would loosen them a little
@@ -277,8 +266,10 @@ To initialize your shell, run
 and ends with:
 
 ```         
-scripts/nanoplot_broken.sh: line ...: NanoPlot: command not found
+/var/spool/slurm/d/job416071/slurm_script: line 21: NanoPlot: command not found
 ```
+
+The file name in this message is not your script name. Slurm runs a copy of your script, called `slurm_script`, in a folder named after the job ID. The line number refers to your own script. Here, line 21 is not the first line of the NanoPlot command, but one of the lines below it, because the command runs over several lines. So look at the whole command around that line.
 
 These are two errors, but one problem. `conda activate` failed, so the `nanoplot` environment was not active, so the job could not find NanoPlot. When you see several errors, start reading at the top. The first error often causes the rest.
 
@@ -297,8 +288,6 @@ Fri Nov  6 13:36:31 CET 2026
 
 But the job started and ended in the same second. NanoPlot normally needs about a minute for one barcode. The output folder is empty.
 
-\[TO CONFIRM with `sacct`: the job state. Expected: `COMPLETED`, because the last command in the script, `date`, worked.\]
-
 **A trap.** I also submitted the broken script while the `nanoplot` environment was active in my terminal. The `.err` file showed the same conda error. But this time NanoPlot ran and made all the plots. The job gets a copy of the settings of your terminal, including the list of folders where it looks for programs. Because `nanoplot` was active, NanoPlot was on that list. So the same script works or fails depending on what was active when you typed `sbatch`. Fix the error anyway, even if the output looks fine. Otherwise your results depend on an accident.
 
 **What the LLMs answered.** I asked UvA AI Chat (with Claude Sonnet 4.6) and ChatGPT about the error message only, in November 2026, both without any memory of earlier chats.
@@ -307,7 +296,7 @@ Both explained the problem correctly: a job doesn't read `~/.bashrc`, so `conda 
 
 Both suggested a different fix than the one in this tutorial: `source <your conda folder>/etc/profile.d/conda.sh` instead of `source ~/.bashrc`. That works too. In this tutorial, we use `source ~/.bashrc` because it is easier to explain: it reads the same setup that your terminal uses. Different from what you learned is not the same as wrong. But stick to one way, and make sure you understand it.
 
-The two answers were very different in length. UvA AI Chat gave three short code blocks. ChatGPT gave nine, with several paths to try: find conda with `which conda`, load a conda module, check whether NanoPlot is installed, and install NanoPlot. For a beginner, that is a lot of unfamiliar commands at once, and it is hard to tell which one matters. One suggestion can even do harm: `conda install -c bioconda nanoplot` installs NanoPlot into whatever environment is active at that moment, often `base`. And NanoPlot was never missing.
+The two answers were very different in length. UvA AI Chat gave three short code blocks. ChatGPT gave nine, with several paths to try: find conda with `which conda`, load a conda module, check whether NanoPlot is installed, and install NanoPlot. For a beginner, that is a lot of unfamiliar commands at once, and it is hard to tell which one matters. One suggestion can even do harm: `conda install -c bioconda nanoplot` installs NanoPlot into whatever environment is active at that moment, often `base`. And that while NanoPlot was never missing.
 
 If an answer gives you more than you can follow, ask for less:
 
@@ -324,84 +313,13 @@ Which one change should I make first?
 -   The `.err` file usually tells you what went wrong. Read it before you ask anyone, and start at the top
 -   A job can finish "successfully" without doing its work. Check the `.err` file and the output folder, also when the job looks done
 -   An error in the `.err` file is worth fixing even if the output looks fine
+-   LLM-written scripts often contain `conda activate` without `source ~/.bashrc`. You now know what that error looks like
 -   If an LLM gives you many things to try, don't try them all. Ask which one change fixes the cause, and change one thing at a time
 -   A short, specific question gives an answer you can check
 :::
 ::::
 
-### Exercise D: What does `--mapq 30` remove?
-
-In the long-read chapter, the script `paf_to_matrix.py` filters your alignments before it counts them. One of its filters is the mapping quality (`--mapq`). This filter decides what happens to reads that map to more than one reference sequence, so it affects your count table directly.
-
-:::: {.callout-question .callout-warning collapse="false"}
-# Tasks
-
-1.  Run `python scripts/paf_to_matrix.py -h` (activate the `python_3.10.18` environment first). Copy only the help text into UvA AI Chat and ask: "Which alignments does this script remove with the default value of --mapq?" Write down its answer
-
-2.  Now look at the code that does the filtering. You don't need to know Python for this. Run:
-
-    ```{bash}
-    grep -n -A 8 "Filter on query coverage" scripts/paf_to_matrix.py
-    ```
-
-    Read the line with `mapq`. Which mapping quality values are kept? Does this match the LLM's answer?
-
-3.  Count how many of your own alignments fall in each group. Column 12 of the PAF file is the mapping quality:
-
-    ```{bash}
-    # mapping quality 0
-    awk '$12 == 0' results/minimap2/barcodeX.paf | wc -l
-    # mapping quality 1 to 29
-    awk '$12 > 0 && $12 < 30' results/minimap2/barcodeX.paf | wc -l
-    # mapping quality 30 or more
-    awk '$12 >= 30' results/minimap2/barcodeX.paf | wc -l
-    ```
-
-    `awk '$12 == 0'` prints only the lines where column 12 is 0. `wc -l` counts these lines. Do the three numbers add up to the total number of alignments?
-
-::: {.callout-answer .callout-warning collapse="true"}
-# Click to see the answer
-
-I asked this question to UvA AI Chat (with Claude Sonnet 4.6) and to ChatGPT in November 2026, both without any memory of earlier chats. I pasted only the help text.
-
-Both tools noticed the note in brackets at the end of the help text, "keeps multimappers (mapq 0)":
-
--   **ChatGPT** answered that alignments with a mapping quality of 0 are kept, 1 to 29 are removed, and 30 and higher are kept. It added that the exact behaviour depends on the code, and offered to check it if I shared that part of the script
--   **UvA AI Chat** called the help text ambiguous and gave two "plausible interpretations". The first one is the same as ChatGPT's answer. The second one, that nothing is removed by default, can't be right: the help text says the default is 30. It also said that only the code can settle the question
-
-So both answers pointed to the code. You can read the line yourself, no LLM needed. The `grep` command shows this line:
-
-```         
-& ((df.mapq == 0) | (df.mapq >= mapq_threshold))
-```
-
-`|` means "or". So the script keeps an alignment if its mapping quality is 0 **or** 30 and higher. It removes only the alignments with a mapping quality from 1 to 29.
-
-This sounds strange at first: why keep 0, the lowest value? A read can map to more than one reference sequence, for example to two strains with similar 16S sequences. minimap2 then writes one line for the best hit (the primary alignment), and one line for each other good hit (a secondary alignment). In the example file, all 63 alignments with a mapping quality of 0 are such secondary alignments (see Exercise E). A mapping quality of 0 can also mean that a read maps equally well to two references, so that minimap2 can't choose. The script keeps these lines on purpose. The table `otu_table_multimappers.tsv` counts them, and the later step that keeps only the best hit per read usually removes them again. A value between 1 and 29 means that minimap2 found a best hit, but was not confident about it.
-
-For the example file `barcode07.fastq.gz`, the three groups are:
-
-| Mapping quality | Alignments | With `--mapq 30` |
-|-----------------|------------|------------------|
-| 0               | 63         | kept             |
-| 1 to 29         | 6          | removed          |
-| 30 or more      | 1,779      | kept             |
-| total           | 1,848      |                  |
-
-So in this file, the mapping quality filter removes at most 6 of the 1,848 alignments. The filters for coverage and identity can remove more.
-
-The help text made the difference here. It mentions the exception for multi-mappers, so both LLMs could find it. I wrote that note into the help text myself. For a script without such a note, an LLM can only guess, and an option called "minimum MAPQ" would most likely lead it to "removes everything below 30". Then only the code can tell you.
-
-**Key points**
-
--   When an LLM says it needs to see the code, you can often check it yourself. `grep` finds the line, and you only need to read it, not write it
--   "Two plausible interpretations" means: check. Here, one of the two was impossible
--   An LLM can only work with what you show it. A clear help text gave a correct answer here
--   Filters like this one decide which reads end up in your count table. Write them down in your notebook
-:::
-::::
-
-### Exercise E: Understanding the PAF file
+### Exercise D: Understanding the PAF file
 
 :::: {.callout-question .callout-warning collapse="false"}
 # Tasks
@@ -427,6 +345,7 @@ cut -f1 results/minimap2/barcodeX.paf | sort -u | wc -l
     ```{bash}
     # Name of the first read with a secondary alignment (tag tp:A:S)
     grep "tp:A:S" results/minimap2/barcodeX.paf | head -n 1 | cut -f1
+
     # All lines of that read (replace <read name>)
     grep "<read name>" results/minimap2/barcodeX.paf
     ```
@@ -454,7 +373,7 @@ The details are where it gets interesting:
 
 -   **UvA AI Chat contradicted itself about column 11.** It wrote that column 11 is "used to compute coverage". A few lines further down, it computed the coverage from columns 2, 3 and 4, and used column 11 for the identity. That second part is right, and it is also what `paf_to_matrix.py` does. You can check this with `grep -n '/ df' scripts/paf_to_matrix.py`, which shows the two lines that compute coverage and identity
 -   **UvA AI Chat added a warning without a source.** It wrote that column 10 means something different "depending on minimap2 version". The manual says nothing like that. A warning can sound careful and still be made up
--   **UvA AI Chat guessed what the data is.** It wrote that the reference is "likely a small amplicon or plasmid reference". I hadn't told it what the data is. The guess is half right: it is a 16S amplicon reference, not a plasmid. If you don't give the context, the LLM fills it in
+-   **UvA AI Chat guessed what the data is.** It wrote that the reference is "likely a small amplicon or plasmid reference". I hadn't told it what the data is. The guess is half right: it is a 16S amplicon reference, not a plasmid. If you don't give the context, the LLM fills it in whether you asked for it or not
 -   **ChatGPT explained the extra columns after column 12, without being asked.** It got two of the eleven wrong when I compared them with the table in the minimap2 manual. These columns don't matter for this tutorial. But the part of an answer that you didn't ask for is also the part you are least likely to check
 
 The most important point is something neither answer said, because the two lines didn't show it. Both lines are clean: two different reads, each with one alignment and a mapping quality of 60. The checks show the rest of the file:
@@ -467,25 +386,36 @@ cut -f1 results/minimap2/barcode07.paf | sort -u | wc -l
 1785
 ```
 
-1,785 is also the number of reads that chopper kept, so every read mapped. But there are 1,848 alignments, so some reads have more than one line. `cut -f12 results/minimap2/barcode07.paf | sort -n | uniq -c` counts the mapping quality values: 63 alignments have a mapping quality of 0. The tag `tp` in the extra columns shows what they are. `grep -c "tp:A:S"` counts 63 secondary alignments, and `grep -c "tp:A:P"` counts 1,785 primary alignments, one per read. So the 63 extra lines are second hits of reads that already have a best hit. Task 3 looks at one of them.
+1,785 is also the number of reads that chopper kept, so every read mapped. But there are 1,848 alignments, telling us that some reads have more than one line. `cut -f12 results/minimap2/barcode07.paf | sort -n | uniq -c` counts the mapping quality values: 63 alignments have a mapping quality of 0. The tag `tp` in the extra columns shows what they are. `grep -c "tp:A:S"` counts 63 secondary alignments, and `grep -c "tp:A:P"` counts 1,785 primary alignments, one per read. So the 63 extra lines are second hits of reads that already have a best hit. Task 3 looks at one of them.
 
 A PAF file has no header line. The `head -n 1` above shows that the first line already starts with a read name.
 
 **Task 3.** In the example file, the first read with a secondary alignment has these two lines (the first 12 columns and the next four tags):
 
-```
+```         
 3e7a6498-15f2-4c09-af71-9177ec9f7468  1463  0  1412  +  GCF_000009425  1509  19  1438  1365  1428  60  NM:i:63   ms:i:2468  AS:i:2460  nn:i:0
 3e7a6498-15f2-4c09-af71-9177ec9f7468  1463  0  1463  +  GCF_000253315  1510  19  1490  1356  1490  0   NM:i:134  ms:i:2191  AS:i:2168  nn:i:0
 ```
 
 The first line is the best hit, to Lactococcus (`GCF_000009425`), with a mapping quality of 60. The second line is a weaker hit to Streptococcus (`GCF_000253315`): more mismatches and gaps (`NM`, 134 instead of 63) and a lower alignment score (`AS`, 2168 instead of 2460). Lactococcus and Streptococcus are related genera with similar 16S sequences, so one read can match both.
 
-Both LLMs saw that the first line is the better hit. But they explained the 0 differently:
+When asked about these lines, both LLMs saw that the first line is the better hit. But they explained the 0 differently:
 
 -   **ChatGPT** said the second line is likely a secondary alignment. It noted that the `tp` tag, which would tell for sure, was not in the lines I pasted. That was true. It also added a table of what MAPQ ranges mean ("1–10 low, 10–30 moderate...") that is not from the minimap2 manual
 -   **UvA AI Chat** wrote: "A MAPQ of 0 means the read maps nearly equally well to multiple locations". That doesn't fit these two lines: the scores show a clear winner. In this file, a 0 marks a secondary alignment, the second-best hit of a read
 
 I made the same mistake in the first draft of this page. "0 means equally good hits" is a common explanation. It sounds right, and it fits some reads. Only the `tp` tag and the counts above showed that it doesn't fit these.
+
+**What this means for your count table.** `paf_to_matrix.py` filters on the mapping quality with `--mapq 30`. It keeps the alignments with a mapping quality of 0 on purpose, and removes only those from 1 to 29. A value between 1 and 29 means that minimap2 found a best hit, but was not confident about it. For the example file:
+
+| Mapping quality | Alignments | With `--mapq 30` |
+|-----------------|------------|------------------|
+| 0               | 63         | kept             |
+| 1 to 29         | 6          | removed          |
+| 30 or more      | 1,779      | kept             |
+| total           | 1,848      |                  |
+
+Why keep the 0s? For a genus with several very similar strains, such as Pseudomonas, minimap2 often can't tell which strain a read comes from. Keeping the secondary hits means that the read still counts for the genus, even if the strain is unclear.
 
 **Key points**
 
@@ -495,15 +425,68 @@ I made the same mistake in the first draft of this page. "0 means equally good h
 -   Tell the LLM what your data is. Otherwise it guesses
 -   Check the claim that matters for your analysis, not only the first one you can check
 -   A long answer has more to check. The part you didn't ask for is checked the least
+-   Filters like `--mapq` decide which reads end up in your count table. Write them down in your notebook
 :::
 ::::
+
+## Lines that LLMs add to loops and job scripts
+
+When you ask an LLM to run a step on all your barcodes, or to write a job script, it often adds lines that you didn't ask for. These lines check whether a file exists, skip a barcode, or stop the script when something goes wrong. In this tutorial you don't write such lines yourself, so you may not know what they do.
+
+LLMs learned a lot of their code from large automated pipelines. That code is built to keep running when something goes wrong. In your analysis you usually want the opposite: you want to see every problem, and no barcode may go missing from your count table without a message.
+
+All lines below run without an error message, also when they don't fit your case. That makes them hard to notice.
+
+| You see | What it does | What can go wrong |
+|------------------------|------------------------|------------------------|
+| `set -euo pipefail`, often at the top | Stops the script at many errors, but not at all of them | On Crunchomics, a job with this line above `source ~/.bashrc` stops at once, inside your `.bashrc`. A `grep` that finds nothing also stops the script, even when "nothing found" is a valid result |
+| `if [ -f file ]` or `if [ -s file ]`, then skip | Skips a barcode if its output file exists (`-f`), or exists and is not empty (`-s`) | A file from a run that stopped halfway also exists and is not empty. So does a `.gz` file with no reads in it. The barcode then counts as done, but its result is incomplete |
+| `continue` or `\|\| continue` | Skips the rest of the loop for this barcode, and goes on with the next one | If the script prints no message, the barcode is simply missing from your results |
+| `exit 1` or `\|\| exit 1` | Stops the whole script, and reports that it failed | Often what you want: the output ends at the problem. The barcodes after it run only after you fix it |
+| `2>/dev/null` | Throws away the error messages of a command | You don't see why a step failed |
+| `rm`, `rm -f` or `find ... -delete` | Deletes files while the script runs | You can no longer look at what went wrong. If a name or pattern is wider than intended, it deletes more than you want |
+
+For each such line, ask yourself two questions: what happens to my barcodes when this line is triggered? And do I need it for my analysis? If you can't answer, ask the LLM:
+
+```
+For every line in this script that checks a file, skips a barcode or stops the script, explain what happens to my run when that line is triggered. Then tell me if I need it when I run this once, on 4 barcodes, and look at the output myself.
+```
+
+Or ask for less: "Give me the simplest version: a plain for loop, without extra checks."
+
+Then check the loop the same way as a command for one barcode:
+
+-   **Before you run it:** put `echo` in front of each command in the loop. The loop then prints the commands, without running them. Do you see one command per barcode, with the right file names?
+-   **Run it on one or two barcodes first**
+-   **Count:** is there one output file per barcode? Compare `ls results/chopper/*_filtered.fastq.gz | wc -l` with the number of your barcodes. Is one of the files empty (`ls -l`)?
+-   **Read what the loop printed:** did a barcode get skipped, or show an error?
+
+The IBED bioinformatics pages explain each line in more detail, with small examples you can run: [Checking files in bash scripts](https://scienceparkstudygroup.github.io/ibed-bioinformatics-page/source/core_tools/bash-input-validation.html), [Skip finished samples safely](https://scienceparkstudygroup.github.io/ibed-bioinformatics-page/source/core_tools/bash-skip-finished-samples.html) (see "Checking GenAI-generated scripts") and [`set -euo pipefail` in bash](https://scienceparkstudygroup.github.io/ibed-bioinformatics-page/source/core_tools/bash-pipefail.html).
+
+::: {.callout-tip title="A real example: a check that looks safe (optional)" collapse="true"}
+I asked UvA AI Chat (Claude Sonnet 4.6, November 2026) to turn the tutorial commands into a job script for three barcodes. Then I asked: "Sometimes a barcode fails halfway. Can you make the script more robust, so I can run it again without redoing the barcodes that finished?"
+
+It added a check before each step: skip the step if its output file exists and is not empty (`-s`). It also added `set -euo pipefail`, and explained that this line stops a failed chopper run from leaving an empty file behind that the check would then skip.
+
+I tested this on Crunchomics, with a barcode whose fastq file was missing:
+
+1.  chopper failed and the job stopped. But the output file `barcode99_filtered.fastq.gz` was left behind, with a size of 20 bytes: a compressed file without any reads
+2.  I added the missing fastq file and submitted the job again. The script printed `Step 1 already complete, skipping Chopper`. The 20-byte file stayed, and seqkit counted 0 reads for this barcode
+
+So the explanation sounded right, but the check let a broken barcode through. `set -e` stops the script, but it doesn't delete the file that the failed step had started. And `-s` only catches a file of 0 bytes.
+
+**Lessons**
+
+-   An LLM's explanation of its own code can be wrong too. Test a check before you trust it, for example with a barcode that you break on purpose
+-   After each run, look at the file sizes with `ls -l`. A compressed fastq file of about 20 bytes has no reads in it
+:::
 
 ## "The AI found nothing" is not "nothing exists"
 
 ::: {.callout-tip title="A real example from preparing this course (optional)" collapse="true"}
 To prepare this course, I needed the 16S sequences of some strains from the [AT-sphere](https://www.at-sphere.com/) website. I asked an LLM tool that can open web pages (Claude Code, November 2026) to find the download links. It opened the table of strains, saw links for genomes, proteins and genes, but no 16S. It then guessed six download links, all of which failed, and concluded: "AT-sphere has no 16S download".
 
-That was wrong. My own notes from the year before said that the 16S sequences came from AT-sphere. On the website, the 16S column only appears after you select "rRNA sequences" under "Filter Columns". The LLM did not click that, and it did not tell me that its answer contradicted my notes.
+I knew this was wrong since the year before I downloaded the 16S sequences from AT-sphere myself, one-by-one. On the website, the 16S column only appears after you select "rRNA sequences" under "Filter Columns". The LLM did not click that, and it did not tell me that its answer contradicted my notes.
 
 I then asked the same question to two other tools, each in a new chat:
 

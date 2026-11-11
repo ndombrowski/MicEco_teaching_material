@@ -21,3 +21,4 @@ And the individual standalone chapters can also be viewed here:
 - [HPC introduction](https://ndombrowski.github.io/MicEco_teaching_material/standalone/source/hpc_intro.html)
 - [Working on an HPC](https://ndombrowski.github.io/MicEco_teaching_material/standalone/source/hpc_howto.html)
 - [Amplicon long-read analysis](https://ndombrowski.github.io/MicEco_teaching_material/standalone/source/applied_workflow.html)
+- [Using LLMs to understand and check your analysis](https://ndombrowski.github.io/MicEco_teaching_material/standalone/source/llm_usage.html)

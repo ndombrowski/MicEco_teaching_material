@@ -2,40 +2,43 @@ import pandas as pd
 from pathlib import Path
 import argparse
 import sys
+import re
 import matplotlib.pyplot as plt
 
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Generate OTU tables and summary read counts from per-sample mapping stats files."
+        description="Generate OTU tables from minimap2 PAF files (one per sample)."
     )
     parser.add_argument(
         "-i",
         "--input_folder",
         type=str,
-        default="results/mapping_counts",
-        help="Folder containing barcode*.paf files (default: results/mapping_counts)",
+        default="results/minimap2",
+        help="Folder containing the *.paf files, one per sample (default: results/minimap2)",
     )
     parser.add_argument(
         "-o",
         "--output_folder",
         type=str,
-        default="results/mapping_counts",
-        help="Folder to write output files (default: results/mapping_counts)",
+        default="results/tables",
+        help="Folder to write output files (default: results/tables)",
     )
     parser.add_argument(
         "-t",
         "--taxa_mapping",
         type=str,
-        default="data/genome_to_genus.tsv",
-        help="Two column tab-delimited file with the accession and genus information (default: data/genome_to_genus.tsv)",
+        default="data/accession_to_genus.tsv",
+        help="Two column tab-delimited file with the accession and genus information (default: data/accession_to_genus.tsv)",
     )
     parser.add_argument(
         "-s",
         "--stats_file",
         type=str,
         default=None,
-        help="Optional: path to the seqkit stats output (-Toa format)",
+        help="Optional: ONE seqkit stats file (-Tao format) that holds ALL samples, "
+        "e.g. made with: seqkit stats results/chopper/*_filtered.fastq.gz -Tao results/seqkit/all_filtered.tsv. "
+        "Used to count the reads that did not map",
     )
     parser.add_argument(
         "--cov",
@@ -53,7 +56,8 @@ def parse_args():
         "--mapq",
         type=int,
         default=30,
-        help="Minimum MAPQ threshold (default: 30, keeps multimappers (mapq 0))",
+        help="Minimum MAPQ threshold (default: 30). Alignments with MAPQ 0 are always kept "
+        "(secondary hits and reads that map equally well to several references)",
     )
 
     return parser.parse_args()
@@ -99,6 +103,17 @@ def read_paf_with_AS(paf_file):
     ]
     df = pd.DataFrame(rows, columns=colnames)
     return df
+
+
+def names_match(paf_s, stats_s):
+    """True if one sample name contains the other as a separate part.
+    "barcode07" matches "barcode07_filtered.fastq" and "h_bc01" matches "h_bc01.fastq",
+    but "bc1" does not match "bc11_filtered.fastq" (a digit follows)."""
+    for short, long in [(paf_s, stats_s), (stats_s, paf_s)]:
+        pattern = r"(?<![A-Za-z0-9])" + re.escape(short) + r"(?![A-Za-z0-9])"
+        if re.search(pattern, long):
+            return True
+    return False
 
 
 def main():
@@ -223,7 +238,7 @@ def main():
     ).set_index("tname")
 
     # -------------------- Generate table with best-hits only -------------------- #
-    # Select best hit per query (highest qcov, then highest AS, highest mapq, longest aln as tie breaker)
+    # Select best hit per query (highest AS, then highest mapq, then highest qcov, longest aln as tie breaker)
     df_best = df_filtered.sort_values(
         ["qname", "AS", "mapq", "qcov", "alen"],
         ascending=[True, False, False, False, False],
@@ -247,8 +262,9 @@ def main():
         matched_samples = {}
         for paf_s in paf_samples:
             for stats_s in stats_samples:
-                # A simple heuristic: if paf_s is contained in stats_s or vice versa
-                if paf_s in stats_s or stats_s in paf_s:
+                # One name inside the other, but not directly next to a letter
+                # or digit. So "bc1" matches "bc1_filtered.fastq", not "bc11_filtered.fastq"
+                if names_match(paf_s, stats_s):
                     matched_samples[stats_s] = paf_s
                     break
 
@@ -258,6 +274,15 @@ def main():
         else:
             print(
                 "Warning: No matching samples found between PAF and stats files. Check naming consistency."
+            )
+
+        # Warn if a PAF sample has no row in the stats file:
+        # its unmapped reads are then not counted
+        missing_stats = [s for s in paf_samples if s not in matched_samples.values()]
+        if missing_stats:
+            print(
+                "Warning: no seqkit stats found for: " + ", ".join(missing_stats)
+                + ". Their unassigned reads are not counted."
             )
         
         # Generate count table but including the info from stats

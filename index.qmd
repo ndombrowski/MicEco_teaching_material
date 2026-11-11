@@ -48,6 +48,10 @@ This course is designed for students in microbial ecology with little or no prio
     - Align quality-filtered reads to a reference database 
     - Generate a count table
 
+7. **Use LLMs to understand and check your analysis (optional)**
+    - Ask an LLM about code, options and error messages
+    - Check its answers against the help page, the code and your own output
+
 
 The accompanying slides can be found here:
 
@@ -72,6 +76,7 @@ quarto render --profile standalone source/cli.qmd
 quarto render --profile standalone source/hpc_intro.qmd
 quarto render --profile standalone source/hpc_howto.qmd
 quarto render --profile standalone source/applied_workflow.qmd
+quarto render --profile standalone source/llm_usage.qmd
 
 cd slides 
 quarto render
