@@ -190,6 +190,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Amplicon long-read analysis</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../source/llm_usage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Using LLMs to understand and check your analysis</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -574,7 +580,7 @@ Important
 <ol type="1">
 <li><p>If you are following the Microbial Ecology course:</p>
 <p>If you have prepared more than one barcode during the practical then check the individual file sizes of your barcodes and find the barcode with the largest file size. You will analyse this sample throughout this tutorial to keep things simple. Throughout this tutorial replace <code>barcodeX</code> with that barcode ID.</p>
-<p>If want to know how to analyse several samples in an efficient manner, you can have a look at <a href="https://github.com/ndombrowski/MicEco_teaching_material/blob/main/source/miceco_analysis.qmd" target="_blank">an example workflow</a> after you are done with the full tutorial.</p>
+<p>If you want to analyse all your barcodes, not only the largest one, do the <a href="../source/applied_workflow.html#bonus-run-the-workflow-on-all-your-barcodes-optional">bonus section</a> at the end of the tutorial. It runs the workflow on all your barcodes with a <code>for</code> loop. For a full workflow with comments, including the steps before quality filtering (combining the read files per barcode, removing the barcodes with porechop), have a look at <a href="https://github.com/ndombrowski/MicEco_teaching_material/blob/main/source/miceco_analysis.qmd" target="_blank">an example workflow</a> after you are done with the full tutorial.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the file size of all barcodes </span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> /zfs/omics/projects/education/miceco/data/practical/<span class="pp">*</span>.fastq.gz</span>

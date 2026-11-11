@@ -44,7 +44,9 @@ Do the following:
 - Request 2 CPUs and 20G of memory with `srun`, and ensure chopper itself also uses 2 threads
 - Investigate the Nanoplot LengthvsQualityScatterPlot.html that you generated in the last exercise and decide on the right thresholds to use with chopper to:
   - Discard sequences that are too long or too short
-  - Discard reads with a too low phred score 
+  - Discard reads with a too low phred score
+  - Trim low-quality bases from the read ends
+<!-- TODO 2026: trimming added 2026-11-11 (task bullet, answer code, bonus loop), NOT TESTED yet. Test --trim-approach trim-by-quality --cutoff 12 on barcode07 (Crunchomics) with the chosen chopper version. Check the option names and whether trimming changes the read counts in the answer keys. See PLAN.md section 2. -->
 - Check the [tools manual](https://github.com/wdecoster/chopper) carefully for how to deal with `.gz` files. Hint: Closely check the example section
 
 > **IMPORTANT**: After chopper finished you will see something like "Kept 1985 reads out of 3785 reads". If you see less than 50% of the reads remaining use less strict length and quality filters. You need enough reads for the next steps
@@ -101,11 +103,12 @@ conda activate chopper_0.11.0
 srun --cpus-per-task 2 --mem=20G chopper \
     -i data/barcodeX.fastq.gz \
     -q 12 \
+    --trim-approach trim-by-quality --cutoff 12 \
     --minlength 1400 --maxlength 1540 \
     --threads 2 | gzip \
     > results/chopper/barcodeX_filtered.fastq.gz
 
-# Deactivate the conda environment 
+# Deactivate the conda environment
 conda deactivate
 
 # Run Nanoplot
@@ -397,7 +400,186 @@ conda deactivate
 1. About 12% of reads were lost during the filtering. If you had more alignments than reads, the filtered reads were likely secondary (less confident) alignments. You will also loose potential contaminations during this step. That is because reads coming from contaminant bacteria might still map to sequences in the reference database but with much lower sequence identity and therefore will be discarded.
 2. Most reads map to Streptococcus and Lactococcus, consistent with the experiment. A few unassigned reads may come from contamination or poor-quality reads.
 3. Streptococcus had ~10× more reads than Lactococcus. This may indicate stronger growth due to better adaptation to liquid media or competitive advantage in the co-culture.
-  
+
 :::
+:::
+
+
+## Bonus: run the workflow on all your barcodes (optional)
+
+So far you analysed one barcode, your largest file. In the practical you prepared more samples than that, for example your community at day 0 and at day 2. In this bonus section you run chopper and minimap2 on all your barcodes with a `for` loop. Then you make one count table with one column per barcode.
+
+You don't need this section for the rest of the course. After the workshop you get the full count table for all samples, and the code that made it. Do this section if you have time left, or if you want to see how that table was made.
+
+How long does it take? On the practical data, chopper takes about 6 seconds per barcode and minimap2 20 to 40 seconds. For 4 to 6 barcodes, the whole section runs in a few minutes. So `srun` is enough and you don't need a job script.
+
+### Which steps run once per barcode?
+
+In [Working with multiple files](cli.qmd#working-with-multiple-files) you used a `for` loop to download one file per accession. The same pattern runs a command once per barcode. But not every step should go inside the loop. Before you write the loop, look at what each step reads and what it makes.
+
+::: {.callout-question .callout-warning collapse=false}
+# Question
+
+Which steps should run once per barcode, inside the loop? Which should run only once, after the loop?
+
+- chopper
+- minimap2
+- seqkit stats
+- `paf_to_matrix.py`
+
+Hint: run `python scripts/paf_to_matrix.py -h` and read what `-i` and `-s` expect. Keep in mind what you want at the end: one count table, with one column per barcode.
+
+::: {.callout-answer .callout-warning collapse=true}
+# Click to see the answer
+
+- **chopper and minimap2: once per barcode.** Each reads one fastq file and makes one output file for that barcode.
+- **seqkit stats: once, after the loop.** seqkit can read many files at once. It writes one table with one row per file.
+- **`paf_to_matrix.py`: once, after the loop.** `-i` is a folder. The script reads every `.paf` file in it and makes one column per file. `-s` is ONE seqkit file with a row for every barcode. If you put the script inside the loop, it rebuilds the table on every round, each time with the seqkit numbers of only one barcode.
+:::
+:::
+
+::: {.callout-question .callout-warning collapse=false}
+# Tasks
+
+**Task 1: List your barcodes**
+
+- Look at all files from the practical with `ls -lh /zfs/omics/projects/education/miceco/data/practical/*.fastq.gz`. Find the barcodes that your group prepared.
+- Use `nano` to make a file `barcodes.txt` in your `data_analysis` folder, with one barcode per line. Write the names exactly as in the file names, without `.fastq.gz`.
+- Write the list in your notebook. For each barcode, also write which sample it is (community, day).
+
+**Task 2: Copy the fastq files with a loop**
+
+Write a `for` loop that reads `barcodes.txt` and copies each fastq file into your `data` folder. Then check with `ls -lh data/*.fastq.gz` that every barcode is there.
+
+**Task 3: Run chopper and minimap2 on every barcode**
+
+- Use the same chopper cutoffs that you chose for your first barcode. Then all samples are filtered the same way, and you can compare them. Write the cutoffs in your notebook.
+- Before you run the loop, put `echo` in front of `srun`. The loop then only prints the commands. Do you see one chopper and one minimap2 command per barcode, with the right file names? Then remove the `echo` and run the loop.
+- While the loop runs, read what chopper prints for each barcode ("Kept ... reads out of ..."). Write the numbers in your notebook.
+
+```{bash}
+conda activate chopper_0.11.0
+
+for barcode in $(cat barcodes.txt); do
+    echo "Now running: ${barcode}"
+
+    srun --cpus-per-task 2 --mem=20G chopper \
+        -i ... \
+        ... \
+        > results/chopper/${barcode}_filtered.fastq.gz
+
+    srun --cpus-per-task 2 --mem=20G minimap2 \
+        ... \
+        > results/minimap2/${barcode}.paf
+done
+
+conda deactivate
+```
+
+**Task 4: Check the output of the loop**
+
+- Count: is there one output file per barcode? Compare the number of lines in `barcodes.txt` with the number of files in `results/chopper/` and in `results/minimap2/`.
+- File sizes: look at the files with `ls -lh`. A compressed fastq file of about 20 bytes has no reads in it.
+- Count the alignments in each PAF file with `wc -l`.
+
+**Task 5: Make one count table for all barcodes**
+
+- Run `seqkit stats` once on all filtered fastq files, and save the result as `results/seqkit/all_filtered.tsv`. Hint: use a wildcard (`*`).
+- Run `paf_to_matrix.py` once. Use `results/minimap2/` for `-i` and your new seqkit file for `-s`. Save the output in a new folder `results/tables_all`, so your first table stays as it is.
+
+Note: the script uses every `.paf` file in `results/minimap2/`. If an old file is in that folder, for example from the example data `barcode07`, it also gets a column in your table.
+
+**Task 6: Check the count table**
+
+Open `results/tables_all/otu_table_genus.tsv` and answer:
+
+1. Is there one column per barcode, and no other columns?
+2. Look at the column of your first barcode. Are the numbers the same as in your first count table?
+3. Is the number of `unassigned` reads in a plausible range for each barcode?
+4. Did the script print a line that starts with `Warning`?
+
+Write the answers in your notebook.
+
+::: {.callout-answer .callout-warning collapse=true}
+# Click to see the answer
+
+```{bash}
+# Task 1: list the barcodes
+ls -lh /zfs/omics/projects/education/miceco/data/practical/*.fastq.gz
+nano barcodes.txt
+cat barcodes.txt
+wc -l barcodes.txt
+
+# Task 2: copy the fastq files
+for barcode in $(cat barcodes.txt); do
+    cp /zfs/omics/projects/education/miceco/data/practical/${barcode}.fastq.gz data
+done
+
+ls -lh data/*.fastq.gz
+
+# Task 3: chopper and minimap2, once per barcode
+# (use your own chopper cutoffs)
+conda activate chopper_0.11.0
+
+for barcode in $(cat barcodes.txt); do
+    echo "Now running: ${barcode}"
+
+    srun --cpus-per-task 2 --mem=20G chopper \
+        -i data/${barcode}.fastq.gz \
+        -q 12 \
+        --trim-approach trim-by-quality --cutoff 12 \
+        --minlength 1400 --maxlength 1540 \
+        --threads 2 | gzip \
+        > results/chopper/${barcode}_filtered.fastq.gz
+
+    srun --cpus-per-task 2 --mem=20G minimap2 \
+        -cx map-ont -t 2 \
+        data/amplicons_nr.fasta \
+        results/chopper/${barcode}_filtered.fastq.gz \
+        > results/minimap2/${barcode}.paf
+done
+
+conda deactivate
+
+# Task 4: check the output
+wc -l barcodes.txt
+ls results/chopper/*_filtered.fastq.gz | wc -l
+ls results/minimap2/*.paf | wc -l
+ls -lh results/chopper/ results/minimap2/
+wc -l results/minimap2/*.paf
+
+# Task 5: one seqkit file for all barcodes, then one count table
+srun --cpus-per-task=1 --mem=5G seqkit stats results/chopper/*_filtered.fastq.gz \
+    -Tao results/seqkit/all_filtered.tsv --threads 1
+
+less -S results/seqkit/all_filtered.tsv
+
+conda activate python_3.10.18
+
+mkdir results/tables_all
+
+python scripts/paf_to_matrix.py \
+  -i results/minimap2/ \
+  -s results/seqkit/all_filtered.tsv \
+  -t data/accession_to_genus.tsv \
+  -o results/tables_all
+
+conda deactivate
+
+# Task 6: look at the table
+less -S results/tables_all/otu_table_genus.tsv
+```
+
+1. If you see more columns than barcodes, an old `.paf` file is still in `results/minimap2/`. If you see fewer, a barcode failed in the loop. Scroll back through what the loop printed.
+2. Yes. The loop runs the same commands on the same file, so your first barcode gets the same numbers again.
+3. This depends on your samples. Compare the barcodes with each other. If one barcode has many more unassigned reads than the others, look at its chopper and seqkit numbers.
+4. You should see no warning. `Warning: no seqkit stats found for: ...` means that a barcode in `results/minimap2/` has no row in your seqkit file. Its unassigned reads are then not counted.
+:::
+:::
+
+::: {.callout-tip title="Using an LLM for this loop"}
+You can ask an LLM to turn your commands for one barcode into a loop. If you do, paste the output of `python scripts/paf_to_matrix.py -h` into your question. When we prepared this course, every answer we got without the `-h` text did this step wrong. Some put the script inside the loop. One gave `-s` several files, which makes the script stop with an error. With the `-h` text, the answer was correct.
+
+LLMs also often add lines that you didn't ask for, such as checks that skip a barcode. Read [Lines that LLMs add to loops and job scripts](llm_usage.qmd#lines-that-llms-add-to-loops-and-job-scripts) before you run such a script. This works with any chat tool, including free ones: you only paste text.
 :::
 
