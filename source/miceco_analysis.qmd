@@ -28,7 +28,7 @@ Different combinations of microbial strains were mixed to test their interaction
 Sample info:
 
 - 24+24 samples were generated from different combinations of human and soil-related bacterial strains.
-- Note: there might be a barcode mix up (see mail from Peter from 09122024)
+- Note: there might be a barcode mix up (see mail from head of molecular lab from 09122024)
 - Compared to the test data, these samples still contain the barcode. To align with the practical, these will be removed with porechop and these files will be provided to the students
 
 ## Dependencies
@@ -37,9 +37,9 @@ Analyses were executed on AlmaLinux 8.10 (x86_64), that info was extracted via `
 
 - sed (GNU sed) 4.5
 - seqkit v2.7.0
-- nanoplot v1.42.0
-- chopper v0.11.0
-- minimap2 2.22-r1105-dirty
+- nanoplot v1.48.0
+- chopper v0.15.0
+- minimap2 2.31
 - Custom scripts that are available [via github](https://github.com/ndombrowski/MicEco_teaching_material/tree/refs/heads/main/scripts)
     - combine_nanoplot_html.py
     - paf_to_matrix.py
@@ -109,7 +109,7 @@ Notes:
 mkdir -p results/seqkit results/nanoplot/raw 
 
 # Run seqkit and summarize data
-srun --cpus-per-task 10 --mem=50G seqkit stats \
+srun --ntasks=1 --cpus-per-task=10 --mem=50G seqkit stats \
     -a -To results/seqkit/seqkit_raw.tsv data/combined/*fastq.gz --threads 10
 
 awk 'NR>1 {sum+=$4} END {print sum}' results/seqkit/seqkit_raw.tsv
@@ -131,13 +131,13 @@ done
 ll data/combined/* | wc -l
 
 # Run Nanoplot
-conda activate nanoplot_1.42.0
+conda activate nanoplot_1.48.0
 
 for file in data/combined/*fastq.gz; do
     barcode=$(basename $file .fastq.gz)
     echo "Start analysis for $barcode"
 
-    srun --cpus-per-task 6 --mem=10G NanoPlot \
+    srun --ntasks=1 --cpus-per-task=6 --mem=10G NanoPlot \
         --fastq ${file} \
         -t 6 \
         --tsv_stats \
@@ -180,7 +180,7 @@ for file in data/combined/*fastq.gz; do
     barcode=$(basename $file .fastq.gz)
     echo "Start analysis for $barcode"
 
-    srun --cpus-per-task 10 --mem=20G porechop \
+    srun --ntasks=1 --cpus-per-task=10 --mem=20G porechop \
         --input $file \
         --output results/porechop/"$barcode".fastq.gz \
         --threads 10 \
@@ -190,7 +190,7 @@ done
 conda deactivate
 
 # Run seqkit 
-srun --cpus-per-task 10 --mem=50G seqkit stats \
+srun --ntasks=1 --cpus-per-task=10 --mem=50G seqkit stats \
     -a -To results/seqkit/seqkit_porechop.tsv results/porechop/*fastq.gz --threads 10
 
 awk 'NR>1 {sum+=$4} END {print sum}' results/seqkit/seqkit_porechop.tsv
@@ -203,13 +203,13 @@ awk 'NR>1 {sum+=$10; count++} END {print sum/count}' results/seqkit/seqkit_porec
 awk 'NR>1 {sum+=$16; count++} END {print sum/count}' results/seqkit/seqkit_porechop.tsv
 
 # Run Nanoplot 
-conda activate nanoplot_1.42.0
+conda activate nanoplot_1.48.0
 
 for file in results/porechop/*fastq.gz; do
     barcode=$(basename $file .fastq.gz)
     echo "Start analysis for $barcode"
 
-    srun --cpus-per-task 6 --mem=10G NanoPlot \
+    srun --ntasks=1 --cpus-per-task=6 --mem=10G NanoPlot \
         --fastq ${file} \
         -t 6 \
         --tsv_stats \
@@ -252,7 +252,7 @@ Settings I chose for cleaning based on the NanoPlots:
 
 ```{bash}
 # Run chopper
-conda activate chopper_0.11.0
+conda activate chopper_0.15.0
 
 for file in results/porechop/*fastq.gz; do
     barcode=$(basename "$file" .fastq.gz)
@@ -261,7 +261,7 @@ for file in results/porechop/*fastq.gz; do
 
     echo "Start analysis for ${barcode}"
 
-    srun --cpus-per-task 10 --mem=50G chopper -i "$file" \
+    srun --ntasks=1 --cpus-per-task=10 --mem=50G chopper -i "$file" \
         -q 12 \
         --trim-approach trim-by-quality --cutoff 12 \
         -l 1400 --maxlength 1540 \
@@ -320,7 +320,7 @@ Will keep all samples for downstream analyses.
 
 ```{bash}
 # Get overaching summary with seqkit and summarize with awk
-srun --cpus-per-task=10 --mem=5G seqkit stats results/chopper/*fastq.gz  \
+srun --ntasks=1 --cpus-per-task=10 --mem=5G seqkit stats results/chopper/*fastq.gz  \
     -Tao results/seqkit/seqkit_chopper.tsv --threads 10
 
 # Run seqkit 
@@ -333,13 +333,13 @@ awk -F '\t'  'NR>1 {sum+=$10; count++} END {print sum/count}' results/seqkit/seq
 awk 'NR>1 {sum+=$16; count++} END {print sum/count}' results/seqkit/seqkit_chopper.tsv
 
 # Run Nanoplot 
-conda activate nanoplot_1.42.0
+conda activate nanoplot_1.48.0
 
 for file in results/chopper/*fastq.gz; do
     barcode=$(basename $file .fastq.gz)
     echo "Start analysis for $barcode"
 
-    srun --cpus-per-task 6 --mem=10G NanoPlot \
+    srun --ntasks=1 --cpus-per-task=6 --mem=10G NanoPlot \
         --fastq ${file} \
         -t 6 \
         --tsv_stats \
@@ -374,7 +374,9 @@ mkdir results/mapping_counts results/tables
 wget https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/refs/heads/main/data/amplicons_nr.fasta -P data
 wget https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/refs/heads/main/data/accession_to_genus.tsv -P data
 
-# Run minimap 
+# Run minimap
+conda activate minimap2_2.31
+
 for file in results/chopper/*.fastq.gz; do
     ref_db="data/amplicons_nr.fasta"
     barcode=$(basename $file .fastq.gz)
@@ -384,10 +386,12 @@ for file in results/chopper/*.fastq.gz; do
     echo "----------------------------------------------------------------"
 
     # Map reads to reference and save PAF
-    srun --cpus-per-task 2 --mem=20G minimap2 \
+    srun --ntasks=1 --cpus-per-task=2 --mem=20G minimap2 \
         -cx map-ont -t 2 ${ref_db} ${file} \
         > results/mapping_counts/${barcode}.paf
 done
+
+conda deactivate
 
 # Generate count table 
 python scripts/paf_to_matrix.py \

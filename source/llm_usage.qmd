@@ -108,7 +108,7 @@ The answers on this page come from November 2026. Together with the [CLI worksho
 In the HPC chapter, you filled in a NanoPlot job script. Let's see what an LLM suggests for one of its options.
 
 1.  Ask UvA AI Chat: "I want NanoPlot to make a hex plot and a dot plot of read length against read quality. Which options do I need?" Write down its answer
-2.  On Crunchomics, activate the `nanoplot` environment. Run `NanoPlot --version` and `NanoPlot -h`. Find the option the LLM suggested. Does the help page agree?
+2.  On Crunchomics, activate the `nanoplot_1.48.0` environment. Run `NanoPlot --version` and `NanoPlot -h`. Find the option the LLM suggested. Does the help page agree?
 3.  Run NanoPlot with the suggested options on your `barcodeX.fastq.gz` into a new folder, for example `results/nanoplot/test_plots`. Then list the files with `ls results/nanoplot/test_plots`. Which plots were actually made? If NanoPlot asks for extra packages, don't install them. Write down the message instead.
 
 ::: {.callout-answer .callout-warning collapse="true"}
@@ -146,7 +146,7 @@ Look at what the crashed run left behind. Its output folder held the dot plot, t
 **Key points**
 
 -   Two tools, two answers, the same confidence, and neither worked. No tool is always right: in the AT-sphere example further down, UvA AI Chat had the right answer
--   An answer that matches the documentation can still fail. It depends on your version and on what else is installed, and an LLM can't see either. We didn't pin the NanoPlot version, so write it in your notebook (`NanoPlot --version`)
+-   An answer that matches the documentation can still fail. It depends on your version and on what else is installed, and an LLM can't see either. Tell the LLM which version you use (`NanoPlot --version`), and write it in your notebook
 -   Read what the tool prints, and check the output with `ls`. A crashed run can leave files that look normal
 -   If a fix leads to a new error, ask yourself whether you need this at all. For a crash, the tool's GitHub issues often know more than an LLM
 -   LLMs often give you more than you asked for, such as the table with six extra options. Every extra is one more thing to check, and it may not fit what you want. For example, I was recommended to use `--loglength`, which only helps when read lengths range from hundreds to tens of thousands of bases. Your amplicons are all around 1,500 bp, so it adds little here
@@ -181,7 +181,8 @@ I ran all suggestions with chopper 0.15.0 on the example file `barcode07.fastq.g
 | `-q 8 --minlength 1400 --maxlength 1700` | ChatGPT (more permissive) | 2,812 (74%) |
 | `-q 10 --minlength 1400 --maxlength 1700` | ChatGPT (command) | 2,791 (74%) |
 | `-q 12 --minlength 1200 --maxlength 1700` | UvA AI Chat | 1,903 (50%) |
-| `-q 12 --minlength 1400 --maxlength 1540` | this tutorial | 1,785 (47%) |
+| `-q 12 --minlength 1400 --maxlength 1540` | this tutorial, without trimming | 1,785 (47%) |
+| `-q 12 --trim-approach trim-by-quality --cutoff 12 --minlength 1400 --maxlength 1540` | this tutorial, with trimming | 1,772 (47%) |
 | `-q 15 --minlength 1200 --maxlength 1700` | UvA AI Chat (strict) | 296 (8%) |
 
 What this shows:
@@ -271,7 +272,7 @@ and ends with:
 
 The file name in this message is not your script name. Slurm runs a copy of your script, called `slurm_script`, in a folder named after the job ID. The line number refers to your own script. Here, line 21 is not the first line of the NanoPlot command, but one of the lines below it, because the command runs over several lines. So look at the whole command around that line.
 
-These are two errors, but one problem. `conda activate` failed, so the `nanoplot` environment was not active, so the job could not find NanoPlot. When you see several errors, start reading at the top. The first error often causes the rest.
+These are two errors, but one problem. `conda activate` failed, so the `nanoplot_1.48.0` environment was not active, so the job could not find NanoPlot. When you see several errors, start reading at the top. The first error often causes the rest.
 
 Why does `conda activate` fail? A job runs in a new shell that doesn't read the file `~/.bashrc`. That file holds the conda setup that was added when you installed miniforge. `source ~/.bashrc` reads it, which is why the template in the HPC chapter has this line.
 
@@ -288,7 +289,7 @@ Fri Nov  6 13:36:31 CET 2026
 
 But the job started and ended in the same second. NanoPlot normally needs about a minute for one barcode. The output folder is empty.
 
-**A trap.** I also submitted the broken script while the `nanoplot` environment was active in my terminal. The `.err` file showed the same conda error. But this time NanoPlot ran and made all the plots. The job gets a copy of the settings of your terminal, including the list of folders where it looks for programs. Because `nanoplot` was active, NanoPlot was on that list. So the same script works or fails depending on what was active when you typed `sbatch`. Fix the error anyway, even if the output looks fine. Otherwise your results depend on an accident.
+**A trap.** I also submitted the broken script while the `nanoplot` environment was active in my terminal. The `.err` file showed the same conda error. But this time NanoPlot ran and made all the plots. The job gets a copy of the settings of your terminal, including the list of folders where it looks for programs. Because `nanoplot_1.48.0` was active, NanoPlot was on that list. So the same script works or fails depending on what was active when you typed `sbatch`. Fix the error anyway, even if the output looks fine. Otherwise your results depend on an accident.
 
 **What the LLMs answered.** I asked UvA AI Chat (with Claude Sonnet 4.6) and ChatGPT about the error message only, in November 2026, both without any memory of earlier chats.
 
@@ -380,13 +381,13 @@ The most important point is something neither answer said, because the two lines
 
 ```         
 wc -l results/minimap2/barcode07.paf
-1848 results/minimap2/barcode07.paf
+1835 results/minimap2/barcode07.paf
 
 cut -f1 results/minimap2/barcode07.paf | sort -u | wc -l
-1785
+1772
 ```
 
-1,785 is also the number of reads that chopper kept, so every read mapped. But there are 1,848 alignments, telling us that some reads have more than one line. `cut -f12 results/minimap2/barcode07.paf | sort -n | uniq -c` counts the mapping quality values: 63 alignments have a mapping quality of 0. The tag `tp` in the extra columns shows what they are. `grep -c "tp:A:S"` counts 63 secondary alignments, and `grep -c "tp:A:P"` counts 1,785 primary alignments, one per read. So the 63 extra lines are second hits of reads that already have a best hit. Task 3 looks at one of them.
+1,772 is also the number of reads that chopper kept, so every read mapped. But there are 1,835 alignments, telling us that some reads have more than one line. `cut -f12 results/minimap2/barcode07.paf | sort -n | uniq -c` counts the mapping quality values: 63 alignments have a mapping quality of 0. The tag `tp` in the extra columns shows what they are. `grep -c "tp:A:S"` counts 63 secondary alignments, and `grep -c "tp:A:P"` counts 1,772 primary alignments, one per read. So the 63 extra lines are second hits of reads that already have a best hit. Task 3 looks at one of them.
 
 A PAF file has no header line. The `head -n 1` above shows that the first line already starts with a read name.
 
@@ -412,8 +413,8 @@ I made the same mistake in the first draft of this page. "0 means equally good h
 |-----------------|------------|------------------|
 | 0               | 63         | kept             |
 | 1 to 29         | 6          | removed          |
-| 30 or more      | 1,779      | kept             |
-| total           | 1,848      |                  |
+| 30 or more      | 1,766      | kept             |
+| total           | 1,835      |                  |
 
 Why keep the 0s? For a genus with several very similar strains, such as Pseudomonas, minimap2 often can't tell which strain a read comes from. Keeping the secondary hits means that the read still counts for the genus, even if the strain is unclear.
 

@@ -4,6 +4,19 @@ $icon: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16
 $border-color-left: #7e57c2 !default;   /* purple vertical bar */
 $background-color: #f3e8ff !default;    /* light purple header */
 
+// Colours for the notebook checkpoint boxes (blue, so they look different from the exercises and the green tips)
+$notebook-border-color: #1976d2 !default;   /* blue vertical bar */
+$notebook-header-light: #e3f2fd !default;   /* light blue header */
+
+// Colours for the tab headers of a tabset (::: {.panel-tabset}), cyan like the code block border
+$tab-accent-color: #31BAE9 !default;        /* top bar of the open tab */
+$tab-active-light: #e0f5fc !default;        /* open tab */
+$tab-inactive-light: #f1f1f1 !default;      /* closed tab */
+
+// Tabs inside an exercise box use purple instead, to match the box
+$tab-exercise-accent-color: #5e35b1 !default;   /* dark purple top bar of the open tab */
+$tab-exercise-active-light: #f3e8ff !default;   /* light purple open tab, same as the box header */
+
 
 
 /*-- scss:rules --*/
@@ -43,6 +56,83 @@ div.callout-question.callout .callout-icon::before {
 
 div.callout-answer.callout .callout-icon::before {
   content: "☑️";
+}
+
+
+// Notebook checkpoint boxes, used as:
+// ::: {.callout-notebook .callout-note collapse="false" title="Notebook checkpoint: ..."}
+// with a nested answer box: ::: {.callout-notebook-answer .callout-note collapse="true" title="Compare with my notes"}
+div.callout-notebook.callout,
+div.callout-notebook-answer.callout {
+  border-left: 4px solid $notebook-border-color;
+
+  .callout-title-container {
+    color: #333333;
+    font-weight: 600;
+  }
+
+  .callout-icon {
+    display: inline-block !important;
+    width: 1.2rem;
+    line-height: 1.6rem;
+    text-align: center;
+    margin-right: 0.6rem;
+  }
+
+  .callout-icon::before {
+    font-size: 1.2rem;
+  }
+
+  &.callout-style-default > .callout-header {
+    background-color: $notebook-header-light;
+  }
+}
+
+div.callout-notebook.callout .callout-icon::before {
+  content: "📓";
+}
+
+div.callout-notebook-answer.callout .callout-icon::before {
+  content: "📝";
+}
+
+
+// Tab headers of a tabset, used as:
+// ::: {.panel-tabset}
+// ### First tab title
+// ...
+// :::
+// The open tab is coloured and bold, the closed tabs are grey
+.panel-tabset .nav-tabs .nav-link {
+  background-color: $tab-inactive-light;
+  color: #555555;
+  border-top: 3px solid transparent;
+  margin-right: 0.25rem;
+}
+
+.panel-tabset .nav-tabs .nav-link:hover {
+  color: #222222;
+  border-top-color: lighten($tab-accent-color, 20%);
+}
+
+.panel-tabset .nav-tabs .nav-link.active {
+  background-color: $tab-active-light;
+  color: #222222;
+  font-weight: 600;
+  border-top: 3px solid $tab-accent-color;
+}
+
+// Tabs inside an exercise or answer box: purple instead of cyan
+div.callout-question.callout,
+div.callout-answer.callout {
+  .panel-tabset .nav-tabs .nav-link:hover {
+    border-top-color: lighten($tab-exercise-accent-color, 25%);
+  }
+
+  .panel-tabset .nav-tabs .nav-link.active {
+    background-color: $tab-exercise-active-light;
+    border-top: 3px solid $tab-exercise-accent-color;
+  }
 }
 
 

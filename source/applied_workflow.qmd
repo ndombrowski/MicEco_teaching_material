@@ -26,7 +26,7 @@ In this section, you will learn how to perform quality filtering of your amplico
 `chopper` is designed for filtering and trimming of long-read data and you can install `chopper` with mamba:
 
 ```{bash}
-mamba create -n chopper_0.11.0 -c bioconda chopper=0.11.0
+mamba create -n chopper_0.15.0 -c bioconda chopper=0.15.0
 ```
 
 In this tutorial, you will always receive example code as a starting point, with sections containing `...` for you to fill in. If you get stuck in this section, first check [chopper's documentation](https://github.com/wdecoster/chopper) or use the built-in help via the CLI (`chopper -h`).
@@ -41,15 +41,14 @@ Use your NanoPlot quality plots from the previous section and choose some qualit
 Do the following:
 
 - Create a new folder to store the results and name the output file `barcodeX_filtered.fastq.gz`
-- Request 2 CPUs and 20G of memory with `srun`, and ensure chopper itself also uses 2 threads
-- Investigate the Nanoplot LengthvsQualityScatterPlot.html that you generated in the last exercise and decide on the right thresholds to use with chopper to:
+- Request 1 task, 2 CPUs and 20G of memory with `srun`, and ensure chopper itself also uses 2 threads
+- Investigate the Nanoplot LengthvsQualityScatterPlot_dot.html that you generated in the last exercise and decide on the right thresholds to use with chopper to:
   - Discard sequences that are too long or too short
   - Discard reads with a too low phred score
   - Trim low-quality bases from the read ends
-<!-- TODO 2026: trimming added 2026-11-11 (task bullet, answer code, bonus loop), NOT TESTED yet. Test --trim-approach trim-by-quality --cutoff 12 on barcode07 (Crunchomics) with the chosen chopper version. Check the option names and whether trimming changes the read counts in the answer keys. See PLAN.md section 2. -->
 - Check the [tools manual](https://github.com/wdecoster/chopper) carefully for how to deal with `.gz` files. Hint: Closely check the example section
 
-> **IMPORTANT**: After chopper finished you will see something like "Kept 1985 reads out of 3785 reads". If you see less than 50% of the reads remaining use less strict length and quality filters. You need enough reads for the next steps
+> **IMPORTANT**: After chopper finished you will see something like "Kept 1772 reads out of 3785 reads". If you see less than 50% of the reads remaining use less strict length and quality filters. You need enough reads for the next steps
 
 
 **Task 2: Assess the quality of the filtering step**
@@ -74,7 +73,7 @@ Afterwards open NanoPlots and seqkit. Investigate the outputs and record:
 ...
 
 # Run chopper
-srun --cpus-per-task 2 --mem=20G chopper ...
+srun --ntasks=1 --cpus-per-task=2 --mem=20G chopper ...
 
 # Deactivate the conda environment 
 ...
@@ -97,10 +96,10 @@ srun ...
 mkdir results/chopper
 
 # Activate the chopper conda environment
-conda activate chopper_0.11.0
+conda activate chopper_0.15.0
 
 # Run chopper
-srun --cpus-per-task 2 --mem=20G chopper \
+srun --ntasks=1 --cpus-per-task=2 --mem=20G chopper \
     -i data/barcodeX.fastq.gz \
     -q 12 \
     --trim-approach trim-by-quality --cutoff 12 \
@@ -112,11 +111,11 @@ srun --cpus-per-task 2 --mem=20G chopper \
 conda deactivate
 
 # Run Nanoplot
-conda activate nanoplot
+conda activate nanoplot_1.48.0
 
 mkdir -p results/nanoplot/cleaned
 
-srun --cpus-per-task 2 --mem=10G NanoPlot \
+srun --ntasks=1 --cpus-per-task=2 --mem=10G NanoPlot \
     --fastq results/chopper/barcodeX_filtered.fastq.gz \
     -t 2 \
     --tsv_stats \
@@ -126,15 +125,19 @@ srun --cpus-per-task 2 --mem=10G NanoPlot \
 conda deactivate
 
 # Run seqkit 
-srun --cpus-per-task=1 --mem=5G seqkit stats results/chopper/barcodeX_filtered.fastq.gz  \
+srun --ntasks=1 --cpus-per-task=1 --mem=5G seqkit stats results/chopper/barcodeX_filtered.fastq.gz  \
     -Tao results/seqkit/barcodeX_filtered.tsv --threads 1
 
 ```
 
-Below are example results from one of my analyses. These numbers will be different for you, however, this process will make you more familiar for what to look for in your own analyses.
+Below are the results for the example file `barcode07.fastq.gz`. Your own barcode will give different numbers. Your sample most likely has more reads than this example, and the share of reads that pass depends on how the sequencing went.
 
-- Input: 29,468 reads
-- Passed filtering: 24,600 reads (~80%). You ideally want to keep 50%-90% of the reads for the down-stream analyses depending on the quality of the data and how many reads you generated.
+- Input: 3,785 reads
+- Passed filtering: 1,772 reads (47%). This is just under the 50% we recommend above. For this file, you could loosen the length or quality cutoffs a little. You ideally want to keep 50%-90% of the reads for the downstream analyses, depending on the quality of the data and how many reads you generated.
+
+This is the NanoPlot read length against read quality plot for `barcode07` after chopper. Compare it with the plot before filtering in the HPC chapter. The short reads, the very long reads and the reads with a quality below 12 are gone. All reads are now between 1,400 and 1,540 bp:
+
+![](../img/nanoplot_post_chopper.png){width=90%}
 
 :::
 :::
@@ -167,7 +170,11 @@ Mapping tools like Minimap2 are well-suited for Nanopore data because they toler
 
 Some reads may map equally well to multiple reference sequences (**multi-mappers**), particularly if the strains have highly similar 16S sequences (for example the different Pseudomonas strains you worked with in the lab). These multi-mapping reads are important to keep in mind when summarizing taxonomic abundances.
 
-Minimap2 is installed by default on Crunchomics.
+Crunchomics already has minimap2 installed. However, it is an older version (`minimap2 --version` prints `2.22-r1105-dirty`). The word "dirty" means that it was built from a changed copy of the code, so nobody else can install exactly this version. So, like for chopper, we install a recent version with mamba:
+
+```{bash}
+mamba create -n minimap2_2.31 -c bioconda minimap2=2.31
+```
 
 ::: {.callout-question .callout-warning collapse=false}
 # Tasks 
@@ -176,7 +183,7 @@ Minimap2 is installed by default on Crunchomics.
 
 We have already prepared a non-redundant database of 16S rRNA gene sequences. Download it to your `data/` folder using: 
 
-```{r}
+```{bash}
 wget https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/refs/heads/main/data/amplicons_nr.fasta -P data
 ```
 
@@ -189,7 +196,8 @@ Next, you will map your filtered reads against the reference database using mini
 Before running, make sure to check all the available options with `minimap2 -h` and then make sure that you:
 
 - Create a folder to store your results
-- Use srun with 2 CPUs and 20G of memory
+- Activate the `minimap2_2.31` environment before you run minimap2, and deactivate it afterwards
+- Use srun with 1 task, 2 CPUs and 20G of memory
 - Use `-cx map-ont` for accurate Nanopore vs reference mapping
 - Ensure that the output is in PAF format
 - Provide both 
@@ -210,14 +218,20 @@ Answer the following questions:
 1. How many alignments are there? Is this number higher or lower than your total number of input reads? Why might that be?
 2. Look at the first 12 columns of the PAF file. Which of these could help you filter unreliable alignments or identify multi-mapping reads?
 
-```{r}
+```{bash}
 # Count the number of reference sequences
-... 
-
-# Generate a suitable output folder 
 ...
 
-# Run minimap2 
+# Generate a suitable output folder
+...
+
+# Activate the minimap2 conda environment
+...
+
+# Run minimap2
+...
+
+# Deactivate the conda environment
 ...
 
 # Count the number of alignments
@@ -234,14 +248,20 @@ grep -c ">"  data/amplicons_nr.fasta
 # Generate a suitable output folder 
 mkdir results/minimap2
 
-# Run minimap2 
-srun --cpus-per-task 2 --mem=20G minimap2 \
+# Activate the minimap2 conda environment
+conda activate minimap2_2.31
+
+# Run minimap2
+srun --ntasks=1 --cpus-per-task=2 --mem=20G minimap2 \
         -cx map-ont -t 2 \
         data/amplicons_nr.fasta \
         results/chopper/barcodeX_filtered.fastq.gz \
         > results/minimap2/barcodeX.paf
 
-# Count number of alignments: 2059 (-1 because of the header)
+# Deactivate the conda environment
+conda deactivate
+
+# Count the number of alignments (example barcode07: 1835)
 wc -l results/minimap2/barcodeX.paf
 
 # Explore the file itself
@@ -250,7 +270,7 @@ less -S results/minimap2/barcodeX.paf
 
 Answer:
 
-1. There are 45,318 alignments for 24,600 reads. If you see more alignments then there are reads, there might be different reasons for that:
+1. For the example file `barcode07`, there are 1,835 alignments for 1,772 reads. Your numbers will be different. If you see more alignments than there are reads, there might be different reasons for that:
    1. If your experiment included Pseudomonas strains you likely will have more alignments than reads. The higher number of alignments occurs because some reads might align equally well to multiple reference 16S sequences, these are multi-mapping reads.
    2. Some reads might only partially or weakly align to highly similar regions in the 16S rRNA gene
 2. Useful PAF columns for assessing alignment reliability include:
@@ -370,12 +390,14 @@ python scripts/paf_to_matrix.py \
   - `otu_table_multimappers.tsv`: A count table based on all alignments, including multi-mappers
   - `otu_table.tsv`: A count table based on only best (primary) hits per read
   - `otu_table_genus.tsv`: A count table summarized at the genus rank
+- Make three histograms: `identity_hist.png`, `qcov_hist.png` and `mapq_hist.png`. They show the identity, the query coverage and the mapping quality of all alignments, before the filtering
 
 Inspect the outputs and answer the following:
 
 1. How many reads were lost due to the filtering? Check the options of `python scripts/paf_to_matrix.py -h` and think about whether there are any parameters you would change in case too many reads were removed?
 2. Are the taxa listed in your count tables consistent with the strains used in your experiment?
 3. Do the relative abundances of taxa match your expectations? If not, what biological or technical factors could explain the differences?
+4. Open the three histograms. To view them, copy them to your own computer, as you did for the NanoPlot output. The script removes alignments with an identity below 0.9, a query coverage below 0.9, or a mapping quality between 1 and 29. Where do these cutoffs fall in your histograms? Which filter do you think removed most of your alignments? Write your answer in your notebook.
 
 ::: {.callout-answer .callout-warning collapse=true}
 # Click to see the answer 
@@ -397,9 +419,18 @@ python scripts/paf_to_matrix.py \
 conda deactivate
 ```
 
-1. About 12% of reads were lost during the filtering. If you had more alignments than reads, the filtered reads were likely secondary (less confident) alignments. You will also loose potential contaminations during this step. That is because reads coming from contaminant bacteria might still map to sequences in the reference database but with much lower sequence identity and therefore will be discarded.
-2. Most reads map to Streptococcus and Lactococcus, consistent with the experiment. A few unassigned reads may come from contamination or poor-quality reads.
-3. Streptococcus had ~10× more reads than Lactococcus. This may indicate stronger growth due to better adaptation to liquid media or competitive advantage in the co-culture.
+1. For the example file `barcode07`, the filtering removed 40 of 1,835 alignments (2%). Note that the summary counts alignments, not reads. If you had more alignments than reads, some of the removed alignments were likely secondary (less confident) alignments. You will also lose potential contaminations during this step. That is because reads coming from contaminant bacteria might still map to sequences in the reference database but with much lower sequence identity, and therefore will be discarded.
+2. Most reads map to Streptococcus and Lactococcus, consistent with the experiment. A few unassigned reads may come from contamination or poor-quality reads (10 reads in `barcode07`).
+3. Streptococcus had ~8× more reads than Lactococcus (1,576 and 186 reads in `barcode07`). This may indicate stronger growth due to better adaptation to liquid media or competitive advantage in the co-culture.
+4. These are the histograms for `barcode07`:
+
+   ![](../img/barcode07_identity_hist.png){width=60%}
+
+   ![](../img/barcode07_qcov_hist.png){width=60%}
+
+   ![](../img/barcode07_mapq_hist.png){width=60%}
+
+   Almost all alignments cover the whole read (query coverage close to 1), and almost all have a mapping quality of 60. A small group has a mapping quality of 0. These are multi-mappers, and the script keeps them. The identity is mostly between 0.92 and 0.99, with a small tail below 0.9. So the identity filter removed most of the alignments: 35 of the 40. An identity of about 0.95 fits the read quality: with a mean quality of about 13.6, roughly 4% of the bases are wrong.
 
 :::
 :::
@@ -454,21 +485,29 @@ Write a `for` loop that reads `barcodes.txt` and copies each fastq file into you
 **Task 3: Run chopper and minimap2 on every barcode**
 
 - Use the same chopper cutoffs that you chose for your first barcode. Then all samples are filtered the same way, and you can compare them. Write the cutoffs in your notebook.
-- Before you run the loop, put `echo` in front of `srun`. The loop then only prints the commands. Do you see one chopper and one minimap2 command per barcode, with the right file names? Then remove the `echo` and run the loop.
+- Before you run the loop, put `echo` in front of `srun`. The loop then only prints the commands. Do you see one chopper command per barcode in the first loop, and one minimap2 command per barcode in the second, with the right file names? Then remove the `echo` and run the loop.
 - While the loop runs, read what chopper prints for each barcode ("Kept ... reads out of ..."). Write the numbers in your notebook.
 
 ```{bash}
-conda activate chopper_0.11.0
+conda activate chopper_0.15.0
 
 for barcode in $(cat barcodes.txt); do
-    echo "Now running: ${barcode}"
+    echo "Now running chopper: ${barcode}"
 
-    srun --cpus-per-task 2 --mem=20G chopper \
+    srun --ntasks=1 --cpus-per-task=2 --mem=20G chopper \
         -i ... \
         ... \
         > results/chopper/${barcode}_filtered.fastq.gz
+done
 
-    srun --cpus-per-task 2 --mem=20G minimap2 \
+conda deactivate
+
+conda activate minimap2_2.31
+
+for barcode in $(cat barcodes.txt); do
+    echo "Now running minimap2: ${barcode}"
+
+    srun --ntasks=1 --cpus-per-task=2 --mem=20G minimap2 \
         ... \
         > results/minimap2/${barcode}.paf
 done
@@ -519,20 +558,28 @@ ls -lh data/*.fastq.gz
 
 # Task 3: chopper and minimap2, once per barcode
 # (use your own chopper cutoffs)
-conda activate chopper_0.11.0
+conda activate chopper_0.15.0
 
 for barcode in $(cat barcodes.txt); do
-    echo "Now running: ${barcode}"
+    echo "Now running chopper: ${barcode}"
 
-    srun --cpus-per-task 2 --mem=20G chopper \
+    srun --ntasks=1 --cpus-per-task=2 --mem=20G chopper \
         -i data/${barcode}.fastq.gz \
         -q 12 \
         --trim-approach trim-by-quality --cutoff 12 \
         --minlength 1400 --maxlength 1540 \
         --threads 2 | gzip \
         > results/chopper/${barcode}_filtered.fastq.gz
+done
 
-    srun --cpus-per-task 2 --mem=20G minimap2 \
+conda deactivate
+
+conda activate minimap2_2.31
+
+for barcode in $(cat barcodes.txt); do
+    echo "Now running minimap2: ${barcode}"
+
+    srun --ntasks=1 --cpus-per-task=2 --mem=20G minimap2 \
         -cx map-ont -t 2 \
         data/amplicons_nr.fasta \
         results/chopper/${barcode}_filtered.fastq.gz \
@@ -549,7 +596,7 @@ ls -lh results/chopper/ results/minimap2/
 wc -l results/minimap2/*.paf
 
 # Task 5: one seqkit file for all barcodes, then one count table
-srun --cpus-per-task=1 --mem=5G seqkit stats results/chopper/*_filtered.fastq.gz \
+srun --ntasks=1 --cpus-per-task=1 --mem=5G seqkit stats results/chopper/*_filtered.fastq.gz \
     -Tao results/seqkit/all_filtered.tsv --threads 1
 
 less -S results/seqkit/all_filtered.tsv
