@@ -248,7 +248,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <!-- DRAFT 2026-11-06. In the book since 2026-11-11. Placeholders are marked [TO FILL IN]. -->
-<p>This page is optional. If you are interested, read it at your own pace after the course. The page is about tools like UvA AI Chat, ChatGPT, Claude or Gemini, and how you can use them for the analysis in this tutorial and still understand what your code does.</p>
+<p>This page is optional. During the tutorial, you don’t use an LLM for your analysis: for questions, ask your teachers. If you finish the other chapters early, you can work through this page instead of the bonus section, and use an LLM for its exercises. If you do, note it in your notebook, as described in <a href="#writing-down-your-use-of-an-llm-in-your-notebook">Writing down your use of an LLM in your notebook</a>. You can also read it after the course, if you want to use LLMs later, for example in your thesis or a research project. Check first how much LLM use is allowed there. The page is about tools like UvA AI Chat, ChatGPT, Claude or Gemini, and how you can use them for the analysis in this tutorial and still understand what your code does.</p>
 <p>All these tools are built on a <strong>large language model (LLM)</strong>: a program that was trained on huge amounts of text, including a lot of code, and that writes an answer by predicting which words are likely to come next. On this page, I use “LLM” for all of these chat tools.</p>
 <p>The short version:</p>
 <ul>
@@ -428,8 +428,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>If you read this then NanoPlot 1.48.0 has crashed :-(
 ...
 AttributeError: PolyCollection.set() got an unexpected keyword argument 'stat_func'</code></pre>
-<p>I searched for the last line of this error in the <a href="https://github.com/wdecoster/NanoPlot/issues">issues of NanoPlot on GitHub</a>, the page where users report problems and the developers answer. It is a known bug, reported in 2023 and again in 2026. The developer explained that the hex plot uses older code that is no longer fully supported. On Crunchomics, NanoPlot 1.46.1 and 1.42.0 made no hex plot either.</p>
-<p>So neither answer gives you a hex plot, and there is no quick fix. For this tutorial, that is fine: we only need the dot plot.</p>
+<p>I searched for the last line of this error in the <a href="https://github.com/wdecoster/NanoPlot/issues">issues of NanoPlot on GitHub</a>, the page where users report problems and the developers answer. It is a known bug, reported in 2023 and again in 2026. So neither answer gives you a hex plot, and there is no quick fix. For this tutorial, that is fine: we only need the dot plot.</p>
 <p><strong>Bugs are normal.</strong> If you paste a crash into an LLM, it may suggest a fix that sounds convincing, even for a bug it doesn’t know about. The developers and other users of the tool know more. Search for the error message in the tool’s GitHub issues, and remove the “is:open” filter, because the answer is often in a closed issue. Sometimes the honest answer is “this doesn’t work right now, use something else”.</p>
 <p>Look at what the crashed run left behind. Its output folder held the dot plot, the histograms and <code>NanoStats.txt</code>. Only <code>NanoPlot-report.html</code> was missing. If you only glance at the folder, the crash is easy to miss.</p>
 <p><strong>Key points</strong></p>
@@ -554,10 +553,7 @@ AttributeError: PolyCollection.set() got an unexpected keyword argument 'stat_fu
 <p>Only the wording of the question changed, not the data. So the numbers came from the question, not from the reads.</p>
 <p>This time, both answers also asked which part of the 16S gene was amplified, or gave different settings for each part. That is a good question, and you know the answer from your lab work.</p>
 <p>UvA AI Chat also wrote the quality option as <code>--min-qual</code>. chopper 0.15.0 doesn’t know this option:</p>
-<pre><code>error: unexpected argument '--min-qual' found
-
-  tip: a similar argument exists: '--maxqual'</code></pre>
-<p>Be careful with this tip. <code>--maxqual</code> sets a <em>maximum</em> quality, the opposite of what you want. The right option is <code>-q</code> or <code>--quality</code> (see <code>chopper -h</code>). A suggestion in an error message is also just a guess, based on similar spelling.</p>
+<pre><code>error: unexpected argument '--min-qual' found</code></pre>
 <p>The LLM has not seen your data, so it can only give typical numbers. Three things decide the right cutoffs, and only you know them:</p>
 <ul>
 <li><strong>The length of your amplicon.</strong> It depends on the primers used in the lab. Your NanoPlot plot shows where the peak is. Short reads are often broken or incomplete. Very long reads are often chimeras (two amplicons joined together)</li>
@@ -565,7 +561,6 @@ AttributeError: PolyCollection.set() got an unexpected keyword argument 'stat_fu
 <li><strong>How many reads you can lose.</strong> If chopper keeps less than 50% of your reads, your settings are too strict (see the chopper task in the long-read chapter)</li>
 </ul>
 <p>Your numbers can be different from all of the above, and that is fine, as long as you can explain them.</p>
-<p><strong>A side note on reading <code>.gz</code> files.</strong> An LLM may suggest <code>gunzip -c data/barcodeX.fastq.gz | chopper ...</code>. That is not wrong. Older versions of chopper could only read from this kind of pipe. Reading a file directly with <code>-i</code> was added in chopper 0.8.0 (April 2024), and reading <code>.gz</code> files in 0.9.0 (August 2024), according to the <a href="https://github.com/wdecoster/chopper/releases">release notes</a>. LLMs have learned from documentation of many versions, so they may suggest the older pattern. Check <code>chopper -h</code> for the version you use. Both ways give the same result: with the settings of UvA AI Chat, <code>gunzip -c ... | chopper</code> and <code>chopper -i ...</code> both kept 1,903 reads.</p>
 <p><strong>Key points</strong></p>
 <ul>
 <li>Settings that change your results come from your own data, not from an LLM</li>
@@ -638,7 +633,6 @@ Fri Nov  6 13:36:31 CET 2026
 Job ended:
 Fri Nov  6 13:36:31 CET 2026</code></pre>
 <p>But the job started and ended in the same second. NanoPlot normally needs about a minute for one barcode. The output folder is empty.</p>
-<p><strong>A trap.</strong> I also submitted the broken script while the <code>nanoplot</code> environment was active in my terminal. The <code>.err</code> file showed the same conda error. But this time NanoPlot ran and made all the plots. The job gets a copy of the settings of your terminal, including the list of folders where it looks for programs. Because <code>nanoplot_1.48.0</code> was active, NanoPlot was on that list. So the same script works or fails depending on what was active when you typed <code>sbatch</code>. Fix the error anyway, even if the output looks fine. Otherwise your results depend on an accident.</p>
 <p><strong>What the LLMs answered.</strong> I asked UvA AI Chat (with Claude Sonnet 4.6) and ChatGPT about the error message only, in November 2026, both without any memory of earlier chats.</p>
 <p>Both explained the problem correctly: a job doesn’t read <code>~/.bashrc</code>, so <code>conda activate</code> fails, so NanoPlot can’t be found. UvA AI Chat also said that <code>conda init</code>, the suggestion in the error message, doesn’t solve the problem.</p>
 <p>Both suggested a different fix than the one in this tutorial: <code>source &lt;your conda folder&gt;/etc/profile.d/conda.sh</code> instead of <code>source ~/.bashrc</code>. That works too. In this tutorial, we use <code>source ~/.bashrc</code> because it is easier to explain: it reads the same setup that your terminal uses. Different from what you learned is not the same as wrong. But stick to one way, and make sure you understand it.</p>
@@ -877,7 +871,7 @@ cut -f1 results/minimap2/barcode07.paf | sort -u | wc -l
 <p>It added a check before each step: skip the step if its output file exists and is not empty (<code>-s</code>). It also added <code>set -euo pipefail</code>, and explained that this line stops a failed chopper run from leaving an empty file behind that the check would then skip.</p>
 <p>I tested this on Crunchomics, with a barcode whose fastq file was missing:</p>
 <ol type="1">
-<li>chopper failed and the job stopped. But the output file <code>barcode99_filtered.fastq.gz</code> was left behind, with a size of 20 bytes: a compressed file without any reads</li>
+<li>chopper failed and the job stopped. But the chopper output file <code>barcode99_filtered.fastq.gz</code> was left behind, with a size of 20 bytes: a compressed file without any reads</li>
 <li>I added the missing fastq file and submitted the job again. The script printed <code>Step 1 already complete, skipping Chopper</code>. The 20-byte file stayed, and seqkit counted 0 reads for this barcode</li>
 </ol>
 <p>So the explanation sounded right, but the check let a broken barcode through. <code>set -e</code> stops the script, but it doesn’t delete the file that the failed step had started. And <code>-s</code> only catches a file of 0 bytes.</p>
@@ -957,7 +951,19 @@ cut -f1 results/minimap2/barcode07.paf | sort -u | wc -l
 </section>
 <section id="writing-down-your-use-of-an-llm-in-your-notebook" class="level2" data-number="7.10">
 <h2 data-number="7.10" class="anchored" data-anchor-id="writing-down-your-use-of-an-llm-in-your-notebook"><span class="header-section-number">7.10</span> Writing down your use of an LLM in your notebook</h2>
-<p>[TO FILL IN: once the notebook format in <code>documentation.qmd</code> is decided. Suggested content: when you used an LLM, which tool, the question you asked (copy it), what you did with the answer, and how you checked it. Your own interpretation of results is written by you, not by an LLM. Also: write down the model, not only the tool. The default model of UvA AI Chat changed between October 2026 (Claude Sonnet 5.5, AWK tutorial) and November 2026 (Claude Sonnet 4.6, this page).]</p>
+<p>In this course, you don’t use an LLM for your analysis. Later, for example in your thesis or in a research project, you may be allowed to. Check the rules of your course or your research group first. If you do use an LLM, add a short section to your notebook, such as <code>## LLM use</code>. You don’t need to write down every question. Write down:</p>
+<ul>
+<li><strong>Which tool and which model, and when.</strong> Write down the model, not only the tool: the default model of a tool can change from one month to the next, and another model can give another answer to the same question</li>
+<li><strong>What you used it for</strong>, for example to explain error messages, or to write a first version of a loop</li>
+<li><strong>How you checked the answers</strong>, for example with the help page of the tool, or with a test on one sample</li>
+</ul>
+<p>Write your interpretation of the results yourself, not with an LLM. That is the part where you show what you understood.</p>
+<p>An example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">## LLM use</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>UvA AI Chat (model: <span class="dt">&lt;</span><span class="kw">model</span><span class="ot"> name</span><span class="dt">&gt;</span>), <span class="dt">&lt;</span><span class="kw">month</span><span class="ot"> and year</span><span class="dt">&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Used for: explaining error messages from my SLURM jobs, and a first version of the loop in <span class="in">`scripts/chopper_loop.sh`</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Checked with: the help pages of chopper and minimap2, and a test run on one barcode before I ran the loop on all barcodes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="further-reading" class="level2" data-number="7.11">
 <h2 data-number="7.11" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">7.11</span> Further reading</h2>

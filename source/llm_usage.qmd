@@ -8,7 +8,7 @@ engine: knitr
 
 <!-- DRAFT 2026-11-06. In the book since 2026-11-11. Placeholders are marked [TO FILL IN]. -->
 
-This page is optional. If you are interested, read it at your own pace after the course. The page is about tools like UvA AI Chat, ChatGPT, Claude or Gemini, and how you can use them for the analysis in this tutorial and still understand what your code does.
+This page is optional. During the tutorial, you don't use an LLM for your analysis: for questions, ask your teachers. If you finish the other chapters early, you can work through this page instead of the bonus section, and use an LLM for its exercises. If you do, note it in your notebook, as described in [Writing down your use of an LLM in your notebook](#writing-down-your-use-of-an-llm-in-your-notebook). You can also read it after the course, if you want to use LLMs later, for example in your thesis or a research project. Check first how much LLM use is allowed there. The page is about tools like UvA AI Chat, ChatGPT, Claude or Gemini, and how you can use them for the analysis in this tutorial and still understand what your code does.
 
 All these tools are built on a **large language model (LLM)**: a program that was trained on huge amounts of text, including a lot of code, and that writes an answer by predicting which words are likely to come next. On this page, I use "LLM" for all of these chat tools.
 
@@ -518,7 +518,23 @@ On my own, this would have taken much longer. Most of that time would have gone 
 
 ## Writing down your use of an LLM in your notebook
 
-\[TO FILL IN: once the notebook format in `documentation.qmd` is decided. Suggested content: when you used an LLM, which tool, the question you asked (copy it), what you did with the answer, and how you checked it. Your own interpretation of results is written by you, not by an LLM. Also: write down the model, not only the tool. The default model of UvA AI Chat changed between October 2026 (Claude Sonnet 5.5, AWK tutorial) and November 2026 (Claude Sonnet 4.6, this page).\]
+In this course, you don't use an LLM for your analysis. Later, for example in your thesis or in a research project, you may be allowed to. Check the rules of your course or your research group first. If you do use an LLM, add a short section to your notebook, such as `## LLM use`. You don't need to write down every question. Write down:
+
+-   **Which tool and which model, and when.** Write down the model, not only the tool: the default model of a tool can change from one month to the next, and another model can give another answer to the same question
+-   **What you used it for**, for example to explain error messages, or to write a first version of a loop
+-   **How you checked the answers**, for example with the help page of the tool, or with a test on one sample
+
+Write your interpretation of the results yourself, not with an LLM. That is the part where you show what you understood.
+
+An example:
+
+```` markdown
+## LLM use
+
+- UvA AI Chat (model: <model name>), <month and year>
+    - Used for: explaining error messages from my SLURM jobs, and a first version of the loop in `scripts/chopper_loop.sh`
+    - Checked with: the help pages of chopper and minimap2, and a test run on one barcode before I ran the loop on all barcodes
+````
 
 ## Further reading
 

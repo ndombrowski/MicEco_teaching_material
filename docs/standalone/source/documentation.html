@@ -3877,13 +3877,11 @@ vertical-align: -.125em;
     <h2 id="toc-title">Contents</h2>
    
   <ul>
-  <li><a href="#choosing-your-editor" id="toc-choosing-your-editor" class="nav-link active" data-scroll-target="#choosing-your-editor"><span class="header-section-number">2.1</span> Choosing your editor</a>
-  <ul class="collapse">
-  <li><a href="#plain-text-editor" id="toc-plain-text-editor" class="nav-link" data-scroll-target="#plain-text-editor"><span class="header-section-number">2.1.1</span> Plain text editor</a></li>
-  <li><a href="#rmarkdown-in-rstudio" id="toc-rmarkdown-in-rstudio" class="nav-link" data-scroll-target="#rmarkdown-in-rstudio"><span class="header-section-number">2.1.2</span> Rmarkdown in RStudio</a></li>
-  <li><a href="#quarto-in-rstudio" id="toc-quarto-in-rstudio" class="nav-link" data-scroll-target="#quarto-in-rstudio"><span class="header-section-number">2.1.3</span> Quarto in Rstudio</a></li>
-  </ul></li>
-  <li><a href="#markdown-for-documentation" id="toc-markdown-for-documentation" class="nav-link" data-scroll-target="#markdown-for-documentation"><span class="header-section-number">2.2</span> Markdown for Documentation</a></li>
+  <li><a href="#what-the-tutorial-asks-you-to-write-down" id="toc-what-the-tutorial-asks-you-to-write-down" class="nav-link active" data-scroll-target="#what-the-tutorial-asks-you-to-write-down"><span class="header-section-number">2.1</span> What the tutorial asks you to write down</a></li>
+  <li><a href="#code-blocks-in-your-notebook" id="toc-code-blocks-in-your-notebook" class="nav-link" data-scroll-target="#code-blocks-in-your-notebook"><span class="header-section-number">2.2</span> Code blocks in your notebook</a></li>
+  <li><a href="#markdown-basics" id="toc-markdown-basics" class="nav-link" data-scroll-target="#markdown-basics"><span class="header-section-number">2.3</span> Markdown basics</a></li>
+  <li><a href="#an-example-notebook" id="toc-an-example-notebook" class="nav-link" data-scroll-target="#an-example-notebook"><span class="header-section-number">2.4</span> An example notebook</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">2.5</span> Further reading</a></li>
   </ul>
 </nav>
     </div>
@@ -3909,128 +3907,117 @@ vertical-align: -.125em;
 </header>
 
 
-<p>Documenting your code is crucial for both your future self and anyone else who might work with your code. Good documentation helps others (and your future self) understand the purpose, functionality, and usage of your scripts. You want to document your code in the same way that you would write a detailed lab notebook.</p>
-<p>For more in-depth guidance, see <a href="https://www.britishecologicalsociety.org/wp-content/uploads/2017/12/guide-to-reproducible-code.pdf">A Guide to Reproducible Code in Ecology and Evolution</a>. While the examples are mainly in R, the principles are general and apply across programming languages.</p>
-<p>To see how code documentation looks like in a real-world context, have a look at an example workflow I wrote for a previous analysis. It shows how to describe each analysis step, software dependency, and command used in a way that allows someone else to reproduce the entire analysis from scratch and for me to remember what I did a month later:</p>
+<p>You already keep a notebook for this course, with your lab work and your plans. In this tutorial, you also use it for your analysis: the commands you run, why you run them, and what you see. You hand in your notebook before your presentation, and your teachers read it to prepare their questions. One part of your grade is about how well you document your work.</p>
+<p>Good notes also help you. A command that makes sense today can be a mystery in a few weeks. With clear notes, you, a fellow student or your teachers can see what you did and why, and run it again.</p>
+<section id="what-the-tutorial-asks-you-to-write-down" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="what-the-tutorial-asks-you-to-write-down"><span class="header-section-number">2.1</span> What the tutorial asks you to write down</h2>
+<p>From the HPC chapter on, blue notebook boxes tell you what to add to your notebook. Step by step, you build up these habits:</p>
 <ul>
-<li>View the <a href="https://github.com/ndombrowski/example_repo/blob/main/scripts/nanoclass_workflow.qmd">raw code</a></li>
-<li>View the <a href="https://ndombrowski.github.io/example_repo/scripts/nanoclass_workflow.html">rendered HTML version</a></li>
+<li>A comment above each command: what it does, and if it is not obvious, why</li>
+<li>Where your data came from, and when you got it</li>
+<li>A check after each step that makes or changes files, for example with <code>ls</code> or <code>wc -l</code></li>
+<li>One sentence after each number or figure: what it means for your data</li>
+<li>Your choices, and why you made them, for example the cutoffs for quality filtering</li>
+<li>Once you work on the HPC: where each command ran, with <code># On my computer</code> or <code># On Crunchomics</code></li>
 </ul>
-<p>This workflow documents a 16S rRNA gene amplicon analysis from Winogradsky columns, including:</p>
+<p>Some boxes ask you to add these sections to your notebook:</p>
 <ul>
-<li>A project description and sample metadata table</li>
-<li>All software dependencies and environment versions</li>
-<li>The bash commands that were used for data inspection, merging, and quality control</li>
-<li>Comments explaining why a step was done</li>
-<li>A structured layout (headings, subheadings, results summaries)</li>
+<li><code>## Software</code>: the tools you used, their versions, and where they came from. This goes near the top</li>
+<li><code>## Error log</code>: the errors you got, and how you fixed them</li>
+<li><code>## Questions</code>: anything that is still unclear</li>
 </ul>
-<p>Even if you don’t understand all commands yet, notice how it reads almost like a lab notebook for code where each step has context, rationale, and description of the results.</p>
-<section id="choosing-your-editor" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="choosing-your-editor"><span class="header-section-number">2.1</span> Choosing your editor</h2>
-<section id="plain-text-editor" class="level3" data-number="2.1.1">
-<h3 data-number="2.1.1" class="anchored" data-anchor-id="plain-text-editor"><span class="header-section-number">2.1.1</span> Plain text editor</h3>
-<p>Avoid visual editors like Word, as they are not designed for code and can change syntax by, for example, replacing backticks (`) with apostrophes (').</p>
-<p>One of the easiest solutions is to use a <strong>plain text editor</strong>, such as:</p>
+</section>
+<section id="code-blocks-in-your-notebook" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="code-blocks-in-your-notebook"><span class="header-section-number">2.2</span> Code blocks in your notebook</h2>
+<p>Your notebook is a Quarto (<code>.qmd</code>) or R Markdown (<code>.Rmd</code>) file. In both, a code block starts and ends with three backticks. What you write right after the first three backticks decides what happens to the code:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This block is only shown. It is not run.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> data</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="in">```{bash}</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># This block is run when you render your notebook.</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> data</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># This R block is also run when you render your notebook.</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For the commands from this tutorial, always use <code>```bash</code>, without curly brackets. These commands run on Crunchomics, in a project folder that does not exist on your own computer. In a <code>```{bash}</code> block, your notebook would try to run them on your computer when you render it, and stop with an error.</p>
+<p>Use <code>```{r}</code> for R code that you run yourself, for example when you analyse your count table.</p>
+</section>
+<section id="markdown-basics" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="markdown-basics"><span class="header-section-number">2.3</span> Markdown basics</h2>
+<p>The text around your code blocks is written in Markdown. These are the basics you need most:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>You type</th>
+<th>You get</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code># Heading</code>, <code>## Smaller heading</code></td>
+<td>headings (leave a space after the <code>#</code>)</td>
+</tr>
+<tr class="even">
+<td><code>- item</code> at the start of a line</td>
+<td>a bullet point</td>
+</tr>
+<tr class="odd">
+<td><code>1. item</code> at the start of a line</td>
+<td>a numbered list</td>
+</tr>
+<tr class="even">
+<td><code>**bold**</code>, <code>*italic*</code></td>
+<td><strong>bold</strong>, <em>italic</em></td>
+</tr>
+<tr class="odd">
+<td><code>`ls -l`</code></td>
+<td><code>ls -l</code>, for a command or file name inside a sentence</td>
+</tr>
+<tr class="even">
+<td><code>[link text](https://quarto.org)</code></td>
+<td>a link</td>
+</tr>
+<tr class="odd">
+<td><code>![](path/to/figure.png)</code></td>
+<td>a figure</td>
+</tr>
+</tbody>
+</table>
+<p>Leave an empty line before a heading, a list and a code block. Otherwise, Markdown may not recognise them.</p>
+<p>Notice that <code>#</code> means something different in two places. In normal text, it starts a heading. Inside a code block, it starts a comment.</p>
+<p><a href="https://quarto.org/docs/authoring/markdown-basics.html">Markdown Basics</a> on the Quarto website lists everything else you can do with Markdown.</p>
+</section>
+<section id="an-example-notebook" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="an-example-notebook"><span class="header-section-number">2.4</span> An example notebook</h2>
+<p>To see what a notebook for this kind of analysis can look like, have a look at <a href="https://ndombrowski.github.io/MicEco_teaching_material/source/miceco_analysis.html">my notebook for the analysis of last year’s student data</a>. The <a href="https://github.com/ndombrowski/MicEco_teaching_material/blob/main/source/miceco_analysis.qmd">Quarto file behind it</a> is on GitHub.</p>
+<p>This notebook is my own working record of the analysis of last year’s student data. It uses the same steps as this tutorial, but runs them on all samples and goes further, so it also shows checks, side tracks and dead ends. Your notebook does not need to be this long. It shows what a notebook can look like once an analysis grows.</p>
+<p>Things to look for:</p>
 <ul>
-<li><strong>TextEdit</strong> (Mac)</li>
-<li><strong>Notepad++</strong> (Windows)</li>
+<li>A short project description at the top</li>
+<li>The software, with versions</li>
+<li>Comments above the commands, and notes on the results between the code blocks</li>
 </ul>
-<p>These editors allow you to write and save code safely, but they lack features like syntax highlighting or integrated code execution.</p>
+<p>My notebook uses another way to keep the bash code from running: a setting at the top of the file (<code>eval: false</code>). For your notebook, <code>```bash</code> is simpler.</p>
 </section>
-<section id="rmarkdown-in-rstudio" class="level3" data-number="2.1.2">
-<h3 data-number="2.1.2" class="anchored" data-anchor-id="rmarkdown-in-rstudio"><span class="header-section-number">2.1.2</span> Rmarkdown in RStudio</h3>
-<p><strong>RMarkdown</strong> combines plain text, code, and documentation in one document. You can write your analysis and explanatory text together, then “knit” the document to HTML, PDF, or Word.</p>
-<p>To create an RMarkdown file in RStudio:</p>
-<ol type="1">
-<li>Go to <strong>File → New File → R Markdown</strong></li>
-<li>Choose a <strong>title</strong>, <strong>author</strong>, and <strong>output format</strong></li>
-<li>Write your code and text</li>
-<li>Click <strong>Knit</strong> to render the document</li>
-</ol>
-<p>More info: <a href="https://rmarkdown.rstudio.com/lesson-1.html">RMarkdown tutorial</a></p>
-</section>
-<section id="quarto-in-rstudio" class="level3" data-number="2.1.3">
-<h3 data-number="2.1.3" class="anchored" data-anchor-id="quarto-in-rstudio"><span class="header-section-number">2.1.3</span> Quarto in Rstudio</h3>
-<p><strong>Quarto</strong> is a next-generation alternative to RMarkdown. It supports R, Python, and other languages, and offers more output formats and customization options. Quarto was also used to generate this tutorial.</p>
-<p>To create a Quarto document:</p>
-<ol type="1">
-<li>Go to <strong>File → New File → Quarto Document</strong></li>
-<li>Choose a <strong>title</strong>, <strong>author</strong>, and <strong>output format</strong></li>
-<li>Click <strong>Render</strong> to generate your document</li>
-</ol>
-<p>More info: <a href="https://quarto.org/docs/get-started/hello/rstudio.html">Quarto documentation</a></p>
-</section>
-</section>
-<section id="markdown-for-documentation" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="markdown-for-documentation"><span class="header-section-number">2.2</span> Markdown for Documentation</h2>
-<p>Markdown is a lightweight language for formatting text in your plain text, Rmarkdown or Quarto document. You can easily add headers, lists, links, code, images, and tables.</p>
-<p><strong>Headers:</strong></p>
-<p>Use <code>#</code> to add a header and separate different sections of your documentation. The more <code>#</code> symbols you use after each other, the smaller the header will be. When writing a header make sure to always put a space between the <code>#</code> and the header name:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Main Header</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">## Subheader</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Lists:</strong></p>
-<p>Use <code>-</code> or <code>*</code> for unordered lists and numbers for ordered lists.</p>
-<p>Ordered lists are created by using numbers followed by periods. The numbers do not have to be in numerical order, but the list should start with the number one.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>First item</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Second item</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Third item</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Fourth item </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>First item</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Second item</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Third item</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ss">    1. </span>Indented item</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ss">    2. </span>Indented item</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Fourth item </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Unordered lists are created using dashes (<code>-</code>), asterisks (<code>*</code>), or plus signs (<code>+</code>) in front of line items. Indent one or more items to create a nested list.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>First item</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Second item</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Third item</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Fourth item </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ss"> - </span>First item</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Second item</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Third item</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Indented item</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Indented item</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Fourth item </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>You can also combine ordered with unordered lists:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>First item</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Second item</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Third item</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Indented item</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Indented item</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Fourth item</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Code Blocks:</strong></p>
-<p>Enclose code snippets in triple backticks followed by the computational language, i.e.&nbsp;bash or r, used.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"control"</span> downloads/Experiment1.txt</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Some editors also use the following syntax:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{bash}</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"control"</span> downloads/Experiment1.txt</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Links:</strong></p>
-<p>You can easily add links to external resources as follows:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Link Text</span><span class="co">](https://www.example.com)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Emphasis:</strong></p>
-<p>You can use <code>*</code> or <code>_</code> to write italic and <code>**</code> or <code>__</code> for bold text.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>*italic*</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>**bold**</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Pictures</strong></p>
-<p>You can also add images to your documentation as follows:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="al">![Alt Text](path/to/your/image.jpg)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Here, replace <code>Alt Text</code> with a descriptive alternative text for your image, and <code>path/to/your/image.jpg</code> with the actual path or URL of your image.</p>
-<p><strong>Tables</strong></p>
-<p>Tables can be useful for organizing information. Here’s a simple table:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Header 1 <span class="pp">|</span> Header 2 <span class="pp">|</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="pp">| ---------| ---------|</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Content 1<span class="pp">|</span> Content 2<span class="pp">|</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Content 3<span class="pp">|</span> Content 4<span class="pp">|</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section></main></div>
+<section id="further-reading" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">2.5</span> Further reading</h2>
+<ul>
+<li><a href="https://assets.britishecologicalsociety.org/2017/12/guide-to-reproducible-code.pdf">A Guide to Reproducible Code in Ecology and Evolution</a> from the British Ecological Society: how to organise project folders and write code that others can run again. The examples are mostly in R, but the advice applies to bash too</li>
+</ul>
 
 
+</section>
 
-
- <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -4431,7 +4418,7 @@ vertical-align: -.125em;
     }
   });
   </script>
- <!-- /content -->
+</div> <!-- /content -->
 
 
 

@@ -482,6 +482,19 @@ flowchart LR
 
 
 
+## Practical part {.smaller}
+
+Today you will:
+
+1. Finish the tutorial on your own barcode, up to the count table
+2. Get the count table with the samples of all groups, and the code that made it
+3. Analyse the table and make your own figures, at least a barplot of your samples
+4. Optional, if you have time left: the bonus section (a loop over all your barcodes) or the page on LLMs
+
+Keep writing everything in your notebook. You hand it in before your presentation.
+
+
+
 ## Statistics {.smaller visibility="hidden"}
 
 ```{r}

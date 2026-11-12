@@ -238,9 +238,11 @@ window.Quarto = {
   <li><a href="#chopper-quality-cleaning" id="toc-chopper-quality-cleaning" class="nav-link active" data-scroll-target="#chopper-quality-cleaning"><span class="header-section-number">6.1</span> <code>chopper</code>: Quality cleaning</a></li>
   <li><a href="#minimap2-map-reads-to-reference-database" id="toc-minimap2-map-reads-to-reference-database" class="nav-link" data-scroll-target="#minimap2-map-reads-to-reference-database"><span class="header-section-number">6.2</span> <code>Minimap2</code>: Map reads to reference database</a></li>
   <li><a href="#generate-a-count-table" id="toc-generate-a-count-table" class="nav-link" data-scroll-target="#generate-a-count-table"><span class="header-section-number">6.3</span> Generate a count table</a></li>
-  <li><a href="#bonus-run-the-workflow-on-all-your-barcodes-optional" id="toc-bonus-run-the-workflow-on-all-your-barcodes-optional" class="nav-link" data-scroll-target="#bonus-run-the-workflow-on-all-your-barcodes-optional"><span class="header-section-number">6.4</span> Bonus: run the workflow on all your barcodes (optional)</a>
+  <li><a href="#wrapping-up" id="toc-wrapping-up" class="nav-link" data-scroll-target="#wrapping-up"><span class="header-section-number">6.4</span> Wrapping up</a></li>
+  <li><a href="#your-own-analysis-of-the-count-table" id="toc-your-own-analysis-of-the-count-table" class="nav-link" data-scroll-target="#your-own-analysis-of-the-count-table"><span class="header-section-number">6.5</span> Your own analysis of the count table</a></li>
+  <li><a href="#bonus-run-the-workflow-on-all-your-barcodes-optional" id="toc-bonus-run-the-workflow-on-all-your-barcodes-optional" class="nav-link" data-scroll-target="#bonus-run-the-workflow-on-all-your-barcodes-optional"><span class="header-section-number">6.6</span> Bonus: run the workflow on all your barcodes (optional)</a>
   <ul class="collapse">
-  <li><a href="#which-steps-run-once-per-barcode" id="toc-which-steps-run-once-per-barcode" class="nav-link" data-scroll-target="#which-steps-run-once-per-barcode"><span class="header-section-number">6.4.1</span> Which steps run once per barcode?</a></li>
+  <li><a href="#which-steps-run-once-per-barcode" id="toc-which-steps-run-once-per-barcode" class="nav-link" data-scroll-target="#which-steps-run-once-per-barcode"><span class="header-section-number">6.6.1</span> Which steps run once per barcode?</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -273,6 +275,12 @@ window.Quarto = {
 <li>Align the quality filtered reads to a reference database</li>
 <li>Generate a count matrix</li>
 </ul>
+<p>This chapter has three parts:</p>
+<ol type="1">
+<li><strong>The tutorial</strong>: you run the workflow on one of your barcodes, from quality filtering to a count table</li>
+<li><strong>Your own analysis</strong>: during day 2, you get a count table with the samples of all groups, and the code that made it. You analyse the table yourself, and you make your own figures for your presentation</li>
+<li><strong>Optional, if you have time left</strong>: run the workflow on all your barcodes with a loop (bonus section), or work through the page on <a href="../source/llm_usage.html">LLMs</a></li>
+</ol>
 <p><strong>Important</strong>: All of this should be run on the Crunchomics HPC, so be sure that you connected with <code>ssh -X user@omics-h0.science.uva.nl</code>.</p>
 <section id="chopper-quality-cleaning" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="chopper-quality-cleaning"><span class="header-section-number">6.1</span> <code>chopper</code>: Quality cleaning</h2>
@@ -414,6 +422,30 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-notebook callout-titled" title="Notebook checkpoint: Quality filtering with chopper">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Notebook</span>Notebook checkpoint: Quality filtering with chopper
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>The chopper cutoffs decide which reads you keep. This is a scientific choice, so your notebook needs to say why you chose them.</p>
+<p>Add a heading <code>### Quality filtering with chopper</code>, and below it:</p>
+<ol type="1">
+<li>The chopper version and the <code>mamba create</code> command, in your <code>## Software</code> section</li>
+<li>The chopper command, with a comment for each cutoff</li>
+<li>Below the code block: why you chose these cutoffs. Point to what you saw in your NanoPlot plot before filtering</li>
+<li>The line that chopper printed (“Kept … reads out of …”), and the share of reads you kept, in %. If you changed your cutoffs after a first try, write down both tries and why you changed them</li>
+<li>The NanoPlot and seqkit commands for the filtered reads, and in one or two sentences, how the length vs quality plot changed</li>
+</ol>
+</div>
+</div>
+</div>
 </section>
 <section id="minimap2-map-reads-to-reference-database" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="minimap2-map-reads-to-reference-database"><span class="header-section-number">6.2</span> <code>Minimap2</code>: Map reads to reference database</h2>
@@ -439,7 +471,7 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> minimap2_2.31 <span class="at">-c</span> bioconda minimap2=2.31</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-question callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -448,7 +480,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse show">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p><strong>Task 1: Get the reference database</strong></p>
 <p>We have already prepared a non-redundant database of 16S rRNA gene sequences. Download it to your <code>data/</code> folder using:</p>
@@ -504,7 +536,7 @@ window.Quarto = {
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-answer callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -513,7 +545,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the number of reference sequences</span></span>
@@ -621,6 +653,28 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-notebook callout-titled" title="Notebook checkpoint: Mapping with minimap2">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Notebook</span>Notebook checkpoint: Mapping with minimap2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Add a heading <code>### Mapping with minimap2</code>, and below it:</p>
+<ol type="1">
+<li>The minimap2 version and the <code>mamba create</code> command, in your <code>## Software</code> section</li>
+<li>The download of <code>amplicons_nr.fasta</code>, with where the link came from and the date, and below it, how many reference sequences the file has</li>
+<li>The minimap2 command, and the check you ran afterwards</li>
+<li>Below the code block: the number of alignments and the number of filtered reads. If they differ, write down why you think they differ. Did your community include strains with very similar 16S sequences?</li>
+</ol>
+</div>
+</div>
+</div>
 </section>
 <section id="generate-a-count-table" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="generate-a-count-table"><span class="header-section-number">6.3</span> Generate a count table</h2>
@@ -643,7 +697,7 @@ window.Quarto = {
 <li>Summarize and visualize results reproducible</li>
 </ul>
 <div class="callout callout-style-default callout-question callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -652,7 +706,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse show">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p><strong>Task 1: Install the necessary software</strong></p>
 <p>To run the required software, we first need to install some packages to parse the data. You can do this by running the following:</p>
@@ -719,11 +773,11 @@ window.Quarto = {
 <ol type="1">
 <li>How many reads were lost due to the filtering? Check the options of <code>python scripts/paf_to_matrix.py -h</code> and think about whether there are any parameters you would change in case too many reads were removed?</li>
 <li>Are the taxa listed in your count tables consistent with the strains used in your experiment?</li>
-<li>Do the relative abundances of taxa match your expectations? If not, what biological or technical factors could explain the differences?</li>
+<li>Do the relative abundances of taxa match your expectations? If not, what biological or technical factors could explain the differences? Hint: in the <a href="../source/cli.html">command line chapter</a>, you saw that strains can carry different numbers of 16S copies.</li>
 <li>Open the three histograms. To view them, copy them to your own computer, as you did for the NanoPlot output. The script removes alignments with an identity below 0.9, a query coverage below 0.9, or a mapping quality between 1 and 29. Where do these cutoffs fall in your histograms? Which filter do you think removed most of your alignments? Write your answer in your notebook.</li>
 </ol>
 <div class="callout callout-style-default callout-answer callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -732,7 +786,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Activate the python conda environment </span></span>
@@ -753,7 +807,7 @@ window.Quarto = {
 <ol type="1">
 <li><p>For the example file <code>barcode07</code>, the filtering removed 40 of 1,835 alignments (2%). Note that the summary counts alignments, not reads. If you had more alignments than reads, some of the removed alignments were likely secondary (less confident) alignments. You will also lose potential contaminations during this step. That is because reads coming from contaminant bacteria might still map to sequences in the reference database but with much lower sequence identity, and therefore will be discarded.</p></li>
 <li><p>Most reads map to Streptococcus and Lactococcus, consistent with the experiment. A few unassigned reads may come from contamination or poor-quality reads (10 reads in <code>barcode07</code>).</p></li>
-<li><p>Streptococcus had ~8× more reads than Lactococcus (1,576 and 186 reads in <code>barcode07</code>). This may indicate stronger growth due to better adaptation to liquid media or competitive advantage in the co-culture.</p></li>
+<li><p>Streptococcus had ~8× more reads than Lactococcus (1,576 and 186 reads in <code>barcode07</code>). This may indicate stronger growth due to better adaptation to liquid media or competitive advantage in the co-culture. The 16S copy number can also play a role: a strain with more 16S copies gives more reads per cell, so read counts are not the same as cell numbers.</p></li>
 <li><p>These are the histograms for <code>barcode07</code>:</p>
 <p><a href="../img/barcode07_identity_hist.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="../img/barcode07_identity_hist.png" class="img-fluid" style="width:60.0%"></a></p>
 <p><a href="../img/barcode07_qcov_hist.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="../img/barcode07_qcov_hist.png" class="img-fluid" style="width:60.0%"></a></p>
@@ -766,17 +820,112 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-notebook callout-titled" title="Notebook checkpoint: Count table">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Notebook</span>Notebook checkpoint: Count table
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Add a heading <code>### Count table</code>, and below it:</p>
+<ol type="1">
+<li>The Python environment in your <code>## Software</code> section</li>
+<li>The downloads of <code>paf_to_matrix.py</code> and <code>accession_to_genus.tsv</code>, with where the links came from and the date</li>
+<li>The <code>paf_to_matrix.py</code> command, and the filter cutoffs it used. They are the defaults, see <code>python scripts/paf_to_matrix.py -h</code></li>
+<li>The summary that the script printed: how many alignments were removed, and by which filter</li>
+<li>Your answers to questions 1-4 of Task 4, in your own words. For question 2, compare the genera in <code>otu_table_genus.tsv</code> with the strains in your community from your lab notes</li>
+</ol>
+</div>
+</div>
+</div>
 </section>
-<section id="bonus-run-the-workflow-on-all-your-barcodes-optional" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="bonus-run-the-workflow-on-all-your-barcodes-optional"><span class="header-section-number">6.4</span> Bonus: run the workflow on all your barcodes (optional)</h2>
+<section id="wrapping-up" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="wrapping-up"><span class="header-section-number">6.4</span> Wrapping up</h2>
+<p>You now have a count table for one of your samples.</p>
+<div class="callout callout-style-default callout-notebook callout-titled" title="Notebook checkpoint: Tidy your notebook">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Notebook</span>Notebook checkpoint: Tidy your notebook
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Read the analysis from the top. Could someone go from your raw reads to your count table with your notebook alone?</li>
+<li>Is every number followed by a sentence on what it means?</li>
+<li>Add anything that is still unclear to your <code>## Questions</code></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="your-own-analysis-of-the-count-table" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="your-own-analysis-of-the-count-table"><span class="header-section-number">6.5</span> Your own analysis of the count table</h2>
+<p>When you have finished the tutorial, you get a count table with the samples of all groups, and the code that made it. The table was made with the same steps as your own barcode. Each group tested its own strain combinations, but other groups worked with related questions on human or soil strains. So you can also compare your samples with theirs. How far you go is up to you. For your presentation, you need at least your own figures of your own samples, for example a barplot of the genera in each sample.</p>
+<div class="callout callout-style-default callout-notebook callout-titled" title="Notebook checkpoint: Your own analysis">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Notebook</span>Notebook checkpoint: Your own analysis
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Add a heading <code>## Analysis of the count table</code>, and below it:</p>
+<ol type="1">
+<li>Where the count table came from, and when you got it. Write that it was made with the same steps as in the tutorial</li>
+<li>Which samples you analysed: your own (barcode, community and day), and any samples of other groups, with the reason why you chose them</li>
+<li>Your code, in code blocks, with a comment above each step</li>
+<li>Each figure, with one or two sentences below it: what it shows, and what it means for your hypothesis</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-notebook callout-titled" title="Notebook checkpoint: Before you hand in">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Notebook</span>Notebook checkpoint: Before you hand in
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Your teachers read your notebook before your presentation, to prepare their questions. Take some time to make it complete.</p>
+<ol type="1">
+<li>At the top: does your notebook say what your community is, what your hypothesis was, and which samples you sequenced?</li>
+<li><code>## Software</code>: is every tool there, with its version and where it came from (pre-installed or a conda environment)?</li>
+<li>Read your notebook from the top. Could someone repeat your work, from the lab to your figures, with your notebook alone?</li>
+<li><code>## Error log</code> and <code>## Questions</code>: is anything still open?</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="bonus-run-the-workflow-on-all-your-barcodes-optional" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="bonus-run-the-workflow-on-all-your-barcodes-optional"><span class="header-section-number">6.6</span> Bonus: run the workflow on all your barcodes (optional)</h2>
 <p>So far you analysed one barcode, your largest file. In the practical you prepared more samples than that, for example your community at day 0 and at day 2. In this bonus section you run chopper and minimap2 on all your barcodes with a <code>for</code> loop. Then you make one count table with one column per barcode.</p>
-<p>You don’t need this section for the rest of the course. After the workshop you get the full count table for all samples, and the code that made it. Do this section if you have time left, or if you want to see how that table was made.</p>
+<p>You don’t need this section for the rest of the course. You get the count table for all samples during day 2, together with the code that made it. Do this section if you have time left, or if you want to see how that table was made.</p>
 <p>How long does it take? On the practical data, chopper takes about 6 seconds per barcode and minimap2 20 to 40 seconds. For 4 to 6 barcodes, the whole section runs in a few minutes. So <code>srun</code> is enough and you don’t need a job script.</p>
-<section id="which-steps-run-once-per-barcode" class="level3" data-number="6.4.1">
-<h3 data-number="6.4.1" class="anchored" data-anchor-id="which-steps-run-once-per-barcode"><span class="header-section-number">6.4.1</span> Which steps run once per barcode?</h3>
+<section id="which-steps-run-once-per-barcode" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="which-steps-run-once-per-barcode"><span class="header-section-number">6.6.1</span> Which steps run once per barcode?</h3>
 <p>In <a href="../source/cli.html#working-with-multiple-files">Working with multiple files</a> you used a <code>for</code> loop to download one file per accession. The same pattern runs a command once per barcode. But not every step should go inside the loop. Before you write the loop, look at what each step reads and what it makes.</p>
 <div class="callout callout-style-default callout-question callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -785,7 +934,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse show">
+<div id="callout-14" class="callout-14-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p>Which steps should run once per barcode, inside the loop? Which should run only once, after the loop?</p>
 <ul>
@@ -796,7 +945,7 @@ window.Quarto = {
 </ul>
 <p>Hint: run <code>python scripts/paf_to_matrix.py -h</code> and read what <code>-i</code> and <code>-s</code> expect. Keep in mind what you want at the end: one count table, with one column per barcode.</p>
 <div class="callout callout-style-default callout-answer callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -805,7 +954,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><strong>chopper and minimap2: once per barcode.</strong> Each reads one fastq file and makes one output file for that barcode.</li>
@@ -819,7 +968,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout callout-style-default callout-question callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -828,7 +977,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse show">
+<div id="callout-16" class="callout-16-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p><strong>Task 1: List your barcodes</strong></p>
 <ul>
@@ -892,7 +1041,7 @@ window.Quarto = {
 </ol>
 <p>Write the answers in your notebook.</p>
 <div class="callout callout-style-default callout-answer callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -901,7 +1050,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 1: list the barcodes</span></span>
@@ -987,20 +1136,6 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Using an LLM for this loop">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Using an LLM for this loop
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>You can ask an LLM to turn your commands for one barcode into a loop. If you do, paste the output of <code>python scripts/paf_to_matrix.py -h</code> into your question. When we prepared this course, every answer we got without the <code>-h</code> text did this step wrong. Some put the script inside the loop. One gave <code>-s</code> several files, which makes the script stop with an error. With the <code>-h</code> text, the answer was correct.</p>
-<p>LLMs also often add lines that you didn’t ask for, such as checks that skip a barcode. Read <a href="../source/llm_usage.html#lines-that-llms-add-to-loops-and-job-scripts">Lines that LLMs add to loops and job scripts</a> before you run such a script. This works with any chat tool, including free ones: you only paste text.</p>
 </div>
 </div>
 

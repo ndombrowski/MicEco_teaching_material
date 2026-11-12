@@ -4044,9 +4044,11 @@ window.Quarto = {
   <li><a href="#chopper-quality-cleaning" id="toc-chopper-quality-cleaning" class="nav-link active" data-scroll-target="#chopper-quality-cleaning"><span class="header-section-number">6.1</span> <code>chopper</code>: Quality cleaning</a></li>
   <li><a href="#minimap2-map-reads-to-reference-database" id="toc-minimap2-map-reads-to-reference-database" class="nav-link" data-scroll-target="#minimap2-map-reads-to-reference-database"><span class="header-section-number">6.2</span> <code>Minimap2</code>: Map reads to reference database</a></li>
   <li><a href="#generate-a-count-table" id="toc-generate-a-count-table" class="nav-link" data-scroll-target="#generate-a-count-table"><span class="header-section-number">6.3</span> Generate a count table</a></li>
-  <li><a href="#bonus-run-the-workflow-on-all-your-barcodes-optional" id="toc-bonus-run-the-workflow-on-all-your-barcodes-optional" class="nav-link" data-scroll-target="#bonus-run-the-workflow-on-all-your-barcodes-optional"><span class="header-section-number">6.4</span> Bonus: run the workflow on all your barcodes (optional)</a>
+  <li><a href="#wrapping-up" id="toc-wrapping-up" class="nav-link" data-scroll-target="#wrapping-up"><span class="header-section-number">6.4</span> Wrapping up</a></li>
+  <li><a href="#your-own-analysis-of-the-count-table" id="toc-your-own-analysis-of-the-count-table" class="nav-link" data-scroll-target="#your-own-analysis-of-the-count-table"><span class="header-section-number">6.5</span> Your own analysis of the count table</a></li>
+  <li><a href="#bonus-run-the-workflow-on-all-your-barcodes-optional" id="toc-bonus-run-the-workflow-on-all-your-barcodes-optional" class="nav-link" data-scroll-target="#bonus-run-the-workflow-on-all-your-barcodes-optional"><span class="header-section-number">6.6</span> Bonus: run the workflow on all your barcodes (optional)</a>
   <ul class="collapse">
-  <li><a href="#which-steps-run-once-per-barcode" id="toc-which-steps-run-once-per-barcode" class="nav-link" data-scroll-target="#which-steps-run-once-per-barcode"><span class="header-section-number">6.4.1</span> Which steps run once per barcode?</a></li>
+  <li><a href="#which-steps-run-once-per-barcode" id="toc-which-steps-run-once-per-barcode" class="nav-link" data-scroll-target="#which-steps-run-once-per-barcode"><span class="header-section-number">6.6.1</span> Which steps run once per barcode?</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -4079,6 +4081,12 @@ window.Quarto = {
 <li>Align the quality filtered reads to a reference database</li>
 <li>Generate a count matrix</li>
 </ul>
+<p>This chapter has three parts:</p>
+<ol type="1">
+<li><strong>The tutorial</strong>: you run the workflow on one of your barcodes, from quality filtering to a count table</li>
+<li><strong>Your own analysis</strong>: during day 2, you get a count table with the samples of all groups, and the code that made it. You analyse the table yourself, and you make your own figures for your presentation</li>
+<li><strong>Optional, if you have time left</strong>: run the workflow on all your barcodes with a loop (bonus section), or work through the page on <a href="../source/llm_usage.html">LLMs</a></li>
+</ol>
 <p><strong>Important</strong>: All of this should be run on the Crunchomics HPC, so be sure that you connected with <code>ssh -X user@omics-h0.science.uva.nl</code>.</p>
 <section id="chopper-quality-cleaning" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="chopper-quality-cleaning"><span class="header-section-number">6.1</span> <code>chopper</code>: Quality cleaning</h2>
@@ -4220,6 +4228,30 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-notebook callout-titled" title="Notebook checkpoint: Quality filtering with chopper">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Notebook</span>Notebook checkpoint: Quality filtering with chopper
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>The chopper cutoffs decide which reads you keep. This is a scientific choice, so your notebook needs to say why you chose them.</p>
+<p>Add a heading <code>### Quality filtering with chopper</code>, and below it:</p>
+<ol type="1">
+<li>The chopper version and the <code>mamba create</code> command, in your <code>## Software</code> section</li>
+<li>The chopper command, with a comment for each cutoff</li>
+<li>Below the code block: why you chose these cutoffs. Point to what you saw in your NanoPlot plot before filtering</li>
+<li>The line that chopper printed (“Kept … reads out of …”), and the share of reads you kept, in %. If you changed your cutoffs after a first try, write down both tries and why you changed them</li>
+<li>The NanoPlot and seqkit commands for the filtered reads, and in one or two sentences, how the length vs quality plot changed</li>
+</ol>
+</div>
+</div>
+</div>
 </section>
 <section id="minimap2-map-reads-to-reference-database" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="minimap2-map-reads-to-reference-database"><span class="header-section-number">6.2</span> <code>Minimap2</code>: Map reads to reference database</h2>
@@ -4245,7 +4277,7 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> minimap2_2.31 <span class="at">-c</span> bioconda minimap2=2.31</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-question callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -4254,7 +4286,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse show">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p><strong>Task 1: Get the reference database</strong></p>
 <p>We have already prepared a non-redundant database of 16S rRNA gene sequences. Download it to your <code>data/</code> folder using:</p>
@@ -4310,7 +4342,7 @@ window.Quarto = {
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-answer callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -4319,7 +4351,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the number of reference sequences</span></span>
@@ -4427,6 +4459,28 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-notebook callout-titled" title="Notebook checkpoint: Mapping with minimap2">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Notebook</span>Notebook checkpoint: Mapping with minimap2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Add a heading <code>### Mapping with minimap2</code>, and below it:</p>
+<ol type="1">
+<li>The minimap2 version and the <code>mamba create</code> command, in your <code>## Software</code> section</li>
+<li>The download of <code>amplicons_nr.fasta</code>, with where the link came from and the date, and below it, how many reference sequences the file has</li>
+<li>The minimap2 command, and the check you ran afterwards</li>
+<li>Below the code block: the number of alignments and the number of filtered reads. If they differ, write down why you think they differ. Did your community include strains with very similar 16S sequences?</li>
+</ol>
+</div>
+</div>
+</div>
 </section>
 <section id="generate-a-count-table" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="generate-a-count-table"><span class="header-section-number">6.3</span> Generate a count table</h2>
@@ -4449,7 +4503,7 @@ window.Quarto = {
 <li>Summarize and visualize results reproducible</li>
 </ul>
 <div class="callout callout-style-default callout-question callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -4458,7 +4512,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse show">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p><strong>Task 1: Install the necessary software</strong></p>
 <p>To run the required software, we first need to install some packages to parse the data. You can do this by running the following:</p>
@@ -4525,11 +4579,11 @@ window.Quarto = {
 <ol type="1">
 <li>How many reads were lost due to the filtering? Check the options of <code>python scripts/paf_to_matrix.py -h</code> and think about whether there are any parameters you would change in case too many reads were removed?</li>
 <li>Are the taxa listed in your count tables consistent with the strains used in your experiment?</li>
-<li>Do the relative abundances of taxa match your expectations? If not, what biological or technical factors could explain the differences?</li>
+<li>Do the relative abundances of taxa match your expectations? If not, what biological or technical factors could explain the differences? Hint: in the <a href="../source/cli.html">command line chapter</a>, you saw that strains can carry different numbers of 16S copies.</li>
 <li>Open the three histograms. To view them, copy them to your own computer, as you did for the NanoPlot output. The script removes alignments with an identity below 0.9, a query coverage below 0.9, or a mapping quality between 1 and 29. Where do these cutoffs fall in your histograms? Which filter do you think removed most of your alignments? Write your answer in your notebook.</li>
 </ol>
 <div class="callout callout-style-default callout-answer callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -4538,7 +4592,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Activate the python conda environment </span></span>
@@ -4559,7 +4613,7 @@ window.Quarto = {
 <ol type="1">
 <li><p>For the example file <code>barcode07</code>, the filtering removed 40 of 1,835 alignments (2%). Note that the summary counts alignments, not reads. If you had more alignments than reads, some of the removed alignments were likely secondary (less confident) alignments. You will also lose potential contaminations during this step. That is because reads coming from contaminant bacteria might still map to sequences in the reference database but with much lower sequence identity, and therefore will be discarded.</p></li>
 <li><p>Most reads map to Streptococcus and Lactococcus, consistent with the experiment. A few unassigned reads may come from contamination or poor-quality reads (10 reads in <code>barcode07</code>).</p></li>
-<li><p>Streptococcus had ~8× more reads than Lactococcus (1,576 and 186 reads in <code>barcode07</code>). This may indicate stronger growth due to better adaptation to liquid media or competitive advantage in the co-culture.</p></li>
+<li><p>Streptococcus had ~8× more reads than Lactococcus (1,576 and 186 reads in <code>barcode07</code>). This may indicate stronger growth due to better adaptation to liquid media or competitive advantage in the co-culture. The 16S copy number can also play a role: a strain with more 16S copies gives more reads per cell, so read counts are not the same as cell numbers.</p></li>
 <li><p>These are the histograms for <code>barcode07</code>:</p>
 <p><a href="../img/barcode07_identity_hist.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img role="img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAmAAAAHaCAYAAACn0vVeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAADK5SURBVHhe7d19VFV12v/xzxEBoRBLUzFJ1MqHaNQkJ7XSMrXRSuvuwduaWy3NRsuwZS4nmzpmWuLEUD51p2aOac2daeMoqUwlo2E+oJZP2UrFCLWyVGhIRPn+/pg4P/cWDQ2+nLN5v9baq3Wu77U3XICbT/tszvHl5uYaAQAAwBqfMYYABgAAYFENdwEAAACViwAGAABgGQEMAADAMgIYAACAZQQwAAAAywhgAAAAlhHAAAAALCOAAQAAWEYAAwAAsIwABgAAYBkBDAAAwDICGAAAgGUEMAAAAMsIYAAAAJYRwAAAACwjgAEAAFhGAAMAALCMAAYAAGAZAQwAAMAyAhgAAIBlBDAAAADLCGAAAACWEcAAAAAsI4ABAABYRgADAACwjAAGAABgGQEMAADAMgIYAACAZQQwAAAAywhgAAAAlhHAAAAALCOAAQAAWEYAAwAAsIwABgAAYBkBDAAAwDICGAAAgGUEMABB74033pDP51NOTo57yaFr167q2rWru1yhsrKy5Pf7deTIEffSaR+/sLBQfr9fq1atcvQBAAEMQNDr3bu31q5dq7i4OPeSdVlZWRo3blyZAWz69OmaPn164HFhYaHGjRtHAANwGgIYgKB3ySWX6LrrrlNkZKR7Kai0bt1arVu3dpcB4DQEMABBz/0UpDFGKSkpatKkiWrVqqVrrrlG77//vns3SVJ+fr5GjRqlpk2bKiIiQpdeeqmSk5P173//29Hn8/n06KOPat68eWrVqpWio6PVpk0bLV26NNDj9/v15JNPSpKaNm0qn88nn88XuMJ16lOQOTk5uuSSSyRJ48aNC/QOHDhQq1evls/n01tvvRU4dqm//vWv8vl82rBhg3sJgIf4jDHGXQSAYPLGG29o0KBB2rt3rxISEuT3+zVu3Dg99NBDuvvuu5Wbm6tx48bp5MmTatGiRSAQFRYWqnPnzvr666/11FNP6Te/+Y22b9+uZ555Ru3bt9c///lP+Xw+6ecAlpCQoPr162vUqFG68MILlZKSojVr1mjXrl1q1qyZvv76a6WkpGjKlClatGhR4CnR1q1bq3bt2oHwtWrVKhUVFWnVqlW69dZb9dBDD2nw4MHSz1fzmjdvrmuuuUbR0dFas2ZNYE5J6tChgyRp/fr1jjoAjzEAEOTmzJljJJm9e/eaw4cPm1q1apk777zT0fPxxx8bSaZLly6B2gsvvGBq1KhhNmzY4OhduHChkWTS09MDNUmmQYMGJj8/P1A7ePCgqVGjhnnhhRcCtcmTJwc+F7cuXbo4Pv53331nJJlnn33W0WdOmWnz5s2B2vr1640kM3fuXEcvAO/hKUgAIWXt2rU6duyY7r//fke9U6dOatKkiaO2dOlSJSYmqm3btjpx4kRg69mzp+Opw1I33XSTYmJiAo8bNGig+vXra9++fY6+ivDf//3fql+/vqZNmxaoTZkyRZdcconuu+8+Ry8A7yGAAQgp33//vSSpYcOG7qXTat98840+++wzhYeHO7aYmBgZY3To0CFHf926dR2PJSkyMlI//fSTu/yrRUZGaujQoVqwYIGOHDmi7777Tv/3f/+nwYMHB/0fGwD49QhgAEJKaUg6ePCge+m0Wr169XT11Vdrw4YNZW5/+tOfHP22/eEPf1BxcbFef/11zZw5UydOnNAjjzzibgPgQQQwACHluuuuU61atTR//nxHPSsr67SnCm+77Tbt3r1bdevWVVJS0mlbQkKCo788Sq9Oleeq2C/1xsXF6Z577tH06dP16quv6vbbb9dll13mbgPgQQQwACHloosu0qhRo7R48WINHjxYK1as0KxZs3Tvvfee9hRkcnKyWrRooRtvvFGpqan65z//qZUrVwb6161b5+gvj6uvvlqS9PLLL2vt2rXauHGjCgoK3G2SpJiYGDVp0kR///vftXLlSm3cuPG0V/N//PHHtXv3buXm5urRRx91rAHwLgIYgJDz3HPP6YUXXtDKlSt1xx13aMqUKXr11VfVokULR98FF1yg1atXa+DAgXrttdfUu3dv3XvvvXrllVfUuHHj87oC1rVrV/3xj3/UP/7xD11//fW69tprlZ2d7W4LmD17tqKjo3XHHXfo2muvld/vd6x36NBBCQkJatWqlbp16+ZYA+BdvA4YAFShzz77TG3atNG0adM0bNgw9zIAjyKAAUAV2L17t/bt26ennnpKX331lb788ktFR0e72wB4FE9BAkAVGD9+vLp3764ff/xR77zzDuELqGa4AgYAAGAZV8AAAAAsI4ABAABYRgAD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z3F1htnOVXk+v/J+PhWtIuYLVl6eTR6fz8uzKQjmK+uc5D4HldVTXsXFxfroo4/K/J1XUFCgpk2b6siRI4qNjXWsWWOqqby8PCPJfPzxx476hAkTzJVXXumolXr22WeNJDY2NjY2NjYPbLm5ue5f9dZU2ytg+/fv16WXXqqsrCx17NgxUJ8wYYLmzZunzz//3NGvMq6AlZSU6IcfflDdunXl89n/v4dzlZ+fr/j4eOXm5lbZTYeVycvzeXk2eXw+L88mj8/n5dlUzeczxqigoECNGjVSjRpVczdWtQ1g5/MUZKgLhr/6qExens/Ls8nj83l5Nnl8Pi/PJuarclUT+4JARESE2rdvr4yMDEc9IyNDnTp1ctQAAAAqUrUNYJL0xBNPaNasWXr99de1c+dOjRw5Ul999ZUeeeQRdysAAECFCfP7/X53sbpITExU3bp1NXHiRP35z3/WTz/9pHnz5qlNmzbuVs8ICwtT165dVbNmTfeSJ3h5Pi/PJo/P5+XZ5PH5vDybmK9KVdt7wAAAAKpKtX4KEgAAoCoQwAAAACwjgAEAAFhGAAMAALCMABbCpk+frqZNm6pWrVpq3769Vq9e7W5xmD9/vtq0aaPo6GjFxcVp0KBB+v77791tkqS3335bPp9Pffv2dS9ZUxnzHTlyRMOHD1dcXJxq1aqlVq1aKT093dFjQ2XMlpaWphYtWigqKkrx8fEaOXKkjh075uix5VznmzZtmlq1aqWoqCi1aNFCf/3rX90tevfdd9W6dWtFRkaqdevWWrx4sbvFmoqeb+bMmbrhhht00UUX6aKLLtItt9yi9evXO3psqejZThWK55XyzBeq55XyzBYs55V//etfuv3229WoUSP5fD6999577pbTZGZmqn379qpVq5aaNWumV1991d1StecV93sTITS8/fbbJjw83MycOdPs2LHDPP744+aCCy4w+/btc7caY4xZvXq1qVGjhnn55ZfNnj17zOrVq81VV11l+vbt6241OTk55tJLLzU33HCD6dOnj3vZisqYr6ioyCQlJZlevXqZNWvWmJycHLN69WqzZcsWx7EqW2XM9uabb5rIyEgzf/58s3fvXrNixQoTFxdnkpOTHcey4Vznmz59uomJiTFvv/222b17t3nrrbfMhRdeaJYsWRLoycrKMmFhYWbixIlm586dZuLEiaZmzZrmk08+cRzLhsqYr3///mbatGlm8+bNZufOnWbQoEEmNjbWfP31145jVbbKmK1UKJ5XyjNfqJ5XyjNbMJ1X0tPTzdixY827775rJJnFixe7Wxz27NljoqOjzeOPP2527NhhZs6cacLDw83ChQsDPVV9XiGAhagOHTqYRx55xFFr2bKlGTNmjKNWavLkyaZZs2aO2iuvvGIaN27sqJ04ccJ07tzZzJo1ywwYMKDKTpSVMd+MGTNMs2bNzPHjxx19tlXGbMOHDzc333yzo+eJJ54w119/vaNmw7nO17FjRzNq1ChH7fHHHzedO3cOPL733nvNrbfe6ujp2bOn6devn6NmQ2XM53bixAkTExNj5s6d616qVJU1W6ieV8ozX6ieV8ozWzCdV05VngA2evRo07JlS0dt6NCh5rrrrgs8rurzCk9BhqDjx48rOztbPXr0cNR79OihrKwsR61Up06d9PXXXys9PV3GGH3zzTdauHChevfu7eh77rnndMkll+ihhx5y1G2qrPmWLFmijh07avjw4WrQoIESExM1ceJEnTx50nGsylRZs11//fXKzs4OPG21Z88epaenn/b9rWznM19RUZFq1arlqEVFRWn9+vUqLi6WJK1du/a0Y/bs2fOMx6wslTWfW2FhoYqLi3XxxRe7lypNZc4WqueV8swXqueV8swWLOeV83Gmc8bGjRuD5rxCAAtBhw4d0smTJ9WgQQNHvUGDBjp48KCjVqpTp06aP3++7rvvPkVERKhhw4aqU6eOpkyZEuj5+OOPNXv2bM2cOdOxr22VNd+ePXu0cOFCnTx5Uunp6Xr66af10ksvacKECY5jVabKmq1fv34aP368rr/+eoWHh6t58+a66aabNGbMGMexKtv5zNezZ0/NmjVL2dnZMsZo48aNev3111VcXKxDhw5Jkg4ePHhOx6wslTWf25gxY3TppZfqlltucS9VmsqaLZTPK+WZL1TPK+WZLVjOK+fjTOeMEydOBM15hQAWwnw+n+OxMea0WqkdO3ZoxIgReuaZZ5Sdna3ly5dr7969gfe9LCgo0AMPPKCZM2eqXr167t2rhHuWXzOfJJWUlKh+/fp67bXX1L59e/Xr109jx47VjBkzHMeywT3Hr51t1apVmjBhgqZPn65NmzZp0aJFWrp0qcaPH+84li3uWc4235/+9Cf97ne/03XXXafw8HD16dNH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" class="img-fluid" style="width:60.0%"></a></p>
 <p><a href="../img/barcode07_qcov_hist.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img role="img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAmMAAAG/CAYAAAAU3NC0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAEI2SURBVHhe7d19XJWF/f/x95EQhOFBJROSpbK8G4RMM5W2LAHNUMhHc420ZI7cT2eRLmfZDU6ltLz5pqXmTVpItK3hJBmKWqaRNyk0LbMtNUVxm3ccjcQTXL8/vnl9u45lyoTryHk9H4/rDz7X51z4Fjrn3TkHdBiGYQgAAAC2aOI5AAAAQMOhjAEAANiIMgYAAGAjyhgAAICNKGMAAAA2oowBAADYiDIGAABgI8oYAACAjShjAAAANqKMAQAA2IgyBgAAYCPKGAAAgI0oYwAAADaijAEAANiIMgbgqrZ69Wp169ZNAQEBat++vZ5//nllZWXJ4XCYO7W1tZo7d666deumZs2aKTQ0VL169dKqVassOzNmzFDnzp0VEBCg1q1b6/7771d5ebm5k5mZqeDgYLlcLnN23i9+8Qtdd911crvdnqcA4KIoYwCuWuvXr1dKSopCQkKUl5en5557Tn/84x/1yiuvWPZGjBihhx9+WDfffLPeeOMN5eXlafDgwTpw4IC58//+3//T73//eyUmJmrVqlWaMmWKioqK1KdPHx07dkyS9Ktf/UpVVVX64x//+I2rS6dOndJf//pXDRs2TP7+/pZzAPB9HIZhGJ5DALga9OrVS4cOHdJnn32mwMBASdLp06fVrl07nThxQoZhaNOmTfrZz36mSZMmaerUqZ6XkCR98skn6tKli0aPHq0XX3zRnG/btk233HKLHn/8cU2bNk2S1L17dwUGBuq9994z9+bPn6/Ro0dr165dio6ONucAcCl4ZgzAVemLL77Q9u3bNWTIELOISVJISIgGDRpkfvy3v/1NkjRmzBhz5untt9+Wvn4G7Zt69uypLl26aP369eYsPT1dJSUl2rt3rzl75ZVXdPPNN1PEANQJZQzAVenkyZOqra1VmzZtPE9ZZv/5z3/k5+f3rXvnHT9+XJIUHh7ueUoRERHmeUm67777FBAQoGXLlkmSPv74Y23fvl3p6enfuBUAXDrKGICrUosWLeRwOHT06FHPU5bZtddeq5qamm/dO69Vq1aSpIqKCs9TOnLkiMLCwsyPW7RooZSUFL366quqqanRK6+8osDAQP3yl7+03A4ALhVlDMBVKTg4WD179tRf/vIXnT171pyfPn1aBQUF5sd33nmn9PX7ur7LHXfcIUnKycmxzLdv3649e/aoX79+lnl6erqOHDmiwsJC5eTk6O6771ZoaKhlBwAuFW/gB3DVKi4u1oABA9SnTx+NHz9eNTU1mj59uo4ePapDhw7p/N3b/fffr5ycHGVkZCg5OVkBAQEqLS1VUFCQxo4dK0kaNWqUFi1apIcfflh33nmnDhw4oCeffNLcPf/smb7+NRg33HCDJKm8vFxr165VYmKieR4ALgdlDMBVraCgQE888YQ++eQTtWnTRqNHj9aXX36pyZMnm2WstrZWL7zwgpYsWaJPP/1UzZo1U9euXfX4448rOTnZ3Hn++ee1ZMkS7d+/X06nUwMGDNAzzzyjtm3benxWadKkScrOzlZkZKQOHDigJk14oQFA3VDGADQ6WVlZljIGAN6M/5UDAACwEWUMAADARrxMCQAAYCOeGQMAALARZQwAAMBGlDEAAAAbUcYAAABsxBv4L0Ftba2OHDmikJAQORwOz9MAAMALGYah06dPKyIiwqt/MTNl7BKUl5crMjLScwwAAK4Chw4d+tZ/ScNbUMYuQWVlpUJDQ3Xo0CE1b97c8/QV53a7tXbtWiUlJcnf39/zdKPmy9lFfp/O78vZRX6fzl+f2V0ulyIjI3Xq1Ck5nU7P016DMnYJXC6XnE6nKisrG6yMFRYWauDAgVf8G9Pb+XJ2kd+n8/tydpHfp/PXZ/aGfvyuK+99ARUAAMAHUMYAAABsRBkDAACwEWUMAADARpQxAAAAG1HGAAAAbEQZAwAAsBFlDAAAwEaUMQAAABtRxgAAAGxEGQMAALARZQwAAMBGlDEAAAAbUcYAAABsZFsZe/fddzVo0CBFRETI4XBo5cqVnivas2ePBg8eLKfTqZCQEPXq1UsHDx40z1dXV2vs2LEKCwtTcHCwBg8erPLycss1Tp48qeHDh8vpdMrpdGr48OE6deqUZQcAANSPdhNXX/SIzlrjeROfY1sZ++KLLxQbG6t58+Z5npIkffbZZ7r11lvVuXNnvfPOO/rwww/15JNPKjAw0NzJzMxUfn6+8vLytHnzZp05c0bJycmqqakxd9LS0lRWVqaioiIVFRWprKxMw4cPN88DAADYybYyduedd2rq1KkaMmSI5ylJ0qRJkzRw4EDNmDFDcXFx6tChg+666y61bt1aklRZWaklS5Zo5syZSkhIUFxcnHJycrRr1y6tW7dO+vqZtaKiIi1evFi9e/dW7969tWjRIr311lvau3evx2cEAABoeLaVsYupra3V6tWr1bFjR/Xv31+tW7fWLbfcYnkpc8eOHXK73UpKSjJnERERio6OVklJiSTp/fffl9Pp1C233GLu9OrVS06n09wBAACwk8MwDMNz2NAcDofy8/OVmpoqSTp69KjCw8MVFBSkqVOn6vbbb1dRUZEef/xxvf3227rtttuUm5ur9PR0VVdXW66VlJSk9u3ba+HChcrOztayZcv06aefWnY6duyo9PR0PfbYY5b5edXV1ZbrulwuRUZG6tixY2revLlltz643W4VFxcrMTFR/v7+nqcbNV/OLvL7dH5fzi7yN+r83/eesIAmhqb0qK2X7C6XS2FhYaqsrGyQx++68soyduTIEV1//fX65S9/qdzcXHNv8ODBCg4O1uuvv/6dZSwxMVFRUVFasGCBsrOztXz58gtekrzxxhs1cuRITZw40TI/LysrS5MnT/YcKzc3V0FBQZ5jAADghaqqqpSWlkYZuxSeZezcuXMKDg7W008/rSeeeMLc+/3vf6/Nmzfrvffe04YNG9SvXz+dOHFCLVq0MHdiY2OVmpqqyZMna+nSpRo3btwFPz0ZGhqq2bNnKz093TI/j2fG7OPL2UV+n87vy9lF/kadn2fGvp9XljFJ6tOnj6KiovTaa6+Zs7vvvlvNmjVTbm6uKisrde211yonJ0dDhw6VJFVUVKht27YqLCxU//79tWfPHnXt2lVbt25Vz549JUlbt25Vr1699Mknn6hTp07mtS/G5XLJ6XQ22BfT7XarsLBQAwcOvOLfmN7Ol7OL/D6d35ezi/yNOn+7ias9RxYBfoZm9Kypl+wN/fhdV7a9gf/MmTMqKytTWVmZJGn//v0qKyszf4/Yo48+qjfeeEOLFi3SP//5T82bN08FBQUaPXq0JMnpdGrkyJEaP3681q9fr9LSUg0bNkwxMTFKSEiQJHXp0kUDBgxQRkaGtmzZoi1btigjI0PJycmXXMQAAADqk21l7IMPPlBcXJzi4uIkSePGjVNcXJyeeuop6etnwRYsWKAZM2YoJiZGixcv1ptvvqlbb73VvMbs2bOVmpqqoUOHKj4+XkFBQSooKJCfn5+5s2LFCsXExCgpKUlJSUm66aabLM+2AQAA2Mm2Mta3b18ZhnHBsWzZMnPnV7/6lf7xj3/oyy+/VFlZmVJSUizXCAwM1Ny5c3X8+HFVVVWpoKBAkZGRlp2WLVsqJydHLpdLLpdLOTk5Cg0NtewAAADYxbYyBgAAAMoYAACArShjAAAANqKMAQAA2IgyBgAAYCPKGAAAgI0oYwAAADaijAEAANiIMgYAAGAjyhgAAICNKGMAAAA2oowBAADYiDIGAABgI8oYAACAjShjAAAANqKMAQAA2IgyBgAAYCPKGAAAgI0oYwAAADaijAEAANiIMgYAAGAjyhgAAICNKGMAAAA2oowBAADYiDIGAABgI8oYAACAjShjAAAANqKMAQAA2IgyBgAAYCPKGAAAgI0oYwAAADaijAEAANiIMgYAAGAj28rYu+++q0GDBikiIkIOh0MrV670XDGNGjVKDodDc+bMscyrq6s1duxYhYWFKTg4WIMHD1Z5ebll5+TJkxo+fLicTqecTqeGDx+uU6dOWXYAAADsYlsZ++KLLxQbG6t58+Z5nrJYuXKltm7dqoiICM9TyszMVH5+vvLy8rR582adOXNGycnJqqmpMXfS0tJUVlamoqIiFRUVqaysTMOHD7dcBwAAwC62lbE777xTU6dO1ZAhQzxPmQ4fPqzf/va3WrFihfz9/S3nKisrtWTJEs2cOVMJCQmKi4tTTk6Odu3apXXr1kmS9uzZo6KiIi1evFi9e/dW7969tWjRIr311lvau3ev5XoAAAB2cBiGYXgOG5rD4VB+fr5SU1PNWW1trRISEpSSkqKHH35Y7dq1U2ZmpjIzMyVJGzZsUL9+/XTixAm1aNHCvF1sbKxSU1M1efJkLV26VOPGjbvgZcnQ0FDNnj1b6enplvl51dXVqq6uNj92uVyKjIzUsWPH1Lx5c8tufXC73SouLlZiYuIFJbSx8+XsIr9P5/fl7CJ/o84fnbXGc2QR0MTQlB619ZLd5XIpLCxMlZWVDfL4XVdeW8aeeeYZvf3221qzZo0cDscFZSw3N1fp6emW0iRJSUlJat++vRYuXKjs7GwtW7ZMn376qWWnY8eOSk9P12OPPWaZn5eVlaXJkyd7jpWbm6ugoCDPMQAA8EJVVVVKS0ujjF0KzzK2Y8cO3XXXXdq5c6f5XrFLLWOJiYmKiorSggULlJ2dreXLl1/wkuSNN96okSNHauLEiZb5eTwzZh9fzi7y+3R+X84u8jfq/Dwz9v28sozNmTNH48aNU5Mm//eWtpqaGjVp0kSRkZE6cOBAvb5M6cnlcsnpdDbYF9PtdquwsFADBw684t+Y3s6Xs4v8Pp3fl7OL/I06f7uJqz1HFgF+hmb0rKmX7A39+F1Xtr2B/2KGDx+uv//97yorKzOPiIgIPfroo1qz5n8bdvfu3eXv76/i4mLzdhUVFdq9e7f69OkjSerdu7cqKyu1bds2c2fr1q2qrKw0dwAAAOxkWxk7c+aMWbQkaf/+/SorK9PBgwfVqlUrRUdHWw5/f3+1adNGnTp1kiQ5nU6NHDlS48eP1/r161VaWqphw4YpJiZGCQkJkqQuXbpowIABysjI0JYtW7RlyxZlZGQoOTnZvA4AAICdbCtjH3zwgeLi4hQXFydJGjdunOLi4vTUU095rn6n2bNnKzU1VUOHDlV8fLyCgoJUUFAgPz8/c2fFihWKiYlRUlKSkpKSdNNNN+m1116zXAcAAMAutpWxvn37yjCMC45ly5Z5rkqSDhw4YL55/7zAwEDNnTtXx48fV1VVlQoKChQZGWnZadmypXJycuRyueRyuZSTk6PQ0FDLDgAAgF1sK2MAAACgjAEAANiKMgYAAGAjyhgAAICNKGMAAAA2oowBAADYiDIGAABgI8oYAACAjShjAAAANqKMAQAA2IgyBgAAYCPKGAAAgI0oYwAAADaijAEAANiIMgYAAGAjyhgAAICNKGMAAAA2oowBAADYiDIGAABgI8oYAACAjShjAAAANqKMAQAA2IgyBgAAYCPKGAAAgI0oYwAAADaijAEAANiIMgYAAGAjyhgAAICNKGMAAAA2oowBAADYiDIGAABgI8oYAACAjWwrY++++64GDRqkiIgIORwOrVy50jzndrv1+9//XjExMQoODlZERITuv/9+HTlyxHKN6upqjR07VmFhYQoODtbgwYNVXl5u2Tl58qSGDx8up9Mpp9Op4cOH69SpU5YdAAAAu9hWxr744gvFxsZq3rx5nqdUVVWlnTt36sknn9TOnTv1l7/8RZ9++qkGDx5s2cvMzFR+fr7y8vK0efNmnTlzRsnJyaqpqTF30tLSVFZWpqKiIhUVFamsrEzDhw+3XAcAAMAutpWxO++8U1OnTtWQIUM8T8npdKq4uFhDhw5Vp06d1KtXL82dO1c7duzQwYMHJUmVlZVasmSJZs6cqYSEBMXFxSknJ0e7du3SunXrJEl79uxRUVGRFi9erN69e6t3795atGiR3nrrLe3du9fjswIAADQ8h2EYhuewoTkcDuXn5ys1NdXzlGndunVKSkrSqVOn1Lx5c23YsEH9+vXTiRMn1KJFC3MvNjZWqampmjx5spYuXapx48Zd8LJkaGioZs+erfT0dMv8vOrqalVXV5sfu1wuRUZG6tixY2revLlltz643W4VFxcrMTFR/v7+nqcbNV/OLvL7dH5fzi7yN+r80VlrPEcWAU0MTelRWy/ZXS6XwsLCVFlZ2SCP33V1VZSxs2fP6tZbb1Xnzp2Vk5MjScrNzVV6erqlNElSUlKS2rdvr4ULFyo7O1vLli3Tp59+atnp2LGj0tPT9dhjj1nm52VlZWny5MmeY+Xm5iooKMhzDAAAvFBVVZXS0tIoY5fiYmXM7Xbr5z//uQ4ePKh33nnH/Mv8rjKWmJioqKgoLViwQNnZ2Vq+fPkFL0neeOONGjlypCZOnGiZn8czY/bx5ewiv0/n9+XsIn+jzs8zY9/Pq8uY2+3W0KFDtW/fPm3YsEGtWrUyz9Xny5SeXC6XnE5ng30x3W63CgsLNXDgwCv+jentfDm7yO/T+X05u8jfqPO3m7jac2QR4GdoRs+aesne0I/fdWXbG/i/z/ki9o9//EPr1q2zFDFJ6t69u/z9/VVcXGzOKioqtHv3bvXp00eS1Lt3b1VWVmrbtm3mztatW1VZWWnuAAAA2Mm2MnbmzBmVlZWprKxMkrR//36VlZXp4MGD+uqrr3TPPffogw8+0IoVK1RTU6OjR4/q6NGjOnfunPT1T1yOHDlS48eP1/r161VaWqphw4YpJiZGCQkJkqQuXbpowIABysjI0JYtW7RlyxZlZGQoOTlZnTp1svx5AAAA7GBbGfvggw8UFxenuLg4SdK4ceMUFxenp556SuXl5Vq1apXKy8vVrVs3hYeHm0dJSYl5jdmzZys1NVVDhw5VfHy8goKCVFBQID8/P3NnxYoViomJUVJSkpKSknTTTTfptddeM88DAADYybYy1rdvXxmGccGxbNkytWvX7oL5+aNv377mNQIDAzV37lwdP35cVVVVKigoUGRkpOXztGzZUjk5OXK5XHK5XMrJyVFoaKhlBwAAwC62lTEAAABQxgAAAGxFGQMAALARZQwAAMBGlDEAAAAbUcYAAABsRBkDAACwEWUMAADARpQxAAAAG1HGAAAAbEQZAwAAsBFlDAAAwEaUMQAAABtRxgAAAGxEGQMAALARZQwAAMBGlDEAAAAbUcYAAABsRBkDAACwEWUMAADARpQxAAAAG1HGAAAAbEQZAwAAsBFlDAAAwEaUMQAAABtRxgAAAGxEGQMAALARZQwAAMBGlDEAAAAbUcYAAABsRBkDAACwEWUMAADARraVsXfffVeDBg1SRESEHA6HVq5caTlvGIaysrIUERGhZs2aqW/fvvroo48sO9XV1Ro7dqzCwsIUHByswYMHq7y83LJz8uRJDR8+XE6nU06nU8OHD9epU6csOwAAAHaxrYx98cUXio2N1bx58zxPSZJmzJihWbNmad68edq+fbvatGmjxMREnT592tzJzMxUfn6+8vLytHnzZp05c0bJycmqqakxd9LS0lRWVqaioiIVFRWprKxMw4cPN88DAADYybYyduedd2rq1KkaMmSI5ykZhqE5c+Zo0qRJGjJkiKKjo7V8+XJVVVUpNzdXklRZWaklS5Zo5syZSkhIUFxcnHJycrRr1y6tW7dOkrRnzx4VFRVp8eLF6t27t3r37q1Fixbprbfe0t69ez0+KwAAQMOzrYxdzP79+3X06FElJSWZs4CAAN12220qKSmRJO3YsUNut9uyExERoejoaHPn/fffl9Pp1C233GLu9OrVS06n09wBAACwk1eWsaNHj0qSrrvuOsv8uuuuM88dPXpUTZs2VYsWLS6607p1a8t5SWrdurW5822qq6vlcrkshyS53e4GOxr683nT4cvZ3eT36fy+nN1N/kabP8DPuPjRxKjX7FcDh2EY//u3YCOHw6H8/HylpqZKkkpKShQfH68jR44oPDzc3MvIyNChQ4dUVFSk3Nxcpaenq7q6+htXkhITExUVFaUFCxYoOztby5cvv+AlyRtvvFEjR47UxIkTLfPzsrKyNHnyZM+xcnNzFRQU5DkGAABeqKqqSmlpaaqsrFTz5s09T3sNryxj+/btU1RUlHbu3Km4uDhzLyUlRaGhoVq+fLk2bNigfv366cSJE5Znx2JjY5WamqrJkydr6dKlGjdu3AU/PRkaGqrZs2crPT3dMj+vurraUvJcLpciIyN17NixBvliut1u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Aw884JVlrD6yN+b7vUvJf7Xc73m6lDI2YcIEo3PnzpbZqFGjjF69epkfX033fXXBy5T16Ny5c9qxY4eSkpIs86SkJJWUlFhm5/Xp00fl5eUqLCyUYRj617/+pT//+c+66667zJ1Vq1apd+/eGjNmjK677jpFR0crOztbNTU1lmvZrb7y33rrrdqxY4f58tS+fftUWFho2bFbXbJXV1crMDDQMmvWrJm2bdsmt9stSXr//fcvuGb//v2/85p2qa/8nqqqquR2u9WyZUvPU7aqz/x/+MMfdO2112rkyJGWXW9RX9kb8/3epeS/Gu736uq77tc++OCDq+6+r64oY/Xo2LFjqqmp0XXXXWeZX3fddTp69Khldl6fPn20YsUK/eIXv1DTpk3Vpk0bhYaGau7cuebOvn379Oc//1k1NTUqLCzUE088oZkzZ2ratGmWa9mtvvLfe++9mjJlim699Vb5+/srKipKt99+uyZOnGi5lp3qkr1///5avHixduzYIcMw9MEHH2jp0qVyu906duyYJOno0aOXdU271Fd+TxMnTtT111+vhIQEz1O2qq/87733npYsWaJFixZ53txr1Ff2xny/dyn5r4b7vbr6rvu1r7766qq776srylgDcDgclo8Nw7hgdt7HH3+shx56SE899ZR27NihoqIi7d+/3/LvaNbW1qp169Z6+eWX1b17d917772aNGmS5s+fb7mWt/DM+t/mf+eddzRt2jS99NJL2rlzp/7yl7/orbfe0pQpUyzX8gaeOS+W/cknn9Sdd96pXr16yd/fXykpKRoxYoT09T8Vcp7n7S92Tbt5/rku9me91PznzZgxQ6+//rr+8pe/XPCsgrfwzPrf5D99+rSGDRumRYsWKSwszPPmXscz53+TXY38fu9S8l9N93t14fl387+vcFrn37bjObtaUcbqUVhYmPz8/C5o7v/+978vaPjnPfPMM4qPj9ejjz6qm266Sf3799dLL72kpUuXqqKiQpIUHh6ujh07Wh6gunTpoqNHj+rcuXPfuJq96iv/k08+qeHDh+vXv/61YmJidPfddys7O1vPPPOMamtrPS9pi7pkb9asmZYuXaqqqiodOHBABw8eVLt27RQSEmI++LZp0+ayrmmX+sp/3vPPP6/s7GytXbtWN910k+WcN6iP/J999pkOHDigQYMG6ZprrtE111yjV199VatWrdI111yjzz77zPOStqiP7Grk93uXkv9quN+rq++6X7vmmmvUqlWri+5819/p1YYyVo+aNm2q7t27q7i42DIvLi5Wnz59LLPzqqqq1KSJ9cty/s7n/P8pxMfH65///KflP8BPP/1U4eHhatq0qTmzW33l/64d439/IMUyt0tdsp/n7++vtm3bys/PT3l5eUpOTjbz9u7d+4Jrrl279nuv2dDqK78kPffcc5oyZYqKiorUo0cPy229RX3k79y5s3bt2qWysjLzGDx4sG6//XaVlZUpMjLS81K2qI/sauT3e+ddLP/VcL9XV991v9ajRw/5+/tfdOf7/k6vGp7v6MeVdf5HnJcsWWJ8/PHHRmZmphEcHGwcOHDAMAzDmDhxojF8+HBz/5VXXjGuueYa46WXXjI+++wzY/PmzUaPHj2Mnj17mjsHDx40fvCDHxi//e1vjb179xpvvfWW0bp1a2Pq1Knmjreoj/xPP/20ERISYrz++uvGvn37jLVr1xpRUVHG0KFDzR1vcLnZ9+7da7z22mvGp59+amzdutX4xS9+YbRs2dLYv3+/ufPee+8Zfn5+xrPPPmvs2bPHePbZZ732x7vrI//06dONpk2bGn/+85+NiooK8zh9+rS54y3qI78nb/1pyvrI3pjv9y4l/9Vyv2cYhnH69GmjtLTUKC0tNSQZs2bNMkpLS81f7eGZ//yvtnjkkUeMjz/+2FiyZMkFv9riarrvqwvKWAN48cUXjRtuuMFo2rSp8ZOf/MTYuHGjee6BBx4wbrvtNsv+Cy+8YHTt2tVo1qyZER4ebtx3330X/B6lkpIS45ZbbjECAgKMDh06GNOmTTO++uory463uNL53W63kZWVZURFRRmBgYFGZGSkMXr0aOPkyZOW63iDy8n+8ccfG926dTOaNWtmNG/e3EhJSTE++eQT8/x5f/rTn4xOnToZ/v7+RufOnY0333zTc8VrXOn8N9xwgyHpguPpp5+27HmLK53fk7eWMaOesjfW+71LyX813e+9/fbbF/w3Ksl44IEHDONb8huGYbzzzjtGXFyc0bRpU6Ndu3bG/PnzLeeNq+y+73I5jKv9+U0AAICrGO8ZAwAAsBFlDAAAwEaUMQAAABtRxgAAAGxEGQMAALARZQwAAMBGlDEAAAAbUcYAAABsRBkDAACwEWUMAADARpQxAI3CF198ofvvv18/+MEPFB4erpkzZ6pv377KzMyUJFVXV2vChAmKjIxUQECAbrzxRi1ZssS8/caNG9WzZ08FBAQoPDxcEydO1FdffSVJWrhwoa6//nrV1taa+5I0ePBgPfDAA5YZAFwuyhiARuHRRx/V22+/rfz8fK1du1bvvPOOduzYYZ6///77lZeXpxdeeEF79uzRggUL9IMf/ECSdPjwYQ0cOFA333yzPvzwQ82fP19LlizR1KlTJUk///nPdezYMb399tvm9U6ePKk1a9bovvvuM2cAUBf8Q+EArnpnzpxRq1at9Oqrr+oXv/iFJOnEiRNq27atHnzwQY0ePVqdOnVScXGxEhISPG+uSZMm6c0339SePXvkcDgkSS+99JJ+//vfq7KyUk2aNFFKSorCwsLMZ9NefvllPf300yovL5efn5/HFQHg0vHMGICr3meffaZz586pd+/e5qxly5bq1KmTJKmsrEx+fn667bbbvnGr/7Nnzx717t3bLGKSFB8frzNnzqi8vFySdN999+nNN99UdXW1JGnFihW69957KWIA/muUMQBXve97gr9Zs2aeIwvDMCxF7PxMkjkfNGiQamtrtXr1ah06dEibNm3SsGHDLLcBgLqgjAG46v3oRz+Sv7+/tmzZYs5OnjypTz/9VJIUExOj2tpabdy48Ru3+j9du3ZVSUmJpdSVlJQoJCRE119/vfR1oRsyZIhWrFih119/XR07dlT37t2/cRUAqBu/rKysLM8hAFxNmjZtqiNHjuill17STTfdpKqqKj300EM6cOCAfvKTn+jee+/VgQMHNGfOHLVv314BAQH68MMPtW3bNv34xz9W586dNW3aNFVUVKhDhw567733NG7cOD388MO6/fbbzc8THBysyZMna//+/Ro2bJh+9rOfWf4cAFAXPDMGoFF47rnn9LOf/UyDBw9WQkKCbr31VsszV/Pnz9c999yj0aNHq3PnzsrIyNAXX3whSbr++utVWFiobdu2KTY2Vr/5zW80cuRIPfHEE9/4DNIdd9yhli1bau/evUpLS7OcA4C64qcpATRaffv2Vbdu3TRnzhzPUwDgNXhmDAAAwEaUMQAAABvxMiUAAICNeGYMAADARv8fJRdz/QEFrzEAAAAASUVORK5CYII=" class="img-fluid" style="width:60.0%"></a></p>
@@ -4572,17 +4626,112 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-notebook callout-titled" title="Notebook checkpoint: Count table">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Notebook</span>Notebook checkpoint: Count table
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Add a heading <code>### Count table</code>, and below it:</p>
+<ol type="1">
+<li>The Python environment in your <code>## Software</code> section</li>
+<li>The downloads of <code>paf_to_matrix.py</code> and <code>accession_to_genus.tsv</code>, with where the links came from and the date</li>
+<li>The <code>paf_to_matrix.py</code> command, and the filter cutoffs it used. They are the defaults, see <code>python scripts/paf_to_matrix.py -h</code></li>
+<li>The summary that the script printed: how many alignments were removed, and by which filter</li>
+<li>Your answers to questions 1-4 of Task 4, in your own words. For question 2, compare the genera in <code>otu_table_genus.tsv</code> with the strains in your community from your lab notes</li>
+</ol>
+</div>
+</div>
+</div>
 </section>
-<section id="bonus-run-the-workflow-on-all-your-barcodes-optional" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="bonus-run-the-workflow-on-all-your-barcodes-optional"><span class="header-section-number">6.4</span> Bonus: run the workflow on all your barcodes (optional)</h2>
+<section id="wrapping-up" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="wrapping-up"><span class="header-section-number">6.4</span> Wrapping up</h2>
+<p>You now have a count table for one of your samples.</p>
+<div class="callout callout-style-default callout-notebook callout-titled" title="Notebook checkpoint: Tidy your notebook">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Notebook</span>Notebook checkpoint: Tidy your notebook
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Read the analysis from the top. Could someone go from your raw reads to your count table with your notebook alone?</li>
+<li>Is every number followed by a sentence on what it means?</li>
+<li>Add anything that is still unclear to your <code>## Questions</code></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="your-own-analysis-of-the-count-table" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="your-own-analysis-of-the-count-table"><span class="header-section-number">6.5</span> Your own analysis of the count table</h2>
+<p>When you have finished the tutorial, you get a count table with the samples of all groups, and the code that made it. The table was made with the same steps as your own barcode. Each group tested its own strain combinations, but other groups worked with related questions on human or soil strains. So you can also compare your samples with theirs. How far you go is up to you. For your presentation, you need at least your own figures of your own samples, for example a barplot of the genera in each sample.</p>
+<div class="callout callout-style-default callout-notebook callout-titled" title="Notebook checkpoint: Your own analysis">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Notebook</span>Notebook checkpoint: Your own analysis
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Add a heading <code>## Analysis of the count table</code>, and below it:</p>
+<ol type="1">
+<li>Where the count table came from, and when you got it. Write that it was made with the same steps as in the tutorial</li>
+<li>Which samples you analysed: your own (barcode, community and day), and any samples of other groups, with the reason why you chose them</li>
+<li>Your code, in code blocks, with a comment above each step</li>
+<li>Each figure, with one or two sentences below it: what it shows, and what it means for your hypothesis</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-notebook callout-titled" title="Notebook checkpoint: Before you hand in">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Notebook</span>Notebook checkpoint: Before you hand in
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Your teachers read your notebook before your presentation, to prepare their questions. Take some time to make it complete.</p>
+<ol type="1">
+<li>At the top: does your notebook say what your community is, what your hypothesis was, and which samples you sequenced?</li>
+<li><code>## Software</code>: is every tool there, with its version and where it came from (pre-installed or a conda environment)?</li>
+<li>Read your notebook from the top. Could someone repeat your work, from the lab to your figures, with your notebook alone?</li>
+<li><code>## Error log</code> and <code>## Questions</code>: is anything still open?</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="bonus-run-the-workflow-on-all-your-barcodes-optional" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="bonus-run-the-workflow-on-all-your-barcodes-optional"><span class="header-section-number">6.6</span> Bonus: run the workflow on all your barcodes (optional)</h2>
 <p>So far you analysed one barcode, your largest file. In the practical you prepared more samples than that, for example your community at day 0 and at day 2. In this bonus section you run chopper and minimap2 on all your barcodes with a <code>for</code> loop. Then you make one count table with one column per barcode.</p>
-<p>You don’t need this section for the rest of the course. After the workshop you get the full count table for all samples, and the code that made it. Do this section if you have time left, or if you want to see how that table was made.</p>
+<p>You don’t need this section for the rest of the course. You get the count table for all samples during day 2, together with the code that made it. Do this section if you have time left, or if you want to see how that table was made.</p>
 <p>How long does it take? On the practical data, chopper takes about 6 seconds per barcode and minimap2 20 to 40 seconds. For 4 to 6 barcodes, the whole section runs in a few minutes. So <code>srun</code> is enough and you don’t need a job script.</p>
-<section id="which-steps-run-once-per-barcode" class="level3" data-number="6.4.1">
-<h3 data-number="6.4.1" class="anchored" data-anchor-id="which-steps-run-once-per-barcode"><span class="header-section-number">6.4.1</span> Which steps run once per barcode?</h3>
+<section id="which-steps-run-once-per-barcode" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="which-steps-run-once-per-barcode"><span class="header-section-number">6.6.1</span> Which steps run once per barcode?</h3>
 <p>In <a href="../source/cli.html#working-with-multiple-files">Working with multiple files</a> you used a <code>for</code> loop to download one file per accession. The same pattern runs a command once per barcode. But not every step should go inside the loop. Before you write the loop, look at what each step reads and what it makes.</p>
 <div class="callout callout-style-default callout-question callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -4591,7 +4740,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse show">
+<div id="callout-14" class="callout-14-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p>Which steps should run once per barcode, inside the loop? Which should run only once, after the loop?</p>
 <ul>
@@ -4602,7 +4751,7 @@ window.Quarto = {
 </ul>
 <p>Hint: run <code>python scripts/paf_to_matrix.py -h</code> and read what <code>-i</code> and <code>-s</code> expect. Keep in mind what you want at the end: one count table, with one column per barcode.</p>
 <div class="callout callout-style-default callout-answer callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -4611,7 +4760,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><strong>chopper and minimap2: once per barcode.</strong> Each reads one fastq file and makes one output file for that barcode.</li>
@@ -4625,7 +4774,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout callout-style-default callout-question callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -4634,7 +4783,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse show">
+<div id="callout-16" class="callout-16-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p><strong>Task 1: List your barcodes</strong></p>
 <ul>
@@ -4698,7 +4847,7 @@ window.Quarto = {
 </ol>
 <p>Write the answers in your notebook.</p>
 <div class="callout callout-style-default callout-answer callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -4707,7 +4856,7 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 1: list the barcodes</span></span>
@@ -4793,20 +4942,6 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Using an LLM for this loop">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Using an LLM for this loop
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>You can ask an LLM to turn your commands for one barcode into a loop. If you do, paste the output of <code>python scripts/paf_to_matrix.py -h</code> into your question. When we prepared this course, every answer we got without the <code>-h</code> text did this step wrong. Some put the script inside the loop. One gave <code>-s</code> several files, which makes the script stop with an error. With the <code>-h</code> text, the answer was correct.</p>
-<p>LLMs also often add lines that you didn’t ask for, such as checks that skip a barcode. Read <a href="../source/llm_usage.html#lines-that-llms-add-to-loops-and-job-scripts">Lines that LLMs add to loops and job scripts</a> before you run such a script. This works with any chat tool, including free ones: you only paste text.</p>
 </div>
 </div>
 

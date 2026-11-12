@@ -15,6 +15,18 @@ Now that you are more comfortable with the command line, we will learn how to wo
     - `sbatch` for longer running, more resource intensive analyses
 
 
+## Writing it down in your notebook
+
+You already keep a notebook for your lab work. From now on, you also write down the commands you run, with a comment on what each command does, and a few words about what you saw. At the end of some sections, a blue notebook box tells you what to add. For some of them, you can compare your notes with mine. Your notes don't have to look like mine, as long as future you understands them.
+
+A few rules for all your notes:
+
+- Put commands in a code block that starts with ```` ```bash ```` and ends with ```` ``` ````. Such a block is only shown in your notebook, it is not run
+- Your notebook stays on your own computer. Copy the commands from the terminal that is logged in to Crunchomics into it
+- You now work on two computers. Start each code block, and each place where you switch terminals, with a comment: `# On my computer` or `# On Crunchomics`
+- In class, copy your commands and write down your numbers. Write the explanations and tidy your notebook at home. This way, you have the most time for the hands-on part while the teachers are there to help
+
+
 ## Connecting to the HPC
 
 ### `ssh`: Connecting to a sever
@@ -201,7 +213,31 @@ conda deactivate
 
 When the environment is active, you see `(nanoplot_1.48.0)` at the start of your prompt, and `which NanoPlot` shows a path inside your `miniforge3` folder.
 
-Write down in your notebook which version of each tool you installed. You need this later for the methods section of your report or presentation.
+::: {.callout-notebook .callout-note collapse="false" title="Notebook checkpoint: Software"}
+Software gets its own place in your notebook: near the **top**, below the short description of your project. Someone who wants to repeat your analysis then sees right away what they need to install first. 
+
+Add a heading `## Software` near the top of your notebook, and below it:
+
+1.  Which conda version you are working with and in what folder you installed it
+2.  The `mamba create` command, the name of the environment and the NanoPlot version that `NanoPlot --version` printed
+3.  Add a heading `## Error log` at the end of your notebook, also if you had no error yet. Did conda or mamba give you an error? Write down the command, the error message and how you fixed it. Keep this section for all errors you get from now on
+
+::: {.callout-notebook-answer .callout-note collapse="true" title="Compare with my notes"}
+```` markdown
+## Software
+
+On Crunchomics:
+
+- conda <version> and mamba <version>, from Miniforge, installed in my personal folder
+- NanoPlot 1.48.0, in the conda environment `nanoplot_1.48.0`
+
+```bash
+# On Crunchomics: install NanoPlot into its own environment
+mamba create -n nanoplot_1.48.0 -c conda-forge -c bioconda nanoplot=1.48.0 python=3.12
+```
+````
+:::
+:::
 
 **Recommendations**:
 
@@ -468,6 +504,58 @@ Answers:
 :::
 :::
 
+
+
+::: {.callout-notebook .callout-note collapse="false" title="Notebook checkpoint: Looking at my reads"}
+Add a heading `### Looking at my reads`, and below it:
+
+1.  The commands that made your project folder on Crunchomics, and in normal text, where this folder is
+2.  Which barcode you chose and why. Also write which sample it is: which community, and which day. This links your reads to your lab notes. For example: "I use barcode12, my largest file (8.1 MB). It is community A of group g2, sampled on day 2."
+3.  The commands that copied the file into `data` and ran `seqkit stats` with `srun`
+4.  Below the code block: the number of reads (`num_seqs`) and the average read length (`avg_len`). Is the length close to the amplicon size you expected from the lab?
+5.  Add the seqkit version to your `## Software` section. Run `seqkit version` to find out, and note that seqkit was already installed on Crunchomics
+
+::: {.callout-notebook-answer .callout-note collapse="true" title="Compare with my notes"}
+My notes for the example file `barcode07`. If you follow the course, you copied your own file with `cp` instead of downloading it. Your barcode, your sample and your numbers will differ.
+
+```` markdown
+### Looking at my reads
+
+```bash
+# On Crunchomics: make the project folder in my personal folder
+cd ~/personal
+mkdir data_analysis
+cd data_analysis
+```
+
+My project folder on Crunchomics is `~/personal/data_analysis`.
+
+I use barcode07, the example file of the tutorial. It is culture H1 from the test data of the lab.
+
+```bash
+# On Crunchomics, inside ~/personal/data_analysis:
+# download the example reads into the data folder
+# Link from the MicEco tutorial (course GitHub page), downloaded on <date>
+wget https://github.com/ndombrowski/MicEco_teaching_material/raw/refs/heads/main/data/barcode07.fastq.gz -P data/
+
+# Look at the first reads: header, sequence, +, quality
+zcat data/barcode07.fastq.gz | head
+
+# Count the reads and their lengths with seqkit, on a compute node (srun)
+mkdir -p results/seqkit
+srun --ntasks=1 --cpus-per-task=1 --mem=5G seqkit stats data/barcode07.fastq.gz \
+    -Tao results/seqkit/barcode07_stats.tsv --threads 1
+
+# Check the result
+less -S results/seqkit/barcode07_stats.tsv
+```
+
+From seqkit stats: 3,785 reads (`num_seqs`), average length 1,307 bp (`avg_len`). Our amplicon is about 1,450 bp. The average is lower because of many short reads. The median length (`Q2`) is 1,455 bp, close to the amplicon size.
+````
+
+In my `## Software` section, I added: seqkit <version>, already installed on Crunchomics (`seqkit version`).
+:::
+:::
 
 
 ### `sbatch`: submitting a long-running job
@@ -754,6 +842,69 @@ NanoPlot also writes its own log file into the output folder (`NanoPlot_<date>_<
 :::
 
 
+::: {.callout-notebook .callout-note collapse="false" title="Notebook checkpoint: Quality plots with NanoPlot"}
+Add a heading `### Quality plots with NanoPlot`, and below it:
+
+1.  The content of your job script `scripts/nanoplot.sh`, in a code block. The script only exists on Crunchomics, so your notebook is the place where others can read it
+2.  The `sbatch` command, with a comment that names the script and the folder it makes. Below the code block, write down the job ID that `sbatch` printed (`Submitted batch job ...`). The job ID is also part of the names of the log files, so with it you can find the logs of this run later
+3.  The `scp` command that copied the results to your computer (remember: `# On my computer`)
+4.  Below the code blocks: the number of reads, the mean read length and the mean read quality from `NanoStats.txt`, and in your own words, what the length vs quality plot shows. Which reads would you like to remove before the next step?
+5.  Did your job fail? Look at the `.err` file in `logs`, and add the error and your fix to your `## Error log`
+
+::: {.callout-notebook-answer .callout-note collapse="true" title="Compare with my notes"}
+My notes for the example file `barcode07`. Your numbers and your plot will differ.
+
+```` markdown
+### Quality plots with NanoPlot
+
+Job script `scripts/nanoplot.sh` (on Crunchomics):
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=nanoplot
+#SBATCH --output=logs/nanoplot_%j.out
+#SBATCH --error=logs/nanoplot_%j.err
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=10G
+#SBATCH --time=00:30:00
+
+# Activate the conda environment
+source ~/.bashrc
+conda activate nanoplot_1.48.0
+
+# Make an output directory
+mkdir -p results/nanoplot/raw
+
+# Make quality plots and a stats table of the raw reads
+NanoPlot \
+    --fastq data/barcode07.fastq.gz \
+    -t 2 \
+    --tsv_stats \
+    --plots dot \
+    -o results/nanoplot/raw
+```
+
+```bash
+# On Crunchomics, inside ~/personal/data_analysis:
+# run NanoPlot on the raw reads, output goes to results/nanoplot/raw
+sbatch scripts/nanoplot.sh
+```
+
+Job ID: <job ID>. The logs are in `logs/nanoplot_<job ID>.out` and `.err`.
+
+```bash
+# On my computer, inside my local data_analysis folder: copy the NanoPlot results
+scp -r uvanetid@omics-h0.science.uva.nl:/home/uvanetid/personal/data_analysis/results/nanoplot results
+```
+
+From `NanoStats.txt`: 3,785 reads, mean read length 1,307 bp, median read length 1,455 bp, mean read quality 12.4.
+
+The length vs quality plot shows a clear peak just below 1,500 bp, close to the size of our 16S amplicon. There are also many short reads below about 1,300 bp, and a few long reads up to about 3,500 bp. Most reads have a quality between 10 and 15. Before mapping, I would remove the short reads and the very long reads.
+````
+:::
+:::
+
+
 ::: {.callout-tip title="Viewing files without scp" collapse="false"}
 
 Crunchomics has an Application Server that can be used to run the RStudio app on the server. 
@@ -764,4 +915,13 @@ You can use this to run R code but also to view files. To do this:
 3. The File Viewer on the right side shows the files and folders that you have access to on Crunchomics
 4. You can view your NanoPlot HTML by going to `personal/data_analysis/results/nanoplot/raw`, clicking on the HTML you want to view and selecting View in Web Browser
 
+:::
+
+
+## Wrapping up
+
+::: {.callout-notebook .callout-note collapse="false" title="Notebook checkpoint: Tidy your notebook"}
+1.  Read the Crunchomics part of your notebook from the top. Does every code block say where it ran (`# On my computer` or `# On Crunchomics`)?
+2.  Check that your notebook explains every file and folder in your project folder on Crunchomics. Run `ls`, `ls results/*`, `ls scripts` and `ls logs` inside `~/personal/data_analysis`. If something is not explained, add a line about it, even if it is "practice run, same result as with srun"
+3.  Add a heading `## Questions` at the end of your notebook, if it is not there yet, and write down anything that is still unclear
 :::

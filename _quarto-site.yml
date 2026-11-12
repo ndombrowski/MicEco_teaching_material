@@ -2,3 +2,4 @@ project:
   resources:
     - /standalone/source/*html
     - /slides/*html
+    - /source/miceco_analysis.html

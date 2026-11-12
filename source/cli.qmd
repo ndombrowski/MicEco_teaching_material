@@ -162,7 +162,6 @@ Anything written after `#` in Bash is a comment. A comment won't be executed, bu
 In your own work, add short, meaningful comments above key steps. Avoid restating the obvious, instead, explain why you’re doing something or what it achieves.
 :::
 
-
 ## `cd`: Move around folders
 
 Now that we have our own project folder, let’s learn how to move around the file system.
@@ -266,7 +265,7 @@ wget https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main
 For Mac users wget is not installed by default. If you do not want to install it, you can instead use the `curl` command:
 
 ```{bash}
-# -O: save the file under its oroginal name 
+# -O: save the file under its original name
 # -L: Tells curl that if the server tells it to go somewhere else, follow it until you reach the actual file
 curl -LO https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot303.fasta.gz
 ```
@@ -734,7 +733,7 @@ grep -c ">" results/human.fasta
 :::
 
 
-## Pipes 
+## Pipes
 
 So far, we’ve run one command at a time. But often, you might want to combine commands so that the output of one becomes the input of another. That’s what the pipe (`|`) does. It allows us to chain simple commands together to do more complex things.
 

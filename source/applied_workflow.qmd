@@ -10,7 +10,13 @@ Now that we have learned how to use the command line to issue commands and use a
 
 - Perform quality filtering by choosing appropriate cutoffs based on our quality assessment we did in the prior section
 - Align the quality filtered reads to a reference database 
-- Generate a count matrix 
+- Generate a count matrix
+
+This chapter has three parts:
+
+1.  **The tutorial**: you run the workflow on one of your barcodes, from quality filtering to a count table
+2.  **Your own analysis**: during day 2, you get a count table with the samples of all groups, and the code that made it. You analyse the table yourself, and you make your own figures for your presentation
+3.  **Optional, if you have time left**: run the workflow on all your barcodes with a loop (bonus section), or work through the page on [LLMs](llm_usage.qmd)
 
 **Important**: All of this should be run on the Crunchomics HPC, so be sure that you connected with `ssh -X user@omics-h0.science.uva.nl`.
 
@@ -142,6 +148,19 @@ This is the NanoPlot read length against read quality plot for `barcode07` after
 :::
 :::
 
+
+
+::: {.callout-notebook .callout-note collapse="false" title="Notebook checkpoint: Quality filtering with chopper"}
+The chopper cutoffs decide which reads you keep. This is a scientific choice, so your notebook needs to say why you chose them.
+
+Add a heading `### Quality filtering with chopper`, and below it:
+
+1.  The chopper version and the `mamba create` command, in your `## Software` section
+2.  The chopper command, with a comment for each cutoff
+3.  Below the code block: why you chose these cutoffs. Point to what you saw in your NanoPlot plot before filtering
+4.  The line that chopper printed ("Kept ... reads out of ..."), and the share of reads you kept, in %. If you changed your cutoffs after a first try, write down both tries and why you changed them
+5.  The NanoPlot and seqkit commands for the filtered reads, and in one or two sentences, how the length vs quality plot changed
+:::
 
 
 ## `Minimap2`: Map reads to reference database
@@ -300,6 +319,16 @@ Information on the PAF output:
 :::
 
 
+::: {.callout-notebook .callout-note collapse="false" title="Notebook checkpoint: Mapping with minimap2"}
+Add a heading `### Mapping with minimap2`, and below it:
+
+1.  The minimap2 version and the `mamba create` command, in your `## Software` section
+2.  The download of `amplicons_nr.fasta`, with where the link came from and the date, and below it, how many reference sequences the file has
+3.  The minimap2 command, and the check you ran afterwards
+4.  Below the code block: the number of alignments and the number of filtered reads. If they differ, write down why you think they differ. Did your community include strains with very similar 16S sequences?
+:::
+
+
 ## Generate a count table
 
 Now that we have our alignment results, our goal is to summarize them into a count table, a matrix showing how many reads aligned to each reference 16S rRNA sequence. Before creating the count table, we first need to filter our results to make sure we only count high-confidence matches by:
@@ -396,7 +425,7 @@ Inspect the outputs and answer the following:
 
 1. How many reads were lost due to the filtering? Check the options of `python scripts/paf_to_matrix.py -h` and think about whether there are any parameters you would change in case too many reads were removed?
 2. Are the taxa listed in your count tables consistent with the strains used in your experiment?
-3. Do the relative abundances of taxa match your expectations? If not, what biological or technical factors could explain the differences?
+3. Do the relative abundances of taxa match your expectations? If not, what biological or technical factors could explain the differences? Hint: in the [command line chapter](cli.qmd), you saw that strains can carry different numbers of 16S copies.
 4. Open the three histograms. To view them, copy them to your own computer, as you did for the NanoPlot output. The script removes alignments with an identity below 0.9, a query coverage below 0.9, or a mapping quality between 1 and 29. Where do these cutoffs fall in your histograms? Which filter do you think removed most of your alignments? Write your answer in your notebook.
 
 ::: {.callout-answer .callout-warning collapse=true}
@@ -421,7 +450,7 @@ conda deactivate
 
 1. For the example file `barcode07`, the filtering removed 40 of 1,835 alignments (2%). Note that the summary counts alignments, not reads. If you had more alignments than reads, some of the removed alignments were likely secondary (less confident) alignments. You will also lose potential contaminations during this step. That is because reads coming from contaminant bacteria might still map to sequences in the reference database but with much lower sequence identity, and therefore will be discarded.
 2. Most reads map to Streptococcus and Lactococcus, consistent with the experiment. A few unassigned reads may come from contamination or poor-quality reads (10 reads in `barcode07`).
-3. Streptococcus had ~8× more reads than Lactococcus (1,576 and 186 reads in `barcode07`). This may indicate stronger growth due to better adaptation to liquid media or competitive advantage in the co-culture.
+3. Streptococcus had ~8× more reads than Lactococcus (1,576 and 186 reads in `barcode07`). This may indicate stronger growth due to better adaptation to liquid media or competitive advantage in the co-culture. The 16S copy number can also play a role: a strain with more 16S copies gives more reads per cell, so read counts are not the same as cell numbers.
 4. These are the histograms for `barcode07`:
 
    ![](../img/barcode07_identity_hist.png){width=60%}
@@ -436,11 +465,56 @@ conda deactivate
 :::
 
 
+::: {.callout-notebook .callout-note collapse="false" title="Notebook checkpoint: Count table"}
+Add a heading `### Count table`, and below it:
+
+1.  The Python environment in your `## Software` section
+2.  The downloads of `paf_to_matrix.py` and `accession_to_genus.tsv`, with where the links came from and the date
+3.  The `paf_to_matrix.py` command, and the filter cutoffs it used. They are the defaults, see `python scripts/paf_to_matrix.py -h`
+4.  The summary that the script printed: how many alignments were removed, and by which filter
+5.  Your answers to questions 1-4 of Task 4, in your own words. For question 2, compare the genera in `otu_table_genus.tsv` with the strains in your community from your lab notes
+:::
+
+
+## Wrapping up
+
+You now have a count table for one of your samples.
+
+::: {.callout-notebook .callout-note collapse="false" title="Notebook checkpoint: Tidy your notebook"}
+1.  Read the analysis from the top. Could someone go from your raw reads to your count table with your notebook alone?
+2.  Is every number followed by a sentence on what it means?
+3.  Add anything that is still unclear to your `## Questions`
+:::
+
+
+## Your own analysis of the count table
+
+When you have finished the tutorial, you get a count table with the samples of all groups, and the code that made it. The table was made with the same steps as your own barcode. Each group tested its own strain combinations, but other groups worked with related questions on human or soil strains. So you can also compare your samples with theirs. How far you go is up to you. For your presentation, you need at least your own figures of your own samples, for example a barplot of the genera in each sample.
+
+::: {.callout-notebook .callout-note collapse="false" title="Notebook checkpoint: Your own analysis"}
+Add a heading `## Analysis of the count table`, and below it:
+
+1.  Where the count table came from, and when you got it. Write that it was made with the same steps as in the tutorial
+2.  Which samples you analysed: your own (barcode, community and day), and any samples of other groups, with the reason why you chose them
+3.  Your code, in code blocks, with a comment above each step
+4.  Each figure, with one or two sentences below it: what it shows, and what it means for your hypothesis
+:::
+
+::: {.callout-notebook .callout-note collapse="false" title="Notebook checkpoint: Before you hand in"}
+Your teachers read your notebook before your presentation, to prepare their questions. Take some time to make it complete.
+
+1.  At the top: does your notebook say what your community is, what your hypothesis was, and which samples you sequenced?
+2.  `## Software`: is every tool there, with its version and where it came from (pre-installed or a conda environment)?
+3.  Read your notebook from the top. Could someone repeat your work, from the lab to your figures, with your notebook alone?
+4.  `## Error log` and `## Questions`: is anything still open?
+:::
+
+
 ## Bonus: run the workflow on all your barcodes (optional)
 
 So far you analysed one barcode, your largest file. In the practical you prepared more samples than that, for example your community at day 0 and at day 2. In this bonus section you run chopper and minimap2 on all your barcodes with a `for` loop. Then you make one count table with one column per barcode.
 
-You don't need this section for the rest of the course. After the workshop you get the full count table for all samples, and the code that made it. Do this section if you have time left, or if you want to see how that table was made.
+You don't need this section for the rest of the course. You get the count table for all samples during day 2, together with the code that made it. Do this section if you have time left, or if you want to see how that table was made.
 
 How long does it take? On the practical data, chopper takes about 6 seconds per barcode and minimap2 20 to 40 seconds. For 4 to 6 barcodes, the whole section runs in a few minutes. So `srun` is enough and you don't need a job script.
 
@@ -622,11 +696,5 @@ less -S results/tables_all/otu_table_genus.tsv
 3. This depends on your samples. Compare the barcodes with each other. If one barcode has many more unassigned reads than the others, look at its chopper and seqkit numbers.
 4. You should see no warning. `Warning: no seqkit stats found for: ...` means that a barcode in `results/minimap2/` has no row in your seqkit file. Its unassigned reads are then not counted.
 :::
-:::
-
-::: {.callout-tip title="Using an LLM for this loop"}
-You can ask an LLM to turn your commands for one barcode into a loop. If you do, paste the output of `python scripts/paf_to_matrix.py -h` into your question. When we prepared this course, every answer we got without the `-h` text did this step wrong. Some put the script inside the loop. One gave `-s` several files, which makes the script stop with an error. With the `-h` text, the answer was correct.
-
-LLMs also often add lines that you didn't ask for, such as checks that skip a barcode. Read [Lines that LLMs add to loops and job scripts](llm_usage.qmd#lines-that-llms-add-to-loops-and-job-scripts) before you run such a script. This works with any chat tool, including free ones: you only paste text.
 :::
 

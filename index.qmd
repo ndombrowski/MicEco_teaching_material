@@ -85,15 +85,19 @@ quarto render --profile noanswers source/hpc_howto.qmd -M output-file:hpc_howto_
 quarto render --profile noanswers source/applied_workflow.qmd -M output-file:applied_workflow_noanswers.html
 quarto render --profile noanswers source/llm_usage.qmd -M output-file:llm_usage_noanswers.html
 
-cd slides 
+cd slides
 quarto render
+cd ..
+
+# Example notebook for students (linked from documentation.qmd)
+# Not a book chapter. The main render copies source/miceco_analysis.html into docs/source/
+# (see _quarto-site.yml), so render it before the main site.
+# Page address: https://ndombrowski.github.io/MicEco_teaching_material/source/miceco_analysis.html
+quarto render .\source\miceco_analysis.qmd --execute-dir .
 
 # Render main site: required after standalone renders,
-# copies standalone/source/*.html and slides/*.html into docs/ (see _quarto-site.yml)
-cd ..
+# copies standalone/source/*.html, slides/*.html and source/miceco_analysis.html into docs/ (see _quarto-site.yml)
 quarto render
-
-quarto render .\source\miceco_analysis.qmd --execute-dir .
 ```
 
 ::: {.callout-question .callout-warning collapse=false}

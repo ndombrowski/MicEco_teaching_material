@@ -171,6 +171,7 @@ You will have today and Monday to work on a practical and learn how to:
 - Navigate the command line
 - Work on an HPC
 - Analyze sequencing data
+- Write down what you do and what you see in your notebook
 
 {{< qrcode https://ndombrowski.github.io/MicEco_teaching_material/ qr1 width=150 height=150 colorDark='#2d3e3f' >}}
 
