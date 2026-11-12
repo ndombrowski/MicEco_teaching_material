@@ -28,21 +28,21 @@ def add_barcode_id_to_html(html_file):
 
     return modified_html_content
 
-def combine_html_files(base_path, output_html, start_barcode=None, end_barcode=None):
+def combine_html_files(base_path, output_html, prefix="barcode", start_barcode=None, end_barcode=None):
     """Combine all LengthvsQualityScatterPlot_dot.html files in the base_path directory into a single HTML file, sorted by barcode ID"""
     combined_html = ""
 
-    # Loop through all barcode folders in the base_path
-    barcode_folders = [f for f in os.listdir(base_path) if f.startswith("barcode")]
-    
-    # Sort the barcode folders by the numeric part of the barcode ID
-    barcode_folders.sort(key=lambda folder: int(folder.replace("barcode", "")))
+    # Loop through all folders in the base_path that start with the prefix
+    barcode_folders = [f for f in os.listdir(base_path) if f.startswith(prefix)]
+
+    # Sort the folders by the number after the prefix
+    barcode_folders.sort(key=lambda folder: int(folder.replace(prefix, "")))
 
     # If a range is specified, filter the barcode folders
     if start_barcode is not None:
-        barcode_folders = [f for f in barcode_folders if int(f.replace("barcode", "")) >= start_barcode]
+        barcode_folders = [f for f in barcode_folders if int(f.replace(prefix, "")) >= start_barcode]
     if end_barcode is not None:
-        barcode_folders = [f for f in barcode_folders if int(f.replace("barcode", "")) <= end_barcode]
+        barcode_folders = [f for f in barcode_folders if int(f.replace(prefix, "")) <= end_barcode]
 
     if not barcode_folders:
         print("No barcode folders found in the specified range!")
@@ -68,16 +68,17 @@ def combine_html_files(base_path, output_html, start_barcode=None, end_barcode=N
     save_html(output_html, combined_html)
     print(f"Combined HTML saved as: {output_html}")
 
-def main(base_path, output_html, start_barcode, end_barcode):
+def main(base_path, output_html, prefix, start_barcode, end_barcode):
     # Combine all relevant HTML files into one, possibly filtered by barcode range
-    combine_html_files(base_path, output_html, start_barcode, end_barcode)
+    combine_html_files(base_path, output_html, prefix, start_barcode, end_barcode)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Combine LengthvsQualityScatterPlot_dot.html files from each barcode folder into one, adding barcode ID to each and sorting by barcode ID.")
     parser.add_argument("--base_path", required=True, help="Base directory containing barcode folders")
     parser.add_argument("--output_html", required=True, help="Output HTML file name")
+    parser.add_argument("--prefix", default="barcode", help="Start of the folder names to combine, followed by the barcode number (default: barcode). Example: s_bc for s_bc01, s_bc02, ...")
     parser.add_argument("--start_barcode", type=int, default=None, help="Start barcode number to process (inclusive)")
     parser.add_argument("--end_barcode", type=int, default=None, help="End barcode number to process (inclusive)")
     args = parser.parse_args()
-    main(args.base_path, args.output_html, args.start_barcode, args.end_barcode)
+    main(args.base_path, args.output_html, args.prefix, args.start_barcode, args.end_barcode)
 

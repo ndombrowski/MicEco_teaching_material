@@ -10,3 +10,11 @@ CLAUDE.md
 PLAN.md
 to_run.md
 standalone_noanswers/
+# analysis_results: keep only small tables in git
+analysis_results/**/mapping_counts/
+analysis_results/**/*.paf
+analysis_results/**/*.fastq.gz
+analysis_results/**/bad_hit_read_ids.txt
+analysis_results/**/*.html
+# NanoStats.txt per sample: same numbers as the seqkit tables, keep local only
+analysis_results/**/nanoplot/

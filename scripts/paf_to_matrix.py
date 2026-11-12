@@ -284,7 +284,11 @@ def main():
                 "Warning: no seqkit stats found for: " + ", ".join(missing_stats)
                 + ". Their unassigned reads are not counted."
             )
-        
+
+        # Keep only the stats rows of samples that have a PAF file.
+        # The stats file may hold more samples (e.g. when testing one PAF file)
+        stats = stats[stats["sample"].isin(paf_samples)]
+
         # Generate count table but including the info from stats
         mapped_seqs = counts.groupby("sample")["reads"].sum()
         barcode_total_seqs = stats.groupby("sample")["num_seqs"].sum()
@@ -313,7 +317,8 @@ def main():
 
     # ---------------- Generate table with best-hits and taxonomy ---------------- #
     # Combine with counts and deal with unassigned reads
-    counts_tax = counts.merge(taxon_df, on="tname", how="left").fillna("unassigned")
+    counts_tax = counts.merge(taxon_df, on="tname", how="left")
+    counts_tax["genus"] = counts_tax["genus"].fillna("unassigned")
 
     # Merge counts on genus level
     counts_genus = counts_tax.groupby(["sample", "genus"], as_index=False)[

@@ -135,9 +135,7 @@ If you read this then NanoPlot 1.48.0 has crashed :-(
 AttributeError: PolyCollection.set() got an unexpected keyword argument 'stat_func'
 ```
 
-I searched for the last line of this error in the [issues of NanoPlot on GitHub](https://github.com/wdecoster/NanoPlot/issues), the page where users report problems and the developers answer. It is a known bug, reported in 2023 and again in 2026. The developer explained that the hex plot uses older code that is no longer fully supported. On Crunchomics, NanoPlot 1.46.1 and 1.42.0 made no hex plot either.
-
-So neither answer gives you a hex plot, and there is no quick fix. For this tutorial, that is fine: we only need the dot plot.
+I searched for the last line of this error in the [issues of NanoPlot on GitHub](https://github.com/wdecoster/NanoPlot/issues), the page where users report problems and the developers answer. It is a known bug, reported in 2023 and again in 2026. So neither answer gives you a hex plot, and there is no quick fix. For this tutorial, that is fine: we only need the dot plot.
 
 **Bugs are normal.** If you paste a crash into an LLM, it may suggest a fix that sounds convincing, even for a bug it doesn't know about. The developers and other users of the tool know more. Search for the error message in the tool's GitHub issues, and remove the "is:open" filter, because the answer is often in a closed issue. Sometimes the honest answer is "this doesn't work right now, use something else".
 
@@ -207,11 +205,7 @@ UvA AI Chat also wrote the quality option as `--min-qual`. chopper 0.15.0 doesn'
 
 ```         
 error: unexpected argument '--min-qual' found
-
-  tip: a similar argument exists: '--maxqual'
 ```
-
-Be careful with this tip. `--maxqual` sets a *maximum* quality, the opposite of what you want. The right option is `-q` or `--quality` (see `chopper -h`). A suggestion in an error message is also just a guess, based on similar spelling.
 
 The LLM has not seen your data, so it can only give typical numbers. Three things decide the right cutoffs, and only you know them:
 
@@ -220,8 +214,6 @@ The LLM has not seen your data, so it can only give typical numbers. Three thing
 -   **How many reads you can lose.** If chopper keeps less than 50% of your reads, your settings are too strict (see the chopper task in the long-read chapter)
 
 Your numbers can be different from all of the above, and that is fine, as long as you can explain them.
-
-**A side note on reading `.gz` files.** An LLM may suggest `gunzip -c data/barcodeX.fastq.gz | chopper ...`. That is not wrong. Older versions of chopper could only read from this kind of pipe. Reading a file directly with `-i` was added in chopper 0.8.0 (April 2024), and reading `.gz` files in 0.9.0 (August 2024), according to the [release notes](https://github.com/wdecoster/chopper/releases). LLMs have learned from documentation of many versions, so they may suggest the older pattern. Check `chopper -h` for the version you use. Both ways give the same result: with the settings of UvA AI Chat, `gunzip -c ... | chopper` and `chopper -i ...` both kept 1,903 reads.
 
 **Key points**
 
@@ -288,8 +280,6 @@ Fri Nov  6 13:36:31 CET 2026
 ```
 
 But the job started and ended in the same second. NanoPlot normally needs about a minute for one barcode. The output folder is empty.
-
-**A trap.** I also submitted the broken script while the `nanoplot` environment was active in my terminal. The `.err` file showed the same conda error. But this time NanoPlot ran and made all the plots. The job gets a copy of the settings of your terminal, including the list of folders where it looks for programs. Because `nanoplot_1.48.0` was active, NanoPlot was on that list. So the same script works or fails depending on what was active when you typed `sbatch`. Fix the error anyway, even if the output looks fine. Otherwise your results depend on an accident.
 
 **What the LLMs answered.** I asked UvA AI Chat (with Claude Sonnet 4.6) and ChatGPT about the error message only, in November 2026, both without any memory of earlier chats.
 
@@ -471,7 +461,7 @@ It added a check before each step: skip the step if its output file exists and i
 
 I tested this on Crunchomics, with a barcode whose fastq file was missing:
 
-1.  chopper failed and the job stopped. But the output file `barcode99_filtered.fastq.gz` was left behind, with a size of 20 bytes: a compressed file without any reads
+1.  chopper failed and the job stopped. But the chopper output file `barcode99_filtered.fastq.gz` was left behind, with a size of 20 bytes: a compressed file without any reads
 2.  I added the missing fastq file and submitted the job again. The script printed `Step 1 already complete, skipping Chopper`. The 20-byte file stayed, and seqkit counted 0 reads for this barcode
 
 So the explanation sounded right, but the check let a broken barcode through. `set -e` stops the script, but it doesn't delete the file that the failed step had started. And `-s` only catches a file of 0 bytes.
