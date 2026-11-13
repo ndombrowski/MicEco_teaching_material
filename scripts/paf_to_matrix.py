@@ -247,6 +247,17 @@ def main():
     # Count reads per target
     counts = df_best.groupby(["sample", "tname"]).size().reset_index(name="reads")
 
+    # Warn if a PAF file gave no counted reads (empty file, or all
+    # alignments removed by the filter). These samples get no column.
+    paf_names = [paf_file.stem for paf_file in all_files]
+    samples_with_counts = counts["sample"].unique().tolist()
+    no_counts = [s for s in paf_names if s not in samples_with_counts]
+    if no_counts:
+        print(
+            "Warning: no reads counted for: " + ", ".join(no_counts)
+            + ". These samples are not in the table."
+        )
+
     # Add unmapped reads if stats are provided
     if stats_path and stats_path.exists():
         stats = pd.read_csv(stats_path, sep="\t")

@@ -516,7 +516,7 @@ So far you analysed one barcode, your largest file. In the practical you prepare
 
 You don't need this section for the rest of the course. You get the count table for all samples during day 2, together with the code that made it. Do this section if you have time left, or if you want to see how that table was made.
 
-How long does it take? On the practical data, chopper takes about 6 seconds per barcode and minimap2 20 to 40 seconds. For 4 to 6 barcodes, the whole section runs in a few minutes. So `srun` is enough and you don't need a job script.
+How long does it take? On the practical data, chopper takes about 6 seconds per barcode and minimap2 20 to 40 seconds. In a test with 8 barcodes, both loops together took about 4 minutes. So `srun` is enough and you don't need a job script.
 
 ### Which steps run once per barcode?
 
@@ -549,6 +549,7 @@ Hint: run `python scripts/paf_to_matrix.py -h` and read what `-i` and `-s` expec
 **Task 1: List your barcodes**
 
 - Look at all files from the practical with `ls -lh /zfs/omics/projects/education/miceco/data/practical/*.fastq.gz`. Find the barcodes that your group prepared.
+- Look at the file sizes too. Is one of your files much smaller than the others? Write it in your notebook, and watch what happens to it in the loop.
 - Use `nano` to make a file `barcodes.txt` in your `data_analysis` folder, with one barcode per line. Write the names exactly as in the file names, without `.fastq.gz`.
 - Write the list in your notebook. For each barcode, also write which sample it is (community, day).
 
@@ -691,10 +692,10 @@ conda deactivate
 less -S results/tables_all/otu_table_genus.tsv
 ```
 
-1. If you see more columns than barcodes, an old `.paf` file is still in `results/minimap2/`. If you see fewer, a barcode failed in the loop. Scroll back through what the loop printed.
-2. Yes. The loop runs the same commands on the same file, so your first barcode gets the same numbers again.
+1. If you see more columns than barcodes, an old `.paf` file is still in `results/minimap2/`. If you see fewer, a barcode failed in the loop. Scroll back through what the loop printed. For example, chopper printed `Kept 0 reads out of 2 reads`, the filtered fastq file has 20 bytes and the `.paf` file has 0 lines. The script then leaves that barcode out of the table.
+2. Yes. The loop runs the same commands on the same file, so your first barcode gets the same numbers again. The new table can have extra rows with 0 for your first barcode: genera that were found only in your other barcodes.
 3. This depends on your samples. Compare the barcodes with each other. If one barcode has many more unassigned reads than the others, look at its chopper and seqkit numbers.
-4. You should see no warning. `Warning: no seqkit stats found for: ...` means that a barcode in `results/minimap2/` has no row in your seqkit file. Its unassigned reads are then not counted.
+4. You should see no warning. `Warning: no seqkit stats found for: ...` means that a barcode in `results/minimap2/` has no row in your seqkit file. Its unassigned reads are then not counted. `Warning: no reads counted for: ...` means that a barcode had no reads left after filtering. It has no column in the table (see question 1).
 :::
 :::
 

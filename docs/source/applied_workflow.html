@@ -920,7 +920,7 @@ window.Quarto = {
 <h2 data-number="6.6" class="anchored" data-anchor-id="bonus-run-the-workflow-on-all-your-barcodes-optional"><span class="header-section-number">6.6</span> Bonus: run the workflow on all your barcodes (optional)</h2>
 <p>So far you analysed one barcode, your largest file. In the practical you prepared more samples than that, for example your community at day 0 and at day 2. In this bonus section you run chopper and minimap2 on all your barcodes with a <code>for</code> loop. Then you make one count table with one column per barcode.</p>
 <p>You don’t need this section for the rest of the course. You get the count table for all samples during day 2, together with the code that made it. Do this section if you have time left, or if you want to see how that table was made.</p>
-<p>How long does it take? On the practical data, chopper takes about 6 seconds per barcode and minimap2 20 to 40 seconds. For 4 to 6 barcodes, the whole section runs in a few minutes. So <code>srun</code> is enough and you don’t need a job script.</p>
+<p>How long does it take? On the practical data, chopper takes about 6 seconds per barcode and minimap2 20 to 40 seconds. In a test with 8 barcodes, both loops together took about 4 minutes. So <code>srun</code> is enough and you don’t need a job script.</p>
 <section id="which-steps-run-once-per-barcode" class="level3" data-number="6.6.1">
 <h3 data-number="6.6.1" class="anchored" data-anchor-id="which-steps-run-once-per-barcode"><span class="header-section-number">6.6.1</span> Which steps run once per barcode?</h3>
 <p>In <a href="../source/cli.html#working-with-multiple-files">Working with multiple files</a> you used a <code>for</code> loop to download one file per accession. The same pattern runs a command once per barcode. But not every step should go inside the loop. Before you write the loop, look at what each step reads and what it makes.</p>
@@ -982,6 +982,7 @@ window.Quarto = {
 <p><strong>Task 1: List your barcodes</strong></p>
 <ul>
 <li>Look at all files from the practical with <code>ls -lh /zfs/omics/projects/education/miceco/data/practical/*.fastq.gz</code>. Find the barcodes that your group prepared.</li>
+<li>Look at the file sizes too. Is one of your files much smaller than the others? Write it in your notebook, and watch what happens to it in the loop.</li>
 <li>Use <code>nano</code> to make a file <code>barcodes.txt</code> in your <code>data_analysis</code> folder, with one barcode per line. Write the names exactly as in the file names, without <code>.fastq.gz</code>.</li>
 <li>Write the list in your notebook. For each barcode, also write which sample it is (community, day).</li>
 </ul>
@@ -1127,10 +1128,10 @@ window.Quarto = {
 <span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> results/tables_all/otu_table_genus.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ol type="1">
-<li>If you see more columns than barcodes, an old <code>.paf</code> file is still in <code>results/minimap2/</code>. If you see fewer, a barcode failed in the loop. Scroll back through what the loop printed.</li>
-<li>Yes. The loop runs the same commands on the same file, so your first barcode gets the same numbers again.</li>
+<li>If you see more columns than barcodes, an old <code>.paf</code> file is still in <code>results/minimap2/</code>. If you see fewer, a barcode failed in the loop. Scroll back through what the loop printed. For example, chopper printed <code>Kept 0 reads out of 2 reads</code>, the filtered fastq file has 20 bytes and the <code>.paf</code> file has 0 lines. The script then leaves that barcode out of the table.</li>
+<li>Yes. The loop runs the same commands on the same file, so your first barcode gets the same numbers again. The new table can have extra rows with 0 for your first barcode: genera that were found only in your other barcodes.</li>
 <li>This depends on your samples. Compare the barcodes with each other. If one barcode has many more unassigned reads than the others, look at its chopper and seqkit numbers.</li>
-<li>You should see no warning. <code>Warning: no seqkit stats found for: ...</code> means that a barcode in <code>results/minimap2/</code> has no row in your seqkit file. Its unassigned reads are then not counted.</li>
+<li>You should see no warning. <code>Warning: no seqkit stats found for: ...</code> means that a barcode in <code>results/minimap2/</code> has no row in your seqkit file. Its unassigned reads are then not counted. <code>Warning: no reads counted for: ...</code> means that a barcode had no reads left after filtering. It has no column in the table (see question 1).</li>
 </ol>
 </div>
 </div>
