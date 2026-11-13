@@ -10,9 +10,9 @@ Now that you are more comfortable with the command line, we will learn how to wo
 
 - Connect to the HPC and transfer your sequencing files
 - Install software using conda
-- Learn how to run analyses using SLURM job submission scripts
+- Learn how to run analyses on the compute nodes with SLURM
     - `srun` for shorter interactive analyses
-    - `sbatch` for longer running, more resource intensive analyses
+    - Bonus, for later use in a thesis or research project: `sbatch` for longer running, more resource intensive analyses
 
 
 ## Writing it down in your notebook
@@ -338,7 +338,7 @@ This displays all jobs submitted to the system, and might look something like th
 
 Some useful columns to know:
 
-- JOBID: a unique number assigned to each job; you can use it to check or cancel a job later.
+- JOBID: a unique number assigned to each job; you can use it to check on a job later.
 - ST: the current state of the job (e.g., R = running, PD = pending).
 - A full list of SLURM job state codes can be found [here](https://curc.readthedocs.io/en/latest/running-jobs/squeue-status-codes.html)
 
@@ -349,15 +349,17 @@ squeue -u $USER
 ```
 
 
-### `srun`:Submitting a job interactively
+### `srun`: Submitting a job interactively
 
-Now that we’ve seen how to check the job queue, let’s learn how to actually run jobs on the compute nodes. There are two main ways to submit jobs: `srun` and with `sbatch`. We'll start with `srun`, which you typically use when:
+Now that we’ve seen how to check the job queue, let’s learn how to actually run jobs on the compute nodes. There are two main ways to submit jobs: `srun` and `sbatch`. This course only needs `srun`, and `sbatch` is in a [bonus section](#bonus-run-long-jobs-with-sbatch-optional) at the end of this chapter. You typically use `srun` when:
 
 - You want to run tasks **interactively** and see the output directly on your screen
-- You are **testing or debugging** your commands before writing a job script
+- You are **testing** a command before you run it on more data
 - You have **short jobs** (usually less than a few hours)
 
 > **Important:** Jobs started with `srun` will stop if you disconnect from the HPC (unless you use tools like `screen` or `tmux`, which we won’t cover in this tutorial).
+
+If something goes wrong then you can stop a job that you started with `srun` by pressing `Ctrl+C`.
 
 Let’s start with a very simple example to see how `srun` works:
 
@@ -377,14 +379,14 @@ Here’s what each part means:
 So the arguments after `srun` and before `echo` are where you tell SLURM what resources to allocate on the compute node.
 
 
-### Running a analysis with Seqkit interactively
+### Running an analysis with Seqkit interactively
 
 Next, let's use `srun` for something more useful. We will analyze the fasta files that we have explored using [`seqkit`](https://scienceparkstudygroup.github.io/ibed-bioinformatics-page/source/core_tools/seqkit.html), a fast toolkit for inspecting FASTA/FASTQ files. Seqkit comes with different modules, for example the stats module, that generates basic summary statistics from sequence files and can be called with `seqkit stats`.
 
 > **Tip**: Whenever you use a tool for the first time, check its help page (e.g., `seqkit -h`) to see all available options or check online for a manual or basic usage information.
 
 ```{bash}
-# Create a results folder with a seqkit folder sinide
+# Create a results folder with a seqkit folder inside
 mkdir -p results/seqkit 
 
 # Run seqkit with srun
@@ -465,11 +467,11 @@ wget https://github.com/ndombrowski/MicEco_teaching_material/raw/refs/heads/main
 
 Have a look at the data and have a look the header, sequence and quality scores.
 
-**Tasks 2: Run seqkit interactively**
+**Task 2: Run seqkit interactively**
 
 Use `srun` to analyze `barcodeX.fastq.gz` with `seqkit stats`. Request 1 CPU, 5 GB memory, and 10 minutes of runtime. Save the output in the results/seqkit/ folder and name the file `barcodeX_stats.tsv`.
 
-**Tasks 3: Check the results**
+**Task 3: Check the results**
 
 Open the output file and answer the following:
 
@@ -487,7 +489,7 @@ Open the output file and answer the following:
 zcat data/barcodeX.fastq.gz | head
 
 # Question 2 
-srun --ntasks=1 --cpus-per-task=1 --mem=5G seqkit stats data/barcodeX.fastq.gz  \
+srun --ntasks=1 --cpus-per-task=1 --mem=5G --time=00:10:00 seqkit stats data/barcodeX.fastq.gz  \
     -Tao results/seqkit/barcodeX_stats.tsv --threads 1
 
 # Question 3
@@ -543,7 +545,7 @@ zcat data/barcode07.fastq.gz | head
 
 # Count the reads and their lengths with seqkit, on a compute node (srun)
 mkdir -p results/seqkit
-srun --ntasks=1 --cpus-per-task=1 --mem=5G seqkit stats data/barcode07.fastq.gz \
+srun --ntasks=1 --cpus-per-task=1 --mem=5G --time=00:10:00 seqkit stats data/barcode07.fastq.gz \
     -Tao results/seqkit/barcode07_stats.tsv --threads 1
 
 # Check the result
@@ -553,268 +555,106 @@ less -S results/seqkit/barcode07_stats.tsv
 From seqkit stats: 3,785 reads (`num_seqs`), average length 1,307 bp (`avg_len`). Our amplicon is about 1,450 bp. The average is lower because of many short reads. The median length (`Q2`) is 1,455 bp, close to the amplicon size.
 ````
 
-In my `## Software` section, I added: seqkit <version>, already installed on Crunchomics (`seqkit version`).
+In my `## Software` section, I added: seqkit v2.7.0, already installed on Crunchomics (`seqkit version`).
 :::
 :::
 
 
-### `sbatch`: submitting a long-running job
+### NanoPlot: Quality plots of your reads
 
-While `srun` is great for quick, interactive runs, a lot of analyses on the HPC are submitted with **`sbatch`**, which lets jobs run in the background even after you log out.
-
-Use `sbatch` when:
-
-- You have **long or resource-intensive** analyses
-- You want jobs to run **unattended**
-- You plan to **run multiple jobs** in sequence or parallel
-
-#### Step 1: Create folders for organization
-
-We'll keep our project tidy by creating dedicated folders for scripts and logs:
-
-```{bash}
-mkdir -p scripts logs
-```
-
-#### Step 2: Write a job script
-
-We will first run `seqkit stats` again but this time instead of `srun` we will use `sbatch`, so that you directly can compare the two.
-
-Use nano to create a script file:
-
-```{bash}
-nano scripts/run_seqkit.sh
-```
-
-Then add the following content:
-
-```{bash}
-#!/bin/bash
-#SBATCH --job-name=seqkit
-#SBATCH --output=logs/seqkit_%j.out
-#SBATCH --error=logs/seqkit_%j.err
-#SBATCH --cpus-per-task=1
-#SBATCH --mem=5G
-#SBATCH --time=1:00:00
-
-echo "Seqkit job started on:" 
-date
-
-seqkit stats data/*fasta -Tao results/seqkit/16s_stats_2.tsv --threads 1
-
-echo "Seqkit job finished on:"
-date
-```
-
-Save and exit:
-
-- Press `Ctrl+X` to exit, then `Y` to confirm that you want to safe the file, then Enter.
-
-Notice how the `seqkit stats` command looks exactly the same as when we used srun? The main difference between `srun` and `sbatch` is how we have to package the instructions for the compute node.
-
-
-#### Step 3: Submit and monitor your job
-
-```{bash}
-# Submit by using sbatch and providing it with the script we just wrote
-sbatch scripts/run_seqkit.sh
-
-# Check job status (may run too fast to appear)
-squeue -u $USER
-
-# Once the job is finished and does not appear in the list, check the outputs 
-ls -l logs 
-ls -l results/seqkit
-less -S results/seqkit/16s_stats_2.tsv
-```
-
-When submitted successfully, you’ll see something like `Submitted batch job 754` and new log files will appear in your logs folder:
-
-- `seqkit_<jobID>.out` → standard output (results and messages)
-- `seqkit_<jobID>.err` → error log (check this if your job fails)
-
-The content of `results/seqkit/16s_stats_2.tsv` should look exactly the same as when you ran it with `srun`.
-
-
-#### Step 4: Understanding your job script
-
-In the job script above:
-
-- `#!/bin/bash`:	Runs the script with the Bash shell, this is something you need to add on top of every job script
-- `#SBATCH --...`	Allows us to define the SLURM options: resources, runtime, output names. 
-    - These are the same options that you have used with `srun`
-    - The `%j` variable in your log filenames automatically expands to the job ID, making it easier to keep track of multiple submissions.
-- `echo / date`:	Prints status messages to track job progress
-- `seqkit stats ...`: The actual analysis command to run on the compute node
-
-
-::: {.callout-tip title="Tip: Debugging your first sbatch jobs" collapse=false}
-
-If your job fails:
-
-- Check your .err and .out files in the logs folder, these files usually tell you exactly what went wrong
-- Confirm that your input files and paths exist
-- Try running the main command interactively with srun first, if it works there, it will work in a script.
-
-:::
-
-
-#### Step 5: `scancel`: Cancelling a job
-
-Sometimes you realize a job is stuck, misconfigured, or using the wrong resources. You can cancel it with:
-
-```{bash}
-scancel <jobID>
-```
-
-For example, if your job ID was 754:
-
-```{bash}
-scancel 754
-```
-
-::: {.callout-tip title="Tip: Good HPC etiquette"}
-
-Always cancel jobs that are running incorrectly or stuck in a queue too long. This frees resources for others and avoids unnecessary load on the cluster.
-
-:::
+`seqkit stats` gave you numbers that describe your reads. These are useful numbers to add to a report. Next, you will use **NanoPlot**, which shows your reads as plots: how long they are and how good their quality is. In the next chapter, you use these plots to choose which reads to remove before mapping. You run NanoPlot on a compute node with `srun`, as you did with seqkit.
 
 
 ::: {.callout-question .callout-warning collapse=false}
 # Tasks
 
-**Task 1: Write a script to run NanoPlot with sbatch**
+**Task 1: Run NanoPlot with srun**
 
-Now you'll write your own `sbatch` script to generate quality plots from `barcodeX.fastq.gz` using **NanoPlot**, which you installed earlier in your conda environment. For this, first have a look at the [tools manual](https://github.com/wdecoster/NanoPlot) and read what the tools does and what the different options are.
+Now you'll make quality plots of `barcodeX.fastq.gz` with **NanoPlot**, which you installed earlier in its own conda environment. First, have a look at the [tools manual](https://github.com/wdecoster/NanoPlot) and read what the tool does and what the different options are.
 
-Below is a template for a script that you should store in the file `scripts/nanoplot.sh` using `nano`.  You should replace all `...` with the correct code.
+Below is a template of the commands. Replace all `...` with the correct code.
 
-The script already ensures that the job:
+The template already:
 
-- Gives your job, output, and error files meaningful names  
-- Requests **2 CPUs**, **10 GB of memory**, and **30 minutes** of runtime  
-- Activates your `nanoplot_1.48.0` conda environment  
-- Creates an appropriate **output directory** under `results/`  
+- Activates your `nanoplot_1.48.0` conda environment
+- Creates an appropriate **output directory** under `results/`
+- Requests 1 task, **2 CPUs** and **10 GB of memory** with `srun`
+- Leaves the conda environment again at the end
 
-Your task is to use Nanoplot and use the right options (check the [tools manual](https://github.com/wdecoster/NanoPlot) for those) and:
+Your task is to use NanoPlot with the right options (check the [tools manual](https://github.com/wdecoster/NanoPlot) for those) and:
 
 1. Indicate the input is in **FASTQ** format
-2. Use 2 threads 
-3. Output the stats file as a properly formatted TSV 
+2. Use 2 threads
+3. Output the stats file as a properly formatted TSV
 4. Specify that we want bivariate dot plots
-5. Save all results in the new results folder  
+5. Save all results in the new results folder
 
 ```{bash}
-#!/bin/bash
-#SBATCH --job-name=nanoplot
-#SBATCH --output=logs/nanoplot_%j.out
-#SBATCH --error=logs/nanoplot_%j.err
-#SBATCH --cpus-per-task=2
-#SBATCH --mem=10G
-#SBATCH --time=00:30:00
-
 # Activate the conda environment
-source ~/.bashrc # this is needed so that conda is initialized inside the compute node
-conda activate nanoplot_1.48.0 # whenever activating an environment, make sure that the environment name is correct
-
-# Add start date (optional)
-date
+conda activate nanoplot_1.48.0
 
 # Make an output directory
 mkdir -p results/nanoplot/raw
 
-# Run Nanoplot 
+# Run NanoPlot on a compute node
 # and replace the ... with the right options for sub-tasks 1-5
-NanoPlot \
+srun --ntasks=1 --cpus-per-task=2 --mem=10G NanoPlot \
     --fastq ... \
     -t ... \
     --... \
     --plots ... \
     -o results/nanoplot/raw
 
-# Add end date (optional)
-date
+# Leave the conda environment
+conda deactivate
 ```
 
-**Task 2: Submit the job and inspect the results**
+`srun` keeps your terminal busy while NanoPlot runs. When the job is done, you get your prompt back.
 
-Then:
+**Task 2: Inspect the results**
 
-1. Submit your job with sbatch `scripts/nanoplot.sh`
-2. Use `squeue` to check whether it’s running
-3. Inspect your log files (logs/nanoplot_*.out and logs/nanoplot_*.err) and check how long the job ran
-4. Use scp to copy the results folder to your own computer for viewing
-5. In your NanoPlot output, open:
+1. Use scp to copy the results folder to your own computer for viewing
+2. In your NanoPlot output, open:
     - NanoStats.txt (text summary)
     - LengthvsQualityScatterPlot_dot.html (interactive plot that you can open on your computer in your internet browser)
-6. Record:
+3. Record:
     - How many reads were processed
     - The mean read length
     - The mean read quality
 
 ::: {.callout-answer .callout-warning collapse=true}
-# Click to see the answer 
-
-The final content of `scripts/nanoplot.sh` should look like this:
+# Click to see the answer
 
 ```{bash}
-#!/bin/bash
-#SBATCH --job-name=nanoplot
-#SBATCH --output=logs/nanoplot_%j.out
-#SBATCH --error=logs/nanoplot_%j.err
-#SBATCH --cpus-per-task=2
-#SBATCH --mem=10G
-#SBATCH --time=00:30:00
-
 # Activate the conda environment
-source ~/.bashrc # this is needed so that conda is initialized inside the compute node
 conda activate nanoplot_1.48.0
-
-# Add start date (optional)
-echo "Job started: "
-date
 
 # Make an output directory
 mkdir -p results/nanoplot/raw
 
-# Run Nanoplot
-NanoPlot \
+# Run NanoPlot on a compute node
+# The job typically should run for < 1 minute
+srun --ntasks=1 --cpus-per-task=2 --mem=10G NanoPlot \
     --fastq data/barcodeX.fastq.gz \
     -t 2 \
     --tsv_stats \
     --plots dot \
     -o results/nanoplot/raw
 
-# Add end date (optional)
-echo "Job ended: "
-date
-```
-
-Submit the script and check your results:
-
-```{bash}
-# Submit the job 
-sbatch scripts/nanoplot.sh
-
-# Check job status
-squeue
-
-# Explore the log files once the job is done
-# The job typically should run for < 1 minute
-ls -l logs/nanoplot* 
-tail logs/nanoplot_*.out
+# Leave the conda environment
+conda deactivate
 
 # Copy results to your computer
-# Run this command inside the data_analysis folder on your own computer 
+# Run this command inside the data_analysis folder on your own computer
 # (you should already have a results folder inside that folder)
 scp -r uvanetid@omics-h0.science.uva.nl:/home/uvanetid/personal/data_analysis/results/nanoplot results
 
 # If you are using a Windows computer, then you can use explorer.exe to open the folder you are in
-# Run this command inside the data_analysis folder on your own computer 
+# Run this command inside the data_analysis folder on your own computer
 # Mac users instead can use: `open .`
 explorer.exe .
 
-# Explore the stats file 
+# Explore the stats file
 less -S results/nanoplot/raw/NanoStats.txt
 
 # On your own computer, find the nanoplot folder and open this file in your browser:
@@ -834,7 +674,7 @@ This is the read length against read quality plot (`LengthvsQualityScatterPlot_d
     - A tail of short, incomplete reads
     - Fewer, unusually long reads (often chimeras)
 
-Use these plots to guide quality filtering to removing reads that are too short, too long, or low quality, while keeping the majority of good data.
+For your own data, you want to use these plots to guide quality filtering to removing reads that are too short, too long, or low quality, while keeping the majority of good data.
 
 NanoPlot also writes its own log file into the output folder (`NanoPlot_<date>_<time>.log`). In this file, you may see the message "No static plots are saved due to an export problem". You can ignore it. NanoPlot could not save the plots as images (PNG), but it still made the interactive HTML plots and `NanoStats.txt`, which are the files we use.
 
@@ -845,11 +685,10 @@ NanoPlot also writes its own log file into the output folder (`NanoPlot_<date>_<
 ::: {.callout-notebook .callout-note collapse="false" title="Notebook checkpoint: Quality plots with NanoPlot"}
 Add a heading `### Quality plots with NanoPlot`, and below it:
 
-1.  The content of your job script `scripts/nanoplot.sh`, in a code block. The script only exists on Crunchomics, so your notebook is the place where others can read it
-2.  The `sbatch` command, with a comment that names the script and the folder it makes. Below the code block, write down the job ID that `sbatch` printed (`Submitted batch job ...`). The job ID is also part of the names of the log files, so with it you can find the logs of this run later
-3.  The `scp` command that copied the results to your computer (remember: `# On my computer`)
-4.  Below the code blocks: the number of reads, the mean read length and the mean read quality from `NanoStats.txt`, and in your own words, what the length vs quality plot shows. Which reads would you like to remove before the next step?
-5.  Did your job fail? Look at the `.err` file in `logs`, and add the error and your fix to your `## Error log`
+1.  The commands that ran NanoPlot: `conda activate`, `mkdir`, the `srun` command and `conda deactivate`. Add a comment that says what NanoPlot makes and in which folder
+2.  The `scp` command that copied the results to your computer (remember: `# On my computer`)
+3.  Below the code blocks: the number of reads, the mean read length and the mean read quality from `NanoStats.txt`, and in your own words, what the length vs quality plot shows. Which reads would you like to remove before the next step?
+4.  Did NanoPlot print an error? Add the command, the error message and your fix to your `## Error log`
 
 ::: {.callout-notebook-answer .callout-note collapse="true" title="Compare with my notes"}
 My notes for the example file `barcode07`. Your numbers and your plot will differ.
@@ -857,40 +696,26 @@ My notes for the example file `barcode07`. Your numbers and your plot will diffe
 ```` markdown
 ### Quality plots with NanoPlot
 
-Job script `scripts/nanoplot.sh` (on Crunchomics):
-
 ```bash
-#!/bin/bash
-#SBATCH --job-name=nanoplot
-#SBATCH --output=logs/nanoplot_%j.out
-#SBATCH --error=logs/nanoplot_%j.err
-#SBATCH --cpus-per-task=2
-#SBATCH --mem=10G
-#SBATCH --time=00:30:00
-
-# Activate the conda environment
-source ~/.bashrc
+# On Crunchomics, inside ~/personal/data_analysis:
+# activate the NanoPlot environment
 conda activate nanoplot_1.48.0
 
-# Make an output directory
+# make the output folder
 mkdir -p results/nanoplot/raw
 
-# Make quality plots and a stats table of the raw reads
-NanoPlot \
+# make quality plots and a stats table of the raw reads,
+# on a compute node (srun), output goes to results/nanoplot/raw
+srun --ntasks=1 --cpus-per-task=2 --mem=10G NanoPlot \
     --fastq data/barcode07.fastq.gz \
     -t 2 \
     --tsv_stats \
     --plots dot \
     -o results/nanoplot/raw
-```
 
-```bash
-# On Crunchomics, inside ~/personal/data_analysis:
-# run NanoPlot on the raw reads, output goes to results/nanoplot/raw
-sbatch scripts/nanoplot.sh
+# leave the environment
+conda deactivate
 ```
-
-Job ID: <job ID>. The logs are in `logs/nanoplot_<job ID>.out` and `.err`.
 
 ```bash
 # On my computer, inside my local data_analysis folder: copy the NanoPlot results
@@ -922,6 +747,174 @@ You can use this to run R code but also to view files. To do this:
 
 ::: {.callout-notebook .callout-note collapse="false" title="Notebook checkpoint: Tidy your notebook"}
 1.  Read the Crunchomics part of your notebook from the top. Does every code block say where it ran (`# On my computer` or `# On Crunchomics`)?
-2.  Check that your notebook explains every file and folder in your project folder on Crunchomics. Run `ls`, `ls results/*`, `ls scripts` and `ls logs` inside `~/personal/data_analysis`. If something is not explained, add a line about it, even if it is "practice run, same result as with srun"
+2.  Check that your notebook explains every file and folder in your project folder on Crunchomics. Run `ls` and `ls results/*` inside `~/personal/data_analysis`. If something is not explained, add a line about it
 3.  Add a heading `## Questions` at the end of your notebook, if it is not there yet, and write down anything that is still unclear
+:::
+
+**If you have time left** at the end of day 1, try the [bonus section on `sbatch`](#bonus-run-long-jobs-with-sbatch-optional) below. The rest of the course doesn't need it, but you will need it for long jobs in a thesis or a research project.
+
+
+## Bonus: run long jobs with `sbatch` (optional)
+
+So far you ran every job with `srun`. That works for short jobs, while you stay logged in. In this bonus section you write two **job scripts**, first for seqkit and then for NanoPlot, and run them with `sbatch`.
+
+You don't need this section for the rest of the course: all steps in the next chapter use `srun`. Do this section if you have time left at the end of day 1, or come back to it when you start a thesis or a research project. Then you will likely work with more data, and you need `sbatch` when:
+
+- A job runs longer than a few hours
+- A job must keep running after you log out or close your laptop. A job started with `srun` stops when you lose the connection
+- You want to run many jobs, for example one per sample
+
+How long does it take? Both jobs finish in about a minute or less. Most of the time goes into writing the two scripts.
+
+
+### A first job script with seqkit
+
+The CLI workshop explains `sbatch` step by step with `seqkit stats`, the same tool that you used earlier in this chapter. Follow its section [`sbatch`: Submitting a long-running job](https://ndombrowski.github.io/cli_workshop/source/hpc_howto.html#sbatch-submitting-a-long-running-job){target="_blank"}, from Step 1 to Step 5. Run all commands on Crunchomics, inside `~/personal/data_analysis`.
+
+Since that workshop uses other data you have to make one change: in the job script `scripts/seqkit.sh`, replace the `seqkit stats` line with the command that you ran with `srun` earlier in this chapter:
+
+```{bash}
+seqkit stats data/*fasta -Tao results/seqkit/16s_stats.tsv --threads 1
+```
+
+The page was written for another course. Skip these parts:
+
+- The mentions of "day 1". They refer to the first day of that workshop
+- The number of files in the example of the `.err` file (`processed files: 8 / 8`). You see the number of fasta files in your own `data` folder
+- Where the page writes `data/seq_project/*/*gz`, your path is `data/*fasta`
+- Its notebook box (`notes.md`, `Sample-DUMMY1_R2`). Use the notebook box at the end of this section instead
+- Stop at the heading "Choosing the right amount of resources" and come back here
+
+
+### Turn your NanoPlot command into a job script
+
+Now you write a job script yourself, with the NanoPlot command that you ran with `srun` in the main part of this chapter. Do the seqkit steps above first: they make the `scripts` and `logs` folders that this script needs.
+
+::: {.callout-question .callout-warning collapse=false}
+# Tasks
+
+**Task 1: Write a job script for NanoPlot**
+
+Below is a template for a script that you should store in the file `scripts/nanoplot.sh` using `nano`. Replace all `...` with the options from your `srun` command.
+
+The script already:
+
+- Gives your job, output, and error files meaningful names
+- Requests 1 task, **2 CPUs**, **10 GB of memory**, and **30 minutes** of runtime
+- Activates your `nanoplot_1.48.0` conda environment
+- Creates a new **output directory**, `results/nanoplot/raw_sbatch`, so that your results from `srun` stay as they are
+
+Three things differ from your `srun` command:
+
+- The resources (tasks, CPUs, memory) move from the `srun` line into the `#SBATCH` lines. So the command in the script starts with `NanoPlot`, without `srun` in front
+- The script has the line `source ~/.bashrc` before `conda activate`. A job script runs in a new shell that does not read your settings, so `conda activate` does not work without this line. With `srun`, you activated the environment in your own terminal, which already has these settings
+- The script has no `conda deactivate`. The environment is only active inside the job, and the job ends after the last line
+
+```{bash}
+#!/bin/bash
+#SBATCH --job-name=nanoplot
+#SBATCH --output=logs/nanoplot_%j.out
+#SBATCH --error=logs/nanoplot_%j.err
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=10G
+#SBATCH --time=00:30:00
+
+# Activate the conda environment
+source ~/.bashrc # read the conda settings, so that conda activate works inside the job
+conda activate nanoplot_1.48.0 # whenever activating an environment, make sure that the environment name is correct
+
+# Add start date (optional)
+date
+
+# Make an output directory
+mkdir -p results/nanoplot/raw_sbatch
+
+# Run NanoPlot
+# and replace the ... with the options from your srun command
+NanoPlot \
+    --fastq ... \
+    -t ... \
+    --... \
+    --plots ... \
+    -o results/nanoplot/raw_sbatch
+
+# Add end date (optional)
+date
+```
+
+**Task 2: Submit the job and inspect the results**
+
+1. Submit your job with `sbatch scripts/nanoplot.sh`
+2. Use `squeue` to check whether it’s running
+3. Inspect your log files (`logs/nanoplot_*.out` and `logs/nanoplot_*.err`) and check how long the job ran
+4. Open `NanoStats.txt` in `results/nanoplot/raw` and in `results/nanoplot/raw_sbatch`. Are the numbers the same?
+
+::: {.callout-answer .callout-warning collapse=true}
+# Click to see the answer
+
+The final content of `scripts/nanoplot.sh` should look like this:
+
+```{bash}
+#!/bin/bash
+#SBATCH --job-name=nanoplot
+#SBATCH --output=logs/nanoplot_%j.out
+#SBATCH --error=logs/nanoplot_%j.err
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=10G
+#SBATCH --time=00:30:00
+
+# Activate the conda environment
+source ~/.bashrc # read the conda settings, so that conda activate works inside the job
+conda activate nanoplot_1.48.0
+
+# Add start date (optional)
+echo "Job started: "
+date
+
+# Make an output directory
+mkdir -p results/nanoplot/raw_sbatch
+
+# Run NanoPlot
+NanoPlot \
+    --fastq data/barcodeX.fastq.gz \
+    -t 2 \
+    --tsv_stats \
+    --plots dot \
+    -o results/nanoplot/raw_sbatch
+
+# Add end date (optional)
+echo "Job ended: "
+date
+```
+
+```{bash}
+# Submit the job
+sbatch scripts/nanoplot.sh
+
+# Check job status
+squeue -u $USER
+
+# Explore the log files once the job is done
+# The job typically should run for < 1 minute
+ls -l logs/nanoplot*
+tail logs/nanoplot_*.out
+
+# Compare the stats of the srun run and the sbatch run
+less -S results/nanoplot/raw/NanoStats.txt
+less -S results/nanoplot/raw_sbatch/NanoStats.txt
+```
+
+The numbers in both `NanoStats.txt` files should be the same: the same reads and the same command. Only the way you sent the job to the compute node changed.
+:::
+:::
+
+
+::: {.callout-notebook .callout-note collapse="false" title="Notebook checkpoint: Job scripts with sbatch"}
+Add a heading `### Job scripts with sbatch`, and below it:
+
+1.  The content of both job scripts, `scripts/seqkit.sh` and `scripts/nanoplot.sh`, each in its own code block. The scripts only exist on Crunchomics, so your notebook is the place where others can read them
+2.  The `sbatch` commands for seqkit and NanoPlot, each with a comment that names the script and what it makes. Below the code block, write down the job IDs that `sbatch` printed (`Submitted batch job ...`). The job ID is also part of the names of the log files, so with it you can find the logs of this run later
+3.  Did a job fail? Look at the `.err` file in `logs`, and add the error and your fix to your `## Error log`
 :::

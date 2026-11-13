@@ -3887,7 +3887,7 @@ vertical-align: -.125em;
   <li><a href="#checking-with-the-commands-you-already-know" id="toc-checking-with-the-commands-you-already-know" class="nav-link" data-scroll-target="#checking-with-the-commands-you-already-know"><span class="header-section-number">7.5</span> Checking with the commands you already know</a></li>
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">7.6</span> Exercises</a>
   <ul class="collapse">
-  <li><a href="#exercise-a-nanoplot-options" id="toc-exercise-a-nanoplot-options" class="nav-link" data-scroll-target="#exercise-a-nanoplot-options"><span class="header-section-number">7.6.1</span> Exercise A: NanoPlot options</a></li>
+  <li><a href="#exercise-a-the-help-page-of-your-version" id="toc-exercise-a-the-help-page-of-your-version" class="nav-link" data-scroll-target="#exercise-a-the-help-page-of-your-version"><span class="header-section-number">7.6.1</span> Exercise A: The help page of your version</a></li>
   <li><a href="#exercise-b-choosing-the-chopper-cutoffs" id="toc-exercise-b-choosing-the-chopper-cutoffs" class="nav-link" data-scroll-target="#exercise-b-choosing-the-chopper-cutoffs"><span class="header-section-number">7.6.2</span> Exercise B: Choosing the chopper cutoffs</a></li>
   <li><a href="#exercise-c-reading-a-slurm-error" id="toc-exercise-c-reading-a-slurm-error" class="nav-link" data-scroll-target="#exercise-c-reading-a-slurm-error"><span class="header-section-number">7.6.3</span> Exercise C: Reading a SLURM error</a></li>
   <li><a href="#exercise-d-understanding-the-paf-file" id="toc-exercise-d-understanding-the-paf-file" class="nav-link" data-scroll-target="#exercise-d-understanding-the-paf-file"><span class="header-section-number">7.6.4</span> Exercise D: Understanding the PAF file</a></li>
@@ -3933,7 +3933,7 @@ vertical-align: -.125em;
 <li><strong>Check every answer</strong> with the commands you already know: <code>ls</code>, <code>head</code>, <code>wc -l</code>, <code>grep</code>, the help page of the tool</li>
 <li>You need to be able to <strong>explain and justify</strong> every step in your notebook and in your presentation, whoever wrote the code</li>
 </ul>
-<p>In the tests I did for writing this page and for two related tutorials, the LLMs most answers were correct but that was also a problem: the wrong ones looked just as convincing. The mistakes were hidden in details: one option, one number, one sentence. Some of them would have changed the results without any error message: a quality cutoff that would have removed 92% of the reads in our example file, a job script that ran a quality cleaning tool without the trimming options, and means that came out too low because of empty fields. Each mistake could be caught with a basic command from this tutorial, such as <code>ls</code>, <code>head</code>, <code>wc -l</code>, <code>grep</code> or the help page of the tool. That is why it is important learning the basics first.</p>
+<p>In the tests I did for writing this page and for two related tutorials, most of the LLMs’ answers were correct, but that was also a problem: the wrong ones looked just as convincing. The mistakes were hidden in details: one option, one number, one sentence. Some of them would have changed the results without any error message: a quality cutoff that would have removed 92% of the reads in our example file, a job script that ran a quality cleaning tool without the trimming options, and means that came out too low because of empty fields. Each mistake could be caught with a basic command from this tutorial, such as <code>ls</code>, <code>head</code>, <code>wc -l</code>, <code>grep</code> or the help page of the tool. That is why it is important to learn the basics first.</p>
 <section id="why-learn-the-command-line-if-an-llm-can-write-the-code" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="why-learn-the-command-line-if-an-llm-can-write-the-code"><span class="header-section-number">7.1</span> Why learn the command line if an LLM can write the code?</h2>
 <p>Even if you use an LLM, someone still has to:</p>
@@ -3992,7 +3992,7 @@ vertical-align: -.125em;
 <ul>
 <li><strong>Ask it to explain, not only to write.</strong> You can say it directly: “Explain, but do NOT give me a code solution”</li>
 <li><strong>Be specific.</strong> Give the one command, the exact error message and the biological context: “Nanopore reads of the full 16S rRNA gene”</li>
-<li><strong>Tell it what is special about your data.</strong> The LLM only knows what you write it doesn’t have the full context of your analysis. For example, things you noted in your QC change what a good answer is, for example: “my length plot has a second peak at around 700 bp”, “my barcode has only 800 reads” or “this sequencing run had a low yield”. In tables, small details such as empty columns can change the result of a command without any error message. My <a href="https://ndombrowski.github.io/AWK_tutorial/source/check_llm_code.html">AWK tutorial</a> shows an example: one sentence, “column 4 has empty fields for missing values”, would have prevented wrong means and significance values. You can only add this if you know your data. That is one more reason to look at it first.</li>
+<li><strong>Tell it what is special about your data.</strong> The LLM only knows what you write. It doesn’t have the full context of your analysis. Things you noted in your QC change what a good answer is, for example: “my length plot has a second peak at around 700 bp”, “my barcode has only 800 reads” or “this sequencing run had a low yield”. In tables, small details such as empty columns can change the result of a command without any error message. My <a href="https://ndombrowski.github.io/AWK_tutorial/source/check_llm_code.html">AWK tutorial</a> shows an example: one sentence, “column 4 has empty fields for missing values”, would have prevented wrong means and significance values. You can only add this if you know your data. That is one more reason to look at it first.</li>
 <li><strong>Ask one thing at a time.</strong> Long answers are hard to check. “Only explain what <code>-q</code> does” gives an answer you can actually test</li>
 <li><strong>Ask for the simplest version.</strong> LLMs tend to add extra checks and variables. That makes the code longer and harder to understand</li>
 <li><strong>Ask which version it describes.</strong> Tools change. Your help page (<code>chopper -h</code>) describes the version you actually use. If the LLM and the help page differ, the help page wins</li>
@@ -4025,7 +4025,7 @@ vertical-align: -.125em;
 </tr>
 <tr class="odd">
 <td>Did my job run, and did it fail?</td>
-<td><code>squeue -u $USER</code>, <code>ls -l logs</code>, <code>cat logs/&lt;name&gt;_&lt;jobID&gt;.err</code></td>
+<td>With <code>srun</code>: the messages in your terminal. With <code>sbatch</code> (bonus section of the HPC chapter): <code>squeue -u $USER</code>, <code>cat logs/&lt;name&gt;_&lt;jobID&gt;.err</code></td>
 </tr>
 <tr class="even">
 <td>Did I get the output files I expected? Is one empty?</td>
@@ -4045,7 +4045,7 @@ vertical-align: -.125em;
 </tr>
 <tr class="even">
 <td>Which version of a tool do I use?</td>
-<td><code>chopper --version</code>, <code>NanoPlot --version</code>, <code>conda list</code></td>
+<td><code>seqkit version</code>, <code>chopper --version</code>, <code>NanoPlot --version</code>, <code>conda list</code></td>
 </tr>
 <tr class="odd">
 <td>What will a command do, before it does it?</td>
@@ -4056,11 +4056,14 @@ vertical-align: -.125em;
 </section>
 <section id="exercises" class="level2" data-number="7.6">
 <h2 data-number="7.6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">7.6</span> Exercises</h2>
-<p>The exercises follow the order of the tutorial. Each one starts with a question to an LLM, and then checks the answer against the help page, the code or your own files. Write down the LLM’s answer before you check it.</p>
+<p>The exercises follow the order of the tutorial. In each one, you ask an LLM a question, and you check its answer against the help page, the code or your own files. Write down the LLM’s answer before you check it. In Exercise C, write down your own explanation first.</p>
 <p>All exercises run on Crunchomics, in your <code>data_analysis</code> folder, as in the tutorial.</p>
 <p>The answers on this page come from November 2026. Together with the <a href="https://ndombrowski.github.io/cli_workshop/source/llm_usage.html">CLI workshop</a> and the <a href="https://ndombrowski.github.io/AWK_tutorial/source/check_llm_code.html">AWK tutorial</a>, they cover three tools (ChatGPT, UvA AI Chat and Claude Code) and questions from read filtering to job scripts. Most questions were asked once, so they show what can happen, not what always happens. Try them yourself: your answers will likely be different.</p>
-<section id="exercise-a-nanoplot-options" class="level3" data-number="7.6.1">
-<h3 data-number="7.6.1" class="anchored" data-anchor-id="exercise-a-nanoplot-options"><span class="header-section-number">7.6.1</span> Exercise A: NanoPlot options</h3>
+<p>In each exercise, look for two things: where the LLM was wrong, and what made its answer better. In Exercises A, C and D, the answer improved when the question held more of your own information: your version, the output of a check, or the right lines of your file. Better is not the same as right, so you still check. But what you know about your own data and setup is what makes an LLM useful.</p>
+<section id="exercise-a-the-help-page-of-your-version" class="level3" data-number="7.6.1">
+<h3 data-number="7.6.1" class="anchored" data-anchor-id="exercise-a-the-help-page-of-your-version"><span class="header-section-number">7.6.1</span> Exercise A: The help page of your version</h3>
+<p><strong>Takeaway:</strong> check what an LLM says about a tool against the help page of your version and against your own output file. If the help page has no answer, look at what the developers wrote.</p>
+<p>This exercise is about versions. Tools change: a new version can add columns to the output, add options, or change what they mean. An LLM learned from texts about many versions at once, and it rarely tells you which one it describes. The help page on Crunchomics always describes the version that you use. In this exercise, you compare what an LLM says about <code>seqkit stats</code> with your help page and with your own output file. Then you look closely at one column, <code>AvgQual</code>, the average quality of your reads. Its help page turns out to be too short to answer one question, and you will see where to look then.</p>
 <div class="callout callout-style-default callout-question callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -4073,11 +4076,28 @@ vertical-align: -.125em;
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>In the HPC chapter, you filled in a NanoPlot job script. Let’s see what an LLM suggests for one of its options.</p>
+<p>In the HPC chapter, you ran <code>seqkit stats -Tao</code> on your <code>barcodeX.fastq.gz</code> and saved the result in <code>results/seqkit/barcodeX_stats.tsv</code>.</p>
 <ol type="1">
-<li>Ask UvA AI Chat: “I want NanoPlot to make a hex plot and a dot plot of read length against read quality. Which options do I need?” Write down its answer</li>
-<li>On Crunchomics, activate the <code>nanoplot_1.48.0</code> environment. Run <code>NanoPlot --version</code> and <code>NanoPlot -h</code>. Find the option the LLM suggested. Does the help page agree?</li>
-<li>Run NanoPlot with the suggested options on your <code>barcodeX.fastq.gz</code> into a new folder, for example <code>results/nanoplot/test_plots</code>. Then list the files with <code>ls results/nanoplot/test_plots</code>. Which plots were actually made? If NanoPlot asks for extra packages, don’t install them. Write down the message instead.</li>
+<li><p>Ask UvA AI Chat: “I ran seqkit stats -Tao on a fastq file with Nanopore reads. Explain each column of the output, one line per column.” Don’t paste your file. Write down which columns it names</p></li>
+<li><p>Compare the answer with your own version. Did the LLM name columns that your file doesn’t have? Did it miss columns that your file has?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Which version of seqkit do you use? It should also be in your ## Software section</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">seqkit</span> version</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># The first part of the help page lists the columns of your version</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">seqkit</span> stats <span class="at">-h</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 25</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># The column names in your own file</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 1 results/seqkit/barcodeX_stats.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></li>
+<li><p>Ask again, in a new chat. This time, give the LLM your version and the first line of your file: “I use seqkit [your version]. I ran seqkit stats -Tao on a fastq file with Nanopore reads. This is the first line of the output: [paste the line]. Explain each column of the output, one line per column.” Does the list of columns change?</p></li>
+<li><p>Now look at <code>AvgQual</code>. What does your help page say about how it is calculated? Print your own value:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep only column 16 of the file (AvgQual in seqkit v2.7.0, see the help page)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-f</span> 16 results/seqkit/barcodeX_stats.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then ask in a new chat: “I use seqkit [your version]. My Nanopore reads have an AvgQual of [your value] in seqkit stats. How is AvgQual calculated?” Read the whole answer, not only the first lines. Do the first sentence, the formula and the summary say the same thing?</p></li>
+<li><p>Your help page doesn’t settle this. Search the <a href="https://github.com/shenwei356/seqkit/issues">issues of seqkit on GitHub</a> for “average quality”, and remove the <code>is:open</code> filter. The issues are the page where users ask questions and report problems, and the developers answer. Can you find an answer from the developer?</p></li>
 </ol>
 <div class="callout callout-style-default callout-answer callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
@@ -4091,28 +4111,63 @@ vertical-align: -.125em;
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>I asked this question to UvA AI Chat (with Claude Sonnet 4.6) and to ChatGPT in November 2026, both without any memory of earlier chats. They gave two different commands, and both sounded equally sure:</p>
+<p>I asked these questions to UvA AI Chat (with Claude Sonnet 4.6) and to ChatGPT in November 2026, each in a new chat without memory. I used the example file <code>barcode07.fastq.gz</code> and seqkit v2.7.0, the version on Crunchomics.</p>
+<p><strong>The columns (tasks 1 to 3).</strong> seqkit v2.7.0 writes 17 columns, from <code>file</code> to <code>GC(%)</code>.</p>
 <ul>
-<li>UvA AI Chat: <code>--plots hex dot</code>. It also added a table with six other options that I hadn’t asked for, and recommended <code>--loglength</code> “for Nanopore data”</li>
-<li>ChatGPT: <code>--plots dot --legacy hex</code>. It wrote that hex under <code>--plots</code> is ignored in newer versions</li>
+<li>Without the version and the first line, UvA AI Chat named exactly these 17 columns. ChatGPT named 19. Two of them, <code>N50_num</code> and <code>sum_n</code>, don’t exist in v2.7.0. They came in later versions. ChatGPT’s answer linked to the online manual of seqkit, and its list matches that manual, which describes the newest version. So it found real documentation, but for another version than yours</li>
+<li>With the version and the first line, both tools named the 17 columns of your file</li>
 </ul>
-<p>Neither answer said which version of NanoPlot it describes. The help page of NanoPlot 1.48.0 doesn’t settle it: it lists both options, and its own example uses <code>--plots hex dot</code>. So I ran both commands on the example file <code>barcode07.fastq.gz</code>.</p>
-<p>The command from UvA AI Chat printed a warning and made no hex plot:</p>
-<pre><code>WARNING: hex as part of --plots has been deprecated and will be ignored. To get the hex output, rerun with --legacy hex.</code></pre>
-<p>The command from ChatGPT matches the NanoPlot documentation. It printed <code>NanoPlot needs seaborn and matplotlib with --legacy</code>. These are two Python packages that our installation of NanoPlot doesn’t include. With the two packages installed, NanoPlot crashed:</p>
-<pre><code>If you read this then NanoPlot 1.48.0 has crashed :-(
-...
-AttributeError: PolyCollection.set() got an unexpected keyword argument 'stat_func'</code></pre>
-<p>I searched for the last line of this error in the <a href="https://github.com/wdecoster/NanoPlot/issues">issues of NanoPlot on GitHub</a>, the page where users report problems and the developers answer. It is a known bug, reported in 2023 and again in 2026. So neither answer gives you a hex plot, and there is no quick fix. For this tutorial, that is fine: we only need the dot plot.</p>
-<p><strong>Bugs are normal.</strong> If you paste a crash into an LLM, it may suggest a fix that sounds convincing, even for a bug it doesn’t know about. The developers and other users of the tool know more. Search for the error message in the tool’s GitHub issues, and remove the “is:open” filter, because the answer is often in a closed issue. Sometimes the honest answer is “this doesn’t work right now, use something else”.</p>
-<p>Look at what the crashed run left behind. Its output folder held the dot plot, the histograms and <code>NanoStats.txt</code>. Only <code>NanoPlot-report.html</code> was missing. If you only glance at the folder, the crash is easy to miss.</p>
+<p><strong>AvgQual (tasks 4 and 5).</strong> In tasks 1 and 3, all four answers described <code>AvgQual</code> as the “average” or “mean” quality score of all bases, without saying how it is calculated. Your help page only says “average quality”. But there are two ways to calculate it.</p>
+<p>In the minimap2 section of the long-read chapter, you saw how a quality score turns into the probability that a base is wrong: quality 10 means 1 error in 10 bases, quality 20 means 1 error in 100 bases, and quality 30 means 1 error in 1,000 bases. To average the quality of many bases, you can:</p>
+<ul>
+<li>take the plain average of the quality scores, or</li>
+<li>turn each quality score into its error probability, average these, and turn the result back into a quality score</li>
+</ul>
+<p>Take two bases, one with quality 10 and one with quality 30. The plain average is 20, which means 1 error in 100 bases. But together, these two bases have about 1 error in 20 bases, which is about quality 13. The bad base has almost all the errors, and the plain average hides that. The second way gives the right number of errors. That is why seqkit uses it.</p>
+<p>For all 4,948,110 bases in <code>barcode07.fastq.gz</code>, I calculated both:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 45%">
+<col style="width: 20%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Calculation</th>
+<th>Average quality</th>
+<th>Errors in a 1,500 bp read</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Plain average of the quality scores</td>
+<td>19.45</td>
+<td>about 17</td>
+</tr>
+<tr class="even">
+<td>Through error probabilities</td>
+<td>12.41</td>
+<td>about 86</td>
+</tr>
+</tbody>
+</table>
+<p>seqkit’s <code>AvgQual</code> for this file is 12.41, so seqkit uses the second way. In the minimap2 section, a quality of 12 meant about 90 errors in a 1,500 bp read. With the plain average, you would think your reads have about 17.</p>
+<p>What the LLMs answered in task 4:</p>
+<ul>
+<li><strong>ChatGPT</strong> gave the right calculation, in four steps, with a link to the online manual of seqkit. That manual explains the calculation since version 2.12.0 (December 2025). Your help page, from version 2.7.0, doesn’t</li>
+<li><strong>UvA AI Chat</strong> started with the right sentence: <code>AvgQual</code> is “<strong>not</strong> the naive arithmetic mean of Phred scores”, that is, not the plain average. Then it showed the formula of the plain average, and its summary table said “Method: Arithmetic mean of Phred scores”. If you read only the first sentence, you get the right answer. If you read the formula or the table, you get the wrong one</li>
+<li>In new chats, I also asked: “How can more than half of the bases have a quality above 20, while the average quality is only 12.41?” This time, UvA AI Chat gave the right calculation. ChatGPT started with “the arithmetic mean” and corrected itself a few lines further down. So the same tool can give either answer, depending on how you ask</li>
+</ul>
+<p><strong>Who is right?</strong> Your help page can’t tell you, but the GitHub issues can. In <a href="https://github.com/shenwei356/seqkit/issues/448">issue #448</a> from 2024, a user thought that <code>AvgQual</code> was too low. The developer answered by quoting an earlier explanation: “you can’t just do simple arithmetic mean of all the qscores, because it won’t be a representation of the mean error rate then.” The issue is closed, so you only find it without the <code>is:open</code> filter. In version 2.12.0, the developer added the explanation to the help page.</p>
+<p>Most tools on GitHub have such an issues page. When the help page doesn’t explain something, or a tool crashes with an error you don’t understand, search there, also in the closed issues. The developers and other users of the tool often know more than an LLM.</p>
 <p><strong>Key points</strong></p>
 <ul>
-<li>Two tools, two answers, the same confidence, and neither worked. No tool is always right: in the AT-sphere example further down, UvA AI Chat had the right answer</li>
-<li>An answer that matches the documentation can still fail. It depends on your version and on what else is installed, and an LLM can’t see either. Tell the LLM which version you use (<code>NanoPlot --version</code>), and write it in your notebook</li>
-<li>Read what the tool prints, and check the output with <code>ls</code>. A crashed run can leave files that look normal</li>
-<li>If a fix leads to a new error, ask yourself whether you need this at all. For a crash, the tool’s GitHub issues often know more than an LLM</li>
-<li>LLMs often give you more than you asked for, such as the table with six extra options. Every extra is one more thing to check, and it may not fit what you want. For example, I was recommended to use <code>--loglength</code>, which only helps when read lengths range from hundreds to tens of thousands of bases. Your amplicons are all around 1,500 bp, so it adds little here</li>
+<li>Your help page describes your version. An LLM, and the online manual, can describe another one. Give the LLM your version and the first line of your file</li>
+<li>An LLM that searches the web often finds the newest manual, not the one for your version</li>
+<li>Read the whole answer. The first sentence and the summary table can say different things</li>
+<li>An answer can be right about most things and wrong about the one detail that changes how you describe your data</li>
+<li>“Average” doesn’t always mean the plain average. For quality scores, seqkit averages the error probabilities. That gives a lower number, but it shows how many errors your reads really have</li>
+<li>If the help page doesn’t explain something, search the issues of the tool on GitHub, also the closed ones</li>
 </ul>
 </div>
 </div>
@@ -4123,6 +4178,7 @@ AttributeError: PolyCollection.set() got an unexpected keyword argument 'stat_fu
 </section>
 <section id="exercise-b-choosing-the-chopper-cutoffs" class="level3" data-number="7.6.2">
 <h3 data-number="7.6.2" class="anchored" data-anchor-id="exercise-b-choosing-the-chopper-cutoffs"><span class="header-section-number">7.6.2</span> Exercise B: Choosing the chopper cutoffs</h3>
+<p><strong>Takeaway:</strong> choose settings from your own data, and count what each choice does to your reads.</p>
 <p>This is the most important exercise on this page. The chopper cutoffs decide which reads are removed before mapping. That is a scientific choice, and you need to justify it in your notebook.</p>
 <div class="callout callout-style-default callout-question callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="true" aria-label="Toggle callout">
@@ -4253,13 +4309,14 @@ AttributeError: PolyCollection.set() got an unexpected keyword argument 'stat_fu
 </section>
 <section id="exercise-c-reading-a-slurm-error" class="level3" data-number="7.6.3">
 <h3 data-number="7.6.3" class="anchored" data-anchor-id="exercise-c-reading-a-slurm-error"><span class="header-section-number">7.6.3</span> Exercise C: Reading a SLURM error</h3>
-<p>When a job fails, it is tempting to paste the whole script into an LLM and ask it to fix it. Try this order instead:</p>
+<p><strong>Takeaway:</strong> read an error message and narrow the problem down yourself, before you ask an LLM or a person.</p>
+<p>When a command fails, it is tempting to paste the error into an LLM and run the first fix it gives you. Try this order instead:</p>
 <ol type="1">
-<li><strong>Read the error message.</strong> Open the <code>.err</code> file. Which command complains, and about what?</li>
-<li><strong>Narrow it down.</strong> Which line of your script does the error belong to? Run that one command with <code>srun</code> to see if it works there</li>
-<li><strong>Then ask a specific question.</strong> Give the LLM the one command and the exact error message. Ask what the error means, not for a new script</li>
+<li><strong>Read the error message.</strong> Which program complains, and about what?</li>
+<li><strong>Narrow it down.</strong> Check what the error names. If a program can’t be found, run <code>which</code> with the name of the program, and look at which conda environment is active. Its name is in brackets at the start of the line in your terminal, for example <code>(chopper_0.15.0)</code></li>
+<li><strong>Then ask a specific question.</strong> Give the LLM the command, the exact error message and what you found in step 2. Ask what the error means, not only for a fix</li>
 </ol>
-<p>A rewritten script may run, but you then have to check all of it again, and you have learned nothing about why the first one failed.</p>
+<p>A fix that you don’t understand may work, but it can also change your setup in ways you don’t see. And you have learned nothing about why the command failed.</p>
 <div class="callout callout-style-default callout-question callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -4273,11 +4330,23 @@ AttributeError: PolyCollection.set() got an unexpected keyword argument 'stat_fu
 <div id="callout-7" class="callout-7-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>Make a copy of your NanoPlot job script: <code>cp scripts/nanoplot.sh scripts/nanoplot_broken.sh</code></li>
-<li>Open the copy with <code>nano</code> and remove the line <code>source ~/.bashrc</code></li>
-<li>Submit the copy with <code>sbatch</code> and wait until it is done</li>
-<li>Read the <code>.err</code> and <code>.out</code> files. What went wrong? Write down your own explanation first</li>
-<li>Then ask UvA AI Chat about the error message only (not the whole script). Does its explanation match yours?</li>
+<li><p>Run the NanoPlot command from the HPC chapter, but with the chopper environment active. This is an easy mistake on day 2, when you switch between environments:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Activate the chopper environment instead of the NanoPlot environment</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate chopper_0.15.0</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Run NanoPlot as in the HPC chapter, into a new output folder</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>10G NanoPlot <span class="dt">\</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">--fastq</span> data/barcodeX.fastq.gz <span class="dt">\</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">-t</span> 2 <span class="dt">\</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">--tsv_stats</span> <span class="dt">\</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">--plots</span> dot <span class="dt">\</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">-o</span> results/nanoplot/test_error</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></li>
+<li><p>Read the error message. Which program can’t be found? Did NanoPlot make the output folder? Write down your own explanation first</p></li>
+<li><p>Run <code>which NanoPlot</code>. Which conda environment do you see in its output?</p></li>
+<li><p>Ask UvA AI Chat twice, each time in a new chat. First give it the command and the error message. Then give it the command, the error message and the output of <code>which NanoPlot</code>. Both times, ask: “What does the error mean?” Does the extra information change the answer? Which fix does it suggest first?</p></li>
+<li><p>Fix the command yourself. Which environment do you need? Your <code>## Software</code> section tells you. Run the command again, and check that <code>results/nanoplot/test_error</code> now holds the NanoPlot output. Then leave the environment with <code>conda deactivate</code>. Add the command, the error and your fix to your <code>## Error log</code>, and name the folder <code>test_error</code> there</p></li>
 </ol>
 <div class="callout callout-style-default callout-answer callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
@@ -4291,36 +4360,35 @@ AttributeError: PolyCollection.set() got an unexpected keyword argument 'stat_fu
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>The <code>.err</code> file starts with this message (shortened):</p>
-<pre><code>CommandNotFoundError: Your shell has not been properly configured to use 'conda activate'.
-To initialize your shell, run
-
-    $ conda init &lt;SHELL_NAME&gt;</code></pre>
-<p>and ends with:</p>
-<pre><code>/var/spool/slurm/d/job416071/slurm_script: line 21: NanoPlot: command not found</code></pre>
-<p>The file name in this message is not your script name. Slurm runs a copy of your script, called <code>slurm_script</code>, in a folder named after the job ID. The line number refers to your own script. Here, line 21 is not the first line of the NanoPlot command, but one of the lines below it, because the command runs over several lines. So look at the whole command around that line.</p>
-<p>These are two errors, but one problem. <code>conda activate</code> failed, so the <code>nanoplot_1.48.0</code> environment was not active, so the job could not find NanoPlot. When you see several errors, start reading at the top. The first error often causes the rest.</p>
-<p>Why does <code>conda activate</code> fail? A job runs in a new shell that doesn’t read the file <code>~/.bashrc</code>. That file holds the conda setup that was added when you installed miniforge. <code>source ~/.bashrc</code> reads it, which is why the template in the HPC chapter has this line.</p>
-<p>Be careful with the advice inside the error message. It suggests running <code>conda init</code>. That doesn’t help here: conda is already set up in <code>~/.bashrc</code>. The job just doesn’t read the file. Like the tip from chopper in Exercise B, a suggestion in an error message is a guess.</p>
-<p>The <code>.out</code> file looks normal at first sight:</p>
-<pre><code>Job started:
-Fri Nov  6 13:36:31 CET 2026
-Job ended:
-Fri Nov  6 13:36:31 CET 2026</code></pre>
-<p>But the job started and ended in the same second. NanoPlot normally needs about a minute for one barcode. The output folder is empty.</p>
-<p><strong>What the LLMs answered.</strong> I asked UvA AI Chat (with Claude Sonnet 4.6) and ChatGPT about the error message only, in November 2026, both without any memory of earlier chats.</p>
-<p>Both explained the problem correctly: a job doesn’t read <code>~/.bashrc</code>, so <code>conda activate</code> fails, so NanoPlot can’t be found. UvA AI Chat also said that <code>conda init</code>, the suggestion in the error message, doesn’t solve the problem.</p>
-<p>Both suggested a different fix than the one in this tutorial: <code>source &lt;your conda folder&gt;/etc/profile.d/conda.sh</code> instead of <code>source ~/.bashrc</code>. That works too. In this tutorial, we use <code>source ~/.bashrc</code> because it is easier to explain: it reads the same setup that your terminal uses. Different from what you learned is not the same as wrong. But stick to one way, and make sure you understand it.</p>
-<p>The two answers were very different in length. UvA AI Chat gave three short code blocks. ChatGPT gave nine, with several paths to try: find conda with <code>which conda</code>, load a conda module, check whether NanoPlot is installed, and install NanoPlot. For a beginner, that is a lot of unfamiliar commands at once, and it is hard to tell which one matters. One suggestion can even do harm: <code>conda install -c bioconda nanoplot</code> installs NanoPlot into whatever environment is active at that moment, often <code>base</code>. And that while NanoPlot was never missing.</p>
+<p>The error looks like this. Your time and the name of the compute node can differ:</p>
+<pre><code>[2026-11-13T08:33:20.474] error: execve(): NanoPlot: No such file or directory
+srun: error: omics-cn001: task 0: Exited with exit code 2</code></pre>
+<p>Start reading at the top. The first line is the cause: <code>execve()</code> is the step in which the computer starts a program, and it found no program called <code>NanoPlot</code>. The second line follows from the first: <code>srun</code> reports that your command stopped on the compute node <code>omics-cn001</code>. These are two errors, but one problem.</p>
+<p>“No such file or directory” is the same message that you get when an input file is missing. But here it names <code>NanoPlot</code>, not your fastq file. So the program is missing, not your data. The output confirms it: <code>ls results/nanoplot/test_error</code> also says “No such file or directory”. NanoPlot never started, so it made no output folder.</p>
+<p><code>which NanoPlot</code> shows the folders in which bash looked for NanoPlot (your PATH). With your UvAnetID instead of <code>uvanetid</code>, it looks like this. On your account, the list can be longer:</p>
+<pre><code>/usr/bin/which: no NanoPlot in (/zfs/omics/personal/uvanetid/miniforge3/envs/chopper_0.15.0/bin:/zfs/omics/personal/uvanetid/miniforge3/condabin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/zfs/omics/software/bin)</code></pre>
+<p>The folder <code>envs/chopper_0.15.0/bin</code> belongs to the chopper environment. The folder of <code>nanoplot_1.48.0</code> is not in the list. So NanoPlot is installed, but the wrong environment is active. The fix is one line, <code>conda activate nanoplot_1.48.0</code>, before you run the command again.</p>
+<p><strong>What the LLMs answered.</strong> I asked UvA AI Chat (with Claude Sonnet 4.6) and ChatGPT in November 2026, each question in a new chat without memory. I asked three versions: the error only, the command with the error, and the command with the error and the <code>which</code> output.</p>
+<ul>
+<li><strong>Without the <code>which</code> output, the LLMs could only guess.</strong> All four answers said that NanoPlot is either not installed, or that its environment is not active. Then they listed fixes for each case. None of them blamed the fastq file, but none could tell which case was yours, because they can’t see your environments</li>
+<li><strong>With the <code>which</code> output, both found the cause</strong>: the <code>chopper_0.15.0</code> environment is active, and NanoPlot is not in it. The few seconds you spent on narrowing it down gave the LLM what it needed</li>
+<li><strong>But the first option was wrong for you.</strong> Both answers listed “install NanoPlot into the current environment” first. That would put NanoPlot into your chopper environment. In this tutorial, each tool has its own environment, so that the tools can’t disturb each other</li>
+<li><strong>The second option was a new environment that you don’t need.</strong> Both LLMs added that a separate NanoPlot environment is cleaner, and gave a command for a new one, without a version number and without <code>python=3.12</code>. You already have a NanoPlot environment. Only UvA AI Chat suggested, as its third option, to look for an existing one with <code>conda env list</code>. ChatGPT’s install command also had a typo in the package name (<code>nanplot</code>)</li>
+<li><strong>And the new environment would not work.</strong> Without <code>python=3.12</code>, mamba installs the newest Python. With that version, NanoPlot started with <code>srun</code> on Crunchomics but did not finish. After 10 minutes it was still running, and it printed no error message. So you would wait for a result that never comes, with no hint about what is wrong. That is why the HPC chapter fixes <code>python=3.12</code></li>
+<li><strong>Most answers assumed a job script.</strong> Five of the six answers talked about a job script for <code>sbatch</code>, although the error shows that you used <code>srun</code>. In the second version, UvA AI Chat even recommended a job script as the “most robust” fix. That fix would mean writing more code, while the fix is one line (and running <code>srun</code> for such a short job is completely fine)</li>
+<li><strong>One explanation was wrong.</strong> UvA AI Chat wrote that an environment that you activate in your terminal is “often not inherited by <code>srun</code> on compute nodes”. On Crunchomics, it is: in the tutorial, you activate an environment on the login node and then run the tool with <code>srun</code>, and that works</li>
+<li><strong>Five of the six answers suggested <code>module load</code>.</strong> Modules are another way to provide software on an HPC. Crunchomics doesn’t have them, but other HPCs do, for example the national HPC systems of SURF. So which advice fits depends on the HPC that you use, and the LLM doesn’t know which one that is</li>
+<li><strong>The answers were long.</strong> ChatGPT gave 8 to 13 code blocks per answer, UvA AI Chat up to 6. For a beginner, that is a lot of unfamiliar commands at once, and it is hard to tell which one matters, and which ones can break your setup</li>
+</ul>
 <p>If an answer gives you more than you can follow, ask for less:</p>
 <pre><code>Only explain the cause, in max 5 lines.</code></pre>
 <pre><code>Which one change should I make first?</code></pre>
 <p><strong>Key points</strong></p>
 <ul>
-<li>The <code>.err</code> file usually tells you what went wrong. Read it before you ask anyone, and start at the top</li>
-<li>A job can finish “successfully” without doing its work. Check the <code>.err</code> file and the output folder, also when the job looks done</li>
-<li>An error in the <code>.err</code> file is worth fixing even if the output looks fine</li>
-<li>LLM-written scripts often contain <code>conda activate</code> without <code>source ~/.bashrc</code>. You now know what that error looks like</li>
+<li>Read the error message before you ask anyone, and start at the top. Check which name the error gives: “No such file or directory” can mean a missing program, not a missing data file</li>
+<li>Narrow it down first. With the <code>which</code> output, the LLMs found the cause. Without it, they could only list possible causes</li>
+<li>An LLM can’t see your environments, your folders or your notebook. Your <code>## Software</code> section knows which environment holds which tool</li>
+<li>The first fix in an answer is not always the right one. Here, it would have changed a setup that worked</li>
 <li>If an LLM gives you many things to try, don’t try them all. Ask which one change fixes the cause, and change one thing at a time</li>
 <li>A short, specific question gives an answer you can check</li>
 </ul>
@@ -4333,6 +4401,7 @@ Fri Nov  6 13:36:31 CET 2026</code></pre>
 </section>
 <section id="exercise-d-understanding-the-paf-file" class="level3" data-number="7.6.4">
 <h3 data-number="7.6.4" class="anchored" data-anchor-id="exercise-d-understanding-the-paf-file"><span class="header-section-number">7.6.4</span> Exercise D: Understanding the PAF file</h3>
+<p><strong>Takeaway:</strong> check an explanation of a file against the whole file, not only against the lines you showed.</p>
 <div class="callout callout-style-default callout-question callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -4346,14 +4415,13 @@ Fri Nov  6 13:36:31 CET 2026</code></pre>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>Copy the first two lines of your PAF file (<code>head -n 2 results/minimap2/barcodeX.paf</code>) into UvA AI Chat. Ask it to explain the first 12 columns, one line per column</li>
-<li>Pick two claims from the answer and check them yourself. For example:
+<li><p>Copy the first two lines of your PAF file (<code>head -n 2 results/minimap2/barcodeX.paf</code>) into UvA AI Chat. Ask it to explain the first 12 columns, one line per column</p></li>
+<li><p>Pick two claims from the answer and check them yourself. For example:</p>
 <ul>
 <li>Compare the answer with the column table in the <a href="https://lh3.github.io/minimap2/minimap2.html">minimap2 manual</a></li>
 <li>If it says that a read can have more than one line, count the lines and the different read names (see the commands below)</li>
 <li>If it says that a file has a header line, look at the first line with <code>head -n 1</code></li>
-</ul></li>
-</ol>
+</ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of alignments (lines)</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> results/minimap2/barcodeX.paf</span>
@@ -4361,8 +4429,7 @@ Fri Nov  6 13:36:31 CET 2026</code></pre>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of different reads (column 1, each name counted once)</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-f1</span> results/minimap2/barcodeX.paf <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-u</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><code>cut -f1</code> takes column 1, <code>sort -u</code> sorts the names and keeps each name once, and <code>wc -l</code> counts them.</p>
-<ol start="3" type="1">
+<p><code>cut -f1</code> takes column 1, <code>sort -u</code> sorts the names and keeps each name once, and <code>wc -l</code> counts them.</p></li>
 <li><p>Find a read with more than one line, and ask the LLM about it:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Name of the first read with a secondary alignment (tag tp:A:S)</span></span>
@@ -4490,7 +4557,7 @@ cut -f1 results/minimap2/barcode07.paf | sort -u | wc -l
 <tr class="odd">
 <td><code>set -euo pipefail</code>, often at the top</td>
 <td>Stops the script at many errors, but not at all of them</td>
-<td>On Crunchomics, a job with this line above <code>source ~/.bashrc</code> stops at once, inside your <code>.bashrc</code>. A <code>grep</code> that finds nothing also stops the script, even when “nothing found” is a valid result</td>
+<td>On Crunchomics, a job script needs the line <code>source ~/.bashrc</code> before <code>conda activate</code> (see the bonus section of the HPC chapter). If <code>set -euo pipefail</code> stands above that line, the job stops at once, inside your <code>.bashrc</code>. A <code>grep</code> that finds nothing also stops the script, even when “nothing found” is a valid result</td>
 </tr>
 <tr class="even">
 <td><code>if [ -f file ]</code> or <code>if [ -s file ]</code>, then skip</td>
@@ -4574,7 +4641,7 @@ cut -f1 results/minimap2/barcode07.paf | sort -u | wc -l
 <div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>To prepare this course, I needed the 16S sequences of some strains from the <a href="https://www.at-sphere.com/">AT-sphere</a> website. I asked an LLM tool that can open web pages (Claude Code, November 2026) to find the download links. It opened the table of strains, saw links for genomes, proteins and genes, but no 16S. It then guessed six download links, all of which failed, and concluded: “AT-sphere has no 16S download”.</p>
-<p>I knew this was wrong since the year before I downloaded the 16S sequences from AT-sphere myself, one-by-one. On the website, the 16S column only appears after you select “rRNA sequences” under “Filter Columns”. The LLM did not click that, and it did not tell me that its answer contradicted my notes.</p>
+<p>I knew this was wrong, since the year before I downloaded the 16S sequences from AT-sphere myself, one-by-one. On the website, the 16S column only appears after you select “rRNA sequences” under “Filter Columns”. The LLM did not click that, and it did not tell me that its answer contradicted my notes.</p>
 <p>I then asked the same question to two other tools, each in a new chat:</p>
 <ul>
 <li><strong>UvA AI Chat</strong> (November 2026, with web access) gave the right answer. It opened the folder list of the download page, found the folder with the 16S files, and checked the strains one by one</li>

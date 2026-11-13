@@ -167,7 +167,7 @@ Add a heading `### Quality filtering with chopper`, and below it:
 
 Nanopore long-read sequencing can produce reads that span nearly the entire 16S rRNA gene, making it useful for identifying microbial species. However, these long reads come with a trade-off: they have a higher error rate compared to short-read technologies.
 
-Assume that your average read quality is **Q10**. The Phred score (Q) is a measure of how confident the sequencer is in each base call. The probability of a base being called incorrectly can be calculated as:
+Assume that your average read quality is **Q12**. The Phred score (Q) is a measure of how confident the sequencer is in each base call. The probability of a base being called incorrectly can be calculated as:
 
 $$P=10^{-Q/10}$$
 

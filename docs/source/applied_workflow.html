@@ -450,7 +450,7 @@ window.Quarto = {
 <section id="minimap2-map-reads-to-reference-database" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="minimap2-map-reads-to-reference-database"><span class="header-section-number">6.2</span> <code>Minimap2</code>: Map reads to reference database</h2>
 <p>Nanopore long-read sequencing can produce reads that span nearly the entire 16S rRNA gene, making it useful for identifying microbial species. However, these long reads come with a trade-off: they have a higher error rate compared to short-read technologies.</p>
-<p>Assume that your average read quality is <strong>Q10</strong>. The Phred score (Q) is a measure of how confident the sequencer is in each base call. The probability of a base being called incorrectly can be calculated as:</p>
+<p>Assume that your average read quality is <strong>Q12</strong>. The Phred score (Q) is a measure of how confident the sequencer is in each base call. The probability of a base being called incorrectly can be calculated as:</p>
 <p><span class="math display">\[P=10^{-Q/10}\]</span></p>
 <p>In R we can compute this with:</p>
 <div class="cell">

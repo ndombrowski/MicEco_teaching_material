@@ -6,6 +6,7 @@ data_analysis/
 slides/_extensions/
 source/*_files/
 _tests/
+llm_tests/
 CLAUDE.md
 PLAN.md
 to_run.md
