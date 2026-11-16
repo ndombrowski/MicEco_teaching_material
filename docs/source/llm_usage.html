@@ -247,8 +247,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<!-- DRAFT 2026-11-06. In the book since 2026-11-11. Placeholders are marked [TO FILL IN]. -->
-<p>This page is optional. During the tutorial, you don’t use an LLM for your analysis: for questions, ask your teachers. If you finish the other chapters early, you can work through this page instead of the bonus section, and use an LLM for its exercises. If you do, note it in your notebook, as described in <a href="#writing-down-your-use-of-an-llm-in-your-notebook">Writing down your use of an LLM in your notebook</a>. You can also read it after the course, if you want to use LLMs later, for example in your thesis or a research project. Check first how much LLM use is allowed there. The page is about tools like UvA AI Chat, ChatGPT, Claude or Gemini, and how you can use them for the analysis in this tutorial and still understand what your code does.</p>
+<p>This page is optional. During the tutorial, don’t use an LLM for your analysis: for questions, ask your teachers. If you finish the other chapters early, you can work through this page instead of the <a href="../source/applied_workflow.html#bonus-run-the-workflow-on-all-your-barcodes-optional">bonus section on loops</a> at the end of the long-read chapter, and use UvA AI Chat for its exercises. If you do, note it in your notebook, as described in <a href="#writing-down-your-use-of-an-llm-in-your-notebook">Writing down your use of an LLM in your notebook</a>. You can also read it after the course, if you want to use LLMs later, for example in your thesis or a research project. Check first how much LLM use is allowed there. The page is about tools like UvA AI Chat, ChatGPT, Claude or Gemini, and how you can use them for the analysis in this tutorial and still understand what your code does.</p>
 <p>All these tools are built on a <strong>large language model (LLM)</strong>: a program that was trained on huge amounts of text, including a lot of code, and that writes an answer by predicting which words are likely to come next. On this page, I use “LLM” for all of these chat tools.</p>
 <p>The short version:</p>
 <ul>
@@ -258,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Check every answer</strong> with the commands you already know: <code>ls</code>, <code>head</code>, <code>wc -l</code>, <code>grep</code>, the help page of the tool</li>
 <li>You need to be able to <strong>explain and justify</strong> every step in your notebook and in your presentation, whoever wrote the code</li>
 </ul>
-<p>In the tests I did for writing this page and for two related tutorials, most of the LLMs’ answers were correct, but that was also a problem: the wrong ones looked just as convincing. The mistakes were hidden in details: one option, one number, one sentence. Some of them would have changed the results without any error message: a quality cutoff that would have removed 92% of the reads in our example file, a job script that ran a quality cleaning tool without the trimming options, and means that came out too low because of empty fields. Each mistake could be caught with a basic command from this tutorial, such as <code>ls</code>, <code>head</code>, <code>wc -l</code>, <code>grep</code> or the help page of the tool. That is why it is important to learn the basics first.</p>
+<p>In the tests I did for writing this page and for related tutorials, most of the LLMs’ answers were correct, but that was also a problem: the wrong ones looked just as convincing. The mistakes were often hidden in details: one option, one number, one sentence. Some of them would have changed the results without any error message: a quality cutoff that would have removed 92% of the reads, a job script that ran a quality cleaning tool without the trimming options, and means that came out too low because of empty fields. Each mistake could be caught with a basic command from this tutorial, such as <code>ls</code>, <code>head</code>, <code>wc -l</code>, <code>grep</code> or the help page of the tool. That is why it is important to learn the basics first.</p>
 <section id="why-learn-the-command-line-if-an-llm-can-write-the-code" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="why-learn-the-command-line-if-an-llm-can-write-the-code"><span class="header-section-number">7.1</span> Why learn the command line if an LLM can write the code?</h2>
 <p>Even if you use an LLM, someone still has to:</p>
@@ -268,7 +267,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Check the input and output</strong>: did chopper keep enough reads, did minimap2 produce alignments, does the count table fit the strains you grew in the lab?</li>
 <li><strong>Explain and justify</strong> your choices, in your notebook and in your presentation. “The LLM chose this cutoff” is not an acceptable answer</li>
 </ul>
-<p>All four need the skills from this tutorial. An LLM can help with each of them, but the responsibility stays with you.</p>
+<p>All of these need the skills you learn in this tutorial. An LLM can help with each of them, but the responsibility stays with you.</p>
 </section>
 <section id="start-with-the-basics-without-an-llm" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="start-with-the-basics-without-an-llm"><span class="header-section-number">7.2</span> Start with the basics, without an LLM</h2>
@@ -289,10 +288,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>The UvA offers its own tool, <a href="https://www.uva.nl/en/about-the-uva/about-the-university/ai/ai-in-education/uva-ai-chat/uva-ai-chat.html">UvA AI Chat</a>. It is free with your UvAnetID, and every student gets the same features. What you type stays within the UvA environment and is not used to train models</li>
 <li>Commercial tools such as ChatGPT are <a href="https://student.uva.nl/en/information/ai-tools-and-your-studies">not allowed in the context of your studies</a>, because they don’t comply with the UvA privacy rules</li>
 <li>The same page also says that the use of UvA AI Chat and other AI tools is forbidden unless your course explicitly allows it, and that you may use it to support your learning, not to do your work</li>
-<li>The normal rules for privacy and research data still apply, also in UvA AI Chat. The UvA <a href="https://www.uva.nl/en/about-the-uva/about-the-university/ai/ai-in-education/uva-ai-chat/uva-ai-chat-rai.html">page on responsible use</a> says, for example, never to upload lists of names of students, patients or research participants</li>
+<li>The normal rules for privacy and research data also apply in the UvA AI Chat. The UvA <a href="https://www.uva.nl/en/about-the-uva/about-the-university/ai/ai-in-education/uva-ai-chat/uva-ai-chat-rai.html">page on responsible use</a> says, for example, never to upload lists of names of students, patients or research participants</li>
 </ul>
 <p><strong>In this course:</strong> you may use UvA AI Chat only for the exercises on this page. Any other use of AI tools in this course is not allowed.</p>
-<!-- TO DO (instructor): check this rule with the course coordinator before the course starts. -->
 <p>Everything on this page works with UvA AI Chat, with free access and only a chat window. If you use a tool that runs commands for you, the advice matters even more: you see less of what happens, so checking the result is even more important.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Don't paste your data into an LLM">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
@@ -317,7 +315,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><strong>Ask it to explain, not only to write.</strong> You can say it directly: “Explain, but do NOT give me a code solution”</li>
 <li><strong>Be specific.</strong> Give the one command, the exact error message and the biological context: “Nanopore reads of the full 16S rRNA gene”</li>
-<li><strong>Tell it what is special about your data.</strong> The LLM only knows what you write. It doesn’t have the full context of your analysis. Things you noted in your QC change what a good answer is, for example: “my length plot has a second peak at around 700 bp”, “my barcode has only 800 reads” or “this sequencing run had a low yield”. In tables, small details such as empty columns can change the result of a command without any error message. My <a href="https://ndombrowski.github.io/AWK_tutorial/source/check_llm_code.html">AWK tutorial</a> shows an example: one sentence, “column 4 has empty fields for missing values”, would have prevented wrong means and significance values. You can only add this if you know your data. That is one more reason to look at it first.</li>
+<li><strong>Tell it what is special about your data.</strong> The LLM only knows what you tell it. It doesn’t have the full context of your analysis. Things you noted in your quality assessment change what a good answer is, for example: “my length plot has a second peak at around 700 bp”, “my barcode has only 800 reads”, “this sequencing run had a low yield” or “one of these samples is a negative control”. In tables, small details such as empty columns can change the result of a command without any error message. My <a href="https://ndombrowski.github.io/AWK_tutorial/source/check_llm_code.html">AWK tutorial</a> shows an example: one sentence, “column 4 has empty fields for missing values”, would have prevented wrong significance values. You can only add this if you know your data. That is why it is so important to look closely at your data, intermediate outputs and results</li>
 <li><strong>Ask one thing at a time.</strong> Long answers are hard to check. “Only explain what <code>-q</code> does” gives an answer you can actually test</li>
 <li><strong>Ask for the simplest version.</strong> LLMs tend to add extra checks and variables. That makes the code longer and harder to understand</li>
 <li><strong>Ask which version it describes.</strong> Tools change. Your help page (<code>chopper -h</code>) describes the version you actually use. If the LLM and the help page differ, the help page wins</li>
@@ -383,12 +381,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="7.6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">7.6</span> Exercises</h2>
 <p>The exercises follow the order of the tutorial. In each one, you ask an LLM a question, and you check its answer against the help page, the code or your own files. Write down the LLM’s answer before you check it. In Exercise C, write down your own explanation first.</p>
 <p>All exercises run on Crunchomics, in your <code>data_analysis</code> folder, as in the tutorial.</p>
-<p>The answers on this page come from November 2026. Together with the <a href="https://ndombrowski.github.io/cli_workshop/source/llm_usage.html">CLI workshop</a> and the <a href="https://ndombrowski.github.io/AWK_tutorial/source/check_llm_code.html">AWK tutorial</a>, they cover three tools (ChatGPT, UvA AI Chat and Claude Code) and questions from read filtering to job scripts. Most questions were asked once, so they show what can happen, not what always happens. Try them yourself: your answers will likely be different.</p>
-<p>In each exercise, look for two things: where the LLM was wrong, and what made its answer better. In Exercises A, C and D, the answer improved when the question held more of your own information: your version, the output of a check, or the right lines of your file. Better is not the same as right, so you still check. But what you know about your own data and setup is what makes an LLM useful.</p>
+<p>The answers on this page come from November 2026. They cover three tools (ChatGPT, UvA AI Chat and Claude Code) and questions from read filtering to job scripts. In most of the cases, I only asked the LLM once, so the answers show what can happen, not what always happens. You will notice this yourself, since your answers will likely be different from mine.</p>
+<p>In each exercise, look for two things: where the LLM was wrong, and what made its answer better. In Exercises A, C and D, the answer improved when the question held more of your own information: your version, the output of a check, or the right lines of your file. However, better is not the same as right, so you still need to check an LLM’s answer closely.</p>
 <section id="exercise-a-the-help-page-of-your-version" class="level3" data-number="7.6.1">
 <h3 data-number="7.6.1" class="anchored" data-anchor-id="exercise-a-the-help-page-of-your-version"><span class="header-section-number">7.6.1</span> Exercise A: The help page of your version</h3>
 <p><strong>Takeaway:</strong> check what an LLM says about a tool against the help page of your version and against your own output file. If the help page has no answer, look at what the developers wrote.</p>
-<p>This exercise is about versions. Tools change: a new version can add columns to the output, add options, or change what they mean. An LLM learned from texts about many versions at once, and it rarely tells you which one it describes. The help page on Crunchomics always describes the version that you use. In this exercise, you compare what an LLM says about <code>seqkit stats</code> with your help page and with your own output file. Then you look closely at one column, <code>AvgQual</code>, the average quality of your reads. Its help page turns out to be too short to answer one question, and you will see where to look then.</p>
+<p>This exercise is about software versions. It is important to know that tools can change: a new version can add columns to the output, add options, or change what they mean. An LLM learned from texts about many versions at once, and it rarely tells you which one it describes. The help page on Crunchomics always describes the version that you use. In this exercise, you compare what an LLM says about <code>seqkit stats</code> with your help page and with your own output file. Then you look closely at one column, <code>AvgQual</code>, the average quality of your reads. Its help page turns out to be too short to answer one question, and you will see where to look then.</p>
 <div class="callout callout-style-default callout-question callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -439,11 +437,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>I asked these questions to UvA AI Chat (with Claude Sonnet 4.6) and to ChatGPT in November 2026, each in a new chat without memory. I used the example file <code>barcode07.fastq.gz</code> and seqkit v2.7.0, the version on Crunchomics.</p>
 <p><strong>The columns (tasks 1 to 3).</strong> seqkit v2.7.0 writes 17 columns, from <code>file</code> to <code>GC(%)</code>.</p>
 <ul>
-<li>Without the version and the first line, UvA AI Chat named exactly these 17 columns. ChatGPT named 19. Two of them, <code>N50_num</code> and <code>sum_n</code>, don’t exist in v2.7.0. They came in later versions. ChatGPT’s answer linked to the online manual of seqkit, and its list matches that manual, which describes the newest version. So it found real documentation, but for another version than yours</li>
+<li>Without the version and the first line, UvA AI Chat named exactly these 17 columns. ChatGPT named 19. Two of them, <code>N50_num</code> and <code>sum_n</code>, don’t exist in v2.7.0. They came in later versions. ChatGPT’s answer linked to the online manual of seqkit, and its list matches that manual, which describes the newest version. So it found real documentation, but for another version than what I was working with</li>
 <li>With the version and the first line, both tools named the 17 columns of your file</li>
 </ul>
-<p><strong>AvgQual (tasks 4 and 5).</strong> In tasks 1 and 3, all four answers described <code>AvgQual</code> as the “average” or “mean” quality score of all bases, without saying how it is calculated. Your help page only says “average quality”. But there are two ways to calculate it.</p>
-<p>In the minimap2 section of the long-read chapter, you saw how a quality score turns into the probability that a base is wrong: quality 10 means 1 error in 10 bases, quality 20 means 1 error in 100 bases, and quality 30 means 1 error in 1,000 bases. To average the quality of many bases, you can:</p>
+<p><strong>AvgQual (tasks 4 and 5).</strong> In tasks 1 and 3, all four answers I got described <code>AvgQual</code> as the “average” or “mean” quality score of all bases, without saying how it is calculated. Your help page only says “average quality”. There are two ways to calculate this value.</p>
+<p>In the long-read chapter, you saw how a quality score turns into the probability that a base is wrong: quality 10 means 1 error in 10 bases, quality 20 means 1 error in 100 bases, and quality 30 means 1 error in 1,000 bases. To average the quality of many bases, you can:</p>
 <ul>
 <li>take the plain average of the quality scores, or</li>
 <li>turn each quality score into its error probability, average these, and turn the result back into a quality score</li>
@@ -476,15 +474,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<p>seqkit’s <code>AvgQual</code> for this file is 12.41, so seqkit uses the second way. In the minimap2 section, a quality of 12 meant about 90 errors in a 1,500 bp read. With the plain average, you would think your reads have about 17.</p>
+<p>seqkit’s <code>AvgQual</code> for this file is 12.41, so this tells you that seqkit uses the second way. In the minimap2 section, a quality of 12 meant about 90 errors in a 1,500 bp read. With the plain average, you would think your reads have about 17.</p>
 <p>What the LLMs answered in task 4:</p>
 <ul>
 <li><strong>ChatGPT</strong> gave the right calculation, in four steps, with a link to the online manual of seqkit. That manual explains the calculation since version 2.12.0 (December 2025). Your help page, from version 2.7.0, doesn’t</li>
-<li><strong>UvA AI Chat</strong> started with the right sentence: <code>AvgQual</code> is “<strong>not</strong> the naive arithmetic mean of Phred scores”, that is, not the plain average. Then it showed the formula of the plain average, and its summary table said “Method: Arithmetic mean of Phred scores”. If you read only the first sentence, you get the right answer. If you read the formula or the table, you get the wrong one</li>
+<li><strong>UvA AI Chat</strong> started with the right sentence: <code>AvgQual</code> is “<strong>not</strong> the naive arithmetic mean of Phred scores”, that is, not the plain average. Then it showed the formula of the plain average, and its summary table said “Method: Arithmetic mean of Phred scores”. If you read only the first sentence, you get the right answer. If you read the formula or the table, you get the wrong one. This is a good example of how an LLM can give inconsistent answers.</li>
 <li>In new chats, I also asked: “How can more than half of the bases have a quality above 20, while the average quality is only 12.41?” This time, UvA AI Chat gave the right calculation. ChatGPT started with “the arithmetic mean” and corrected itself a few lines further down. So the same tool can give either answer, depending on how you ask</li>
 </ul>
 <p><strong>Who is right?</strong> Your help page can’t tell you, but the GitHub issues can. In <a href="https://github.com/shenwei356/seqkit/issues/448">issue #448</a> from 2024, a user thought that <code>AvgQual</code> was too low. The developer answered by quoting an earlier explanation: “you can’t just do simple arithmetic mean of all the qscores, because it won’t be a representation of the mean error rate then.” The issue is closed, so you only find it without the <code>is:open</code> filter. In version 2.12.0, the developer added the explanation to the help page.</p>
-<p>Most tools on GitHub have such an issues page. When the help page doesn’t explain something, or a tool crashes with an error you don’t understand, search there, also in the closed issues. The developers and other users of the tool often know more than an LLM.</p>
+<p>Most tools on GitHub have such an issues page. When the help page doesn’t explain something, or a tool crashes with an error you don’t understand, search there, also in the closed issues.</p>
 <p><strong>Key points</strong></p>
 <ul>
 <li>Your help page describes your version. An LLM, and the online manual, can describe another one. Give the LLM your version and the first line of your file</li>
@@ -520,7 +518,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li>Ask UvA AI Chat: “I have Nanopore reads of the full-length 16S rRNA gene. Which chopper settings should I use for quality and read length?” Write down the numbers it suggests</li>
 <li>Open your own <code>LengthvsQualityScatterPlot_dot.html</code> from the HPC chapter. Where is the peak of the read lengths? Which quality do most reads have? Do the LLM’s numbers fit your plot?</li>
-<li>Run chopper twice: once with the LLM’s settings and once with your own. Compare the “Kept … reads out of …” lines. Which settings would you use, and why? Write your answer in your notebook</li>
+<li>Run chopper once more, with the LLM’s settings. Write the output to a new file, for example <code>results/chopper/barcodeX_llm.fastq.gz</code>, so you keep your own filtered reads. Compare its “Kept … reads out of …” line with the one from your own run. Which settings would you use, and why? Write your answer in your notebook</li>
 <li>Ask the LLM a second time, in a new chat, with slightly different words. For example, “16S amplicon” instead of “full-length 16S rRNA gene”. Do you get the same numbers?</li>
 </ol>
 <div class="callout callout-style-default callout-answer callout-titled">
@@ -598,8 +596,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Which quality you can expect depends on the sequencing chemistry</strong>, that is, the flow cell, the kit and the basecalling model. The sequencing for this course uses an older chemistry, where few reads reach quality 15. An LLM can’t know this. ChatGPT asked about it, and that was the right question. Can you answer it? If not, your lab notes or the lab staff can</li>
 <li><strong>Some advice doesn’t fit your data.</strong> The primers were already removed from your reads (see the chopper section). Porechop removes adapters, not primers. And you can’t basecall the reads again yourself</li>
 <li><strong>Check the reasons, not only the numbers.</strong> UvA AI Chat wrote that the minimum length removes chimeras. But chimeras (two amplicons joined together) are usually too <em>long</em>, so the maximum length removes them</li>
-<li><strong>One option doesn’t exist.</strong> ChatGPT’s table uses <code>-L</code> for the maximum length. chopper stops with <code>error: unexpected argument '-L' found</code>. A loud error like this is easy to spot. The real risk is a setting that runs fine and quietly changes your results</li>
-<li><strong>Even the tutorial’s settings aren’t a rule.</strong> For this file, they keep 47% of the reads, just under the 50% that the chopper section recommends. I chose them for my own data. For this file, I would loosen them a little</li>
+<li><strong>One option doesn’t exist.</strong> ChatGPT’s table uses <code>-L</code> for the maximum length. When I ran this, chopper stopped with <code>error: unexpected argument '-L' found</code>. A loud error like this is easy to spot. However, there is a real risk in using a setting that runs fine and quietly changes your results</li>
 </ul>
 <p><strong>The second wording (question 4).</strong> I asked both tools again in new chats, with “16S amplicon” instead of “full-length 16S rRNA gene”:</p>
 <ul>
@@ -621,8 +618,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Settings that change your results come from your own data, not from an LLM</li>
 <li>Two versions of the same question can give two different sets of numbers</li>
-<li>An LLM can’t see your sequencing run. If it asks a question back, that is a good sign. Find the answer in your lab notes</li>
-<li>Read an error message, but don’t follow its suggestion blindly. Check it in the help page</li>
+<li>An LLM can’t see your sequencing run. If it asks a question back, that is a good sign. Find the answer in your lab notes, and give this information to the LLM in your first question.</li>
 <li>Write down in your notebook which cutoffs you used, why, and how many reads were kept</li>
 </ul>
 </div>
@@ -641,7 +637,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Narrow it down.</strong> Check what the error names. If a program can’t be found, run <code>which</code> with the name of the program, and look at which conda environment is active. Its name is in brackets at the start of the line in your terminal, for example <code>(chopper_0.15.0)</code></li>
 <li><strong>Then ask a specific question.</strong> Give the LLM the command, the exact error message and what you found in step 2. Ask what the error means, not only for a fix</li>
 </ol>
-<p>A fix that you don’t understand may work, but it can also change your setup in ways you don’t see. And you have learned nothing about why the command failed.</p>
+<p>A fix that you don’t understand may work, but it can also change your setup in ways you don’t see. Maybe even more importantly: you learn from solving your own mistakes. When you meet the same error again, you can solve it yourself, without an LLM.</p>
 <div class="callout callout-style-default callout-question callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -661,14 +657,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate chopper_0.15.0</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Run NanoPlot as in the HPC chapter, into a new output folder</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>10G NanoPlot <span class="dt">\</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>10G <span class="at">--time</span><span class="op">=</span>00:30:00 NanoPlot <span class="dt">\</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">--fastq</span> data/barcodeX.fastq.gz <span class="dt">\</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">-t</span> 2 <span class="dt">\</span></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">--tsv_stats</span> <span class="dt">\</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">--plots</span> dot <span class="dt">\</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">-o</span> results/nanoplot/test_error</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></li>
-<li><p>Read the error message. Which program can’t be found? Did NanoPlot make the output folder? Write down your own explanation first</p></li>
+<li><p>Read the error message. Which program can’t be found? Did NanoPlot make the output folder? Write down your own explanation on what happened first</p></li>
 <li><p>Run <code>which NanoPlot</code>. Which conda environment do you see in its output?</p></li>
 <li><p>Ask UvA AI Chat twice, each time in a new chat. First give it the command and the error message. Then give it the command, the error message and the output of <code>which NanoPlot</code>. Both times, ask: “What does the error mean?” Does the extra information change the answer? Which fix does it suggest first?</p></li>
 <li><p>Fix the command yourself. Which environment do you need? Your <code>## Software</code> section tells you. Run the command again, and check that <code>results/nanoplot/test_error</code> now holds the NanoPlot output. Then leave the environment with <code>conda deactivate</code>. Add the command, the error and your fix to your <code>## Error log</code>, and name the folder <code>test_error</code> there</p></li>
@@ -689,21 +685,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[2026-11-13T08:33:20.474] error: execve(): NanoPlot: No such file or directory
 srun: error: omics-cn001: task 0: Exited with exit code 2</code></pre>
 <p>Start reading at the top. The first line is the cause: <code>execve()</code> is the step in which the computer starts a program, and it found no program called <code>NanoPlot</code>. The second line follows from the first: <code>srun</code> reports that your command stopped on the compute node <code>omics-cn001</code>. These are two errors, but one problem.</p>
-<p>“No such file or directory” is the same message that you get when an input file is missing. But here it names <code>NanoPlot</code>, not your fastq file. So the program is missing, not your data. The output confirms it: <code>ls results/nanoplot/test_error</code> also says “No such file or directory”. NanoPlot never started, so it made no output folder.</p>
-<p><code>which NanoPlot</code> shows the folders in which bash looked for NanoPlot (your PATH). With your UvAnetID instead of <code>uvanetid</code>, it looks like this. On your account, the list can be longer:</p>
+<p>“No such file or directory” is the same message that you get when an input file is missing. But here it names <code>NanoPlot</code>, not your fastq file. So the program is missing, not your data. If you run <code>ls results/nanoplot/test_error</code>, it also says “No such file or directory”. So NanoPlot never started and never made an output folder.</p>
+<p><code>which NanoPlot</code> shows the folders in which bash looked for NanoPlot (your PATH). With your UvAnetID instead of <code>uvanetid</code>, it looks something like this. On your account, the list can be longer:</p>
 <pre><code>/usr/bin/which: no NanoPlot in (/zfs/omics/personal/uvanetid/miniforge3/envs/chopper_0.15.0/bin:/zfs/omics/personal/uvanetid/miniforge3/condabin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/zfs/omics/software/bin)</code></pre>
 <p>The folder <code>envs/chopper_0.15.0/bin</code> belongs to the chopper environment. The folder of <code>nanoplot_1.48.0</code> is not in the list. So NanoPlot is installed, but the wrong environment is active. The fix is one line, <code>conda activate nanoplot_1.48.0</code>, before you run the command again.</p>
 <p><strong>What the LLMs answered.</strong> I asked UvA AI Chat (with Claude Sonnet 4.6) and ChatGPT in November 2026, each question in a new chat without memory. I asked three versions: the error only, the command with the error, and the command with the error and the <code>which</code> output.</p>
 <ul>
-<li><strong>Without the <code>which</code> output, the LLMs could only guess.</strong> All four answers said that NanoPlot is either not installed, or that its environment is not active. Then they listed fixes for each case. None of them blamed the fastq file, but none could tell which case was yours, because they can’t see your environments</li>
+<li><strong>Without the <code>which</code> output, the LLMs could only guess.</strong> All four answers said that NanoPlot is either not installed, or that its environment is not active. Then they listed several different fixes for each case, but none could tell which fix applied to your case, because they can’t see your environments</li>
 <li><strong>With the <code>which</code> output, both found the cause</strong>: the <code>chopper_0.15.0</code> environment is active, and NanoPlot is not in it. The few seconds you spent on narrowing it down gave the LLM what it needed</li>
 <li><strong>But the first option was wrong for you.</strong> Both answers listed “install NanoPlot into the current environment” first. That would put NanoPlot into your chopper environment. In this tutorial, each tool has its own environment, so that the tools can’t disturb each other</li>
 <li><strong>The second option was a new environment that you don’t need.</strong> Both LLMs added that a separate NanoPlot environment is cleaner, and gave a command for a new one, without a version number and without <code>python=3.12</code>. You already have a NanoPlot environment. Only UvA AI Chat suggested, as its third option, to look for an existing one with <code>conda env list</code>. ChatGPT’s install command also had a typo in the package name (<code>nanplot</code>)</li>
-<li><strong>And the new environment would not work.</strong> Without <code>python=3.12</code>, mamba installs the newest Python. With that version, NanoPlot started with <code>srun</code> on Crunchomics but did not finish. After 10 minutes it was still running, and it printed no error message. So you would wait for a result that never comes, with no hint about what is wrong. That is why the HPC chapter fixes <code>python=3.12</code></li>
+<li><strong>And the new environment would not work.</strong> Without <code>python=3.12</code>, mamba installs the newest Python. With that version, NanoPlot would have started with <code>srun</code> on Crunchomics but it would never finish. When I tested this, it hung for 10 minutes before I stopped it myself, and while it hung it printed no error message whatsoever. In the worst case you would wait for a result that never comes, with no hint about what is wrong. That is why the HPC chapter fixes <code>python=3.12</code> in the command that installs NanoPlot</li>
 <li><strong>Most answers assumed a job script.</strong> Five of the six answers talked about a job script for <code>sbatch</code>, although the error shows that you used <code>srun</code>. In the second version, UvA AI Chat even recommended a job script as the “most robust” fix. That fix would mean writing more code, while the fix is one line (and running <code>srun</code> for such a short job is completely fine)</li>
-<li><strong>One explanation was wrong.</strong> UvA AI Chat wrote that an environment that you activate in your terminal is “often not inherited by <code>srun</code> on compute nodes”. On Crunchomics, it is: in the tutorial, you activate an environment on the login node and then run the tool with <code>srun</code>, and that works</li>
+<li><strong>One explanation was wrong.</strong> UvA AI Chat wrote that an environment that you activate in your terminal is “often not inherited by <code>srun</code> on compute nodes”. On Crunchomics, it is: you did this many times in the tutorial. You activated an environment on the login node, and then ran the tool with <code>srun</code></li>
 <li><strong>Five of the six answers suggested <code>module load</code>.</strong> Modules are another way to provide software on an HPC. Crunchomics doesn’t have them, but other HPCs do, for example the national HPC systems of SURF. So which advice fits depends on the HPC that you use, and the LLM doesn’t know which one that is</li>
-<li><strong>The answers were long.</strong> ChatGPT gave 8 to 13 code blocks per answer, UvA AI Chat up to 6. For a beginner, that is a lot of unfamiliar commands at once, and it is hard to tell which one matters, and which ones can break your setup</li>
+<li><strong>The answers were long.</strong> ChatGPT gave 8 to 13 code blocks per answer, UvA AI Chat up to 6. For a beginner, that is a lot of unfamiliar commands at once, and it is hard to tell which one matters, and which ones can break your own setup</li>
 </ul>
 <p>If an answer gives you more than you can follow, ask for less:</p>
 <pre><code>Only explain the cause, in max 5 lines.</code></pre>
@@ -713,7 +709,7 @@ srun: error: omics-cn001: task 0: Exited with exit code 2</code></pre>
 <li>Read the error message before you ask anyone, and start at the top. Check which name the error gives: “No such file or directory” can mean a missing program, not a missing data file</li>
 <li>Narrow it down first. With the <code>which</code> output, the LLMs found the cause. Without it, they could only list possible causes</li>
 <li>An LLM can’t see your environments, your folders or your notebook. Your <code>## Software</code> section knows which environment holds which tool</li>
-<li>The first fix in an answer is not always the right one. Here, it would have changed a setup that worked</li>
+<li>The first fix in an answer is not always the right one. Here, it would have changed a setup that worked perfectly fine</li>
 <li>If an LLM gives you many things to try, don’t try them all. Ask which one change fixes the cause, and change one thing at a time</li>
 <li>A short, specific question gives an answer you can check</li>
 </ul>
@@ -783,7 +779,7 @@ srun: error: omics-cn001: task 0: Exited with exit code 2</code></pre>
 </div>
 <pre><code>efe4acf9-660e-4d66-9e1d-4b05e3971fa8    1458    0       1458    -       GCF_000253315   1510    20      1490    1433    1478    60</code></pre>
 <p><code>cut -f1-12</code> keeps columns 1 to 12. minimap2 writes more columns after these, with extra information about each alignment.</p>
-<p>Both tools got the 12 columns mostly right. That is not surprising: the PAF format is described in a short table in the minimap2 manual. According to the manual, column 10 is the number of matching bases and column 11 is the number of bases in the alignment, including gaps. Column 10 divided by column 11 gives the identity of the alignment. <code>paf_to_matrix.py</code> uses this to remove alignments with a low identity.</p>
+<p>Both tools got the 12 columns mostly right. That is not surprising since the PAF format is described in a short table in the minimap2 manual. According to the manual, column 10 is the number of matching bases and column 11 is the number of bases in the alignment, including gaps. Column 10 divided by column 11 gives the identity of the alignment. <code>paf_to_matrix.py</code> uses this to remove alignments with a low identity.</p>
 <p>The details are where it gets interesting:</p>
 <ul>
 <li><strong>UvA AI Chat contradicted itself about column 11.</strong> It wrote that column 11 is “used to compute coverage”. A few lines further down, it computed the coverage from columns 2, 3 and 4, and used column 11 for the identity. That second part is right, and it is also what <code>paf_to_matrix.py</code> does. You can check this with <code>grep -n '/ df' scripts/paf_to_matrix.py</code>, which shows the two lines that compute coverage and identity</li>
@@ -797,13 +793,13 @@ srun: error: omics-cn001: task 0: Exited with exit code 2</code></pre>
 
 cut -f1 results/minimap2/barcode07.paf | sort -u | wc -l
 1772</code></pre>
-<p>1,772 is also the number of reads that chopper kept, so every read mapped. But there are 1,835 alignments, telling us that some reads have more than one line. <code>cut -f12 results/minimap2/barcode07.paf | sort -n | uniq -c</code> counts the mapping quality values: 63 alignments have a mapping quality of 0. The tag <code>tp</code> in the extra columns shows what they are. <code>grep -c "tp:A:S"</code> counts 63 secondary alignments, and <code>grep -c "tp:A:P"</code> counts 1,772 primary alignments, one per read. So the 63 extra lines are second hits of reads that already have a best hit. Task 3 looks at one of them.</p>
+<p>1,772 is also the number of reads that chopper kept, so for this file every single read mapped to a reference. But there are 1,835 alignments, so some reads have more than one line. <code>cut -f12 results/minimap2/barcode07.paf | sort -n | uniq -c</code> counts the mapping quality values: 63 alignments have a mapping quality of 0. The tag <code>tp</code> in the extra columns shows what they are. <code>grep -c "tp:A:S"</code> counts 63 secondary alignments, and <code>grep -c "tp:A:P"</code> counts 1,772 primary alignments, one per read. So the 63 extra lines are second hits of reads that already have a best hit. Task 3 looks at one of them.</p>
 <p>A PAF file has no header line. The <code>head -n 1</code> above shows that the first line already starts with a read name.</p>
 <p><strong>Task 3.</strong> In the example file, the first read with a secondary alignment has these two lines (the first 12 columns and the next four tags):</p>
 <pre><code>3e7a6498-15f2-4c09-af71-9177ec9f7468  1463  0  1412  +  GCF_000009425  1509  19  1438  1365  1428  60  NM:i:63   ms:i:2468  AS:i:2460  nn:i:0
 3e7a6498-15f2-4c09-af71-9177ec9f7468  1463  0  1463  +  GCF_000253315  1510  19  1490  1356  1490  0   NM:i:134  ms:i:2191  AS:i:2168  nn:i:0</code></pre>
 <p>The first line is the best hit, to Lactococcus (<code>GCF_000009425</code>), with a mapping quality of 60. The second line is a weaker hit to Streptococcus (<code>GCF_000253315</code>): more mismatches and gaps (<code>NM</code>, 134 instead of 63) and a lower alignment score (<code>AS</code>, 2168 instead of 2460). Lactococcus and Streptococcus are related genera with similar 16S sequences, so one read can match both.</p>
-<p>When asked about these lines, both LLMs saw that the first line is the better hit. But they explained the 0 differently:</p>
+<p>When asked about these lines, both LLMs saw that the first line is the better hit. But they explained the mapping quality of 0 differently. In their answers, the mapping quality is called MAPQ:</p>
 <ul>
 <li><strong>ChatGPT</strong> said the second line is likely a secondary alignment. It noted that the <code>tp</code> tag, which would tell for sure, was not in the lines I pasted. That was true. It also added a table of what MAPQ ranges mean (“1–10 low, 10–30 moderate…”) that is not from the minimap2 manual</li>
 <li><strong>UvA AI Chat</strong> wrote: “A MAPQ of 0 means the read maps nearly equally well to multiple locations”. That doesn’t fit these two lines: the scores show a clear winner. In this file, a 0 marks a secondary alignment, the second-best hit of a read</li>
@@ -841,7 +837,7 @@ cut -f1 results/minimap2/barcode07.paf | sort -u | wc -l
 </tr>
 </tbody>
 </table>
-<p>Why keep the 0s? For a genus with several very similar strains, such as Pseudomonas, minimap2 often can’t tell which strain a read comes from. Keeping the secondary hits means that the read still counts for the genus, even if the strain is unclear.</p>
+<p>Why keep the 0s? For a genus with several very similar strains, such as Pseudomonas, minimap2 often can’t tell which strain a read comes from. Keeping the 0s means that such a read still counts for the genus, even if the strain is unclear.</p>
 <p><strong>Key points</strong></p>
 <ul>
 <li>An LLM explains what you show it. The first lines of a file are not always typical for the rest. Simple counts over the whole file show what the first lines hide</li>
@@ -862,9 +858,9 @@ cut -f1 results/minimap2/barcode07.paf | sort -u | wc -l
 </section>
 <section id="lines-that-llms-add-to-loops-and-job-scripts" class="level2" data-number="7.7">
 <h2 data-number="7.7" class="anchored" data-anchor-id="lines-that-llms-add-to-loops-and-job-scripts"><span class="header-section-number">7.7</span> Lines that LLMs add to loops and job scripts</h2>
-<p>When you ask an LLM to run a step on all your barcodes, or to write a job script, it often adds lines that you didn’t ask for. These lines check whether a file exists, skip a barcode, or stop the script when something goes wrong. In this tutorial you don’t write such lines yourself, so you may not know what they do.</p>
-<p>LLMs learned a lot of their code from large automated pipelines. That code is built to keep running when something goes wrong. In your analysis you usually want the opposite: you want to see every problem, and no barcode may go missing from your count table without a message.</p>
-<p>All lines below run without an error message, also when they don’t fit your case. That makes them hard to notice.</p>
+<p>When you ask an LLM to run a step on all your barcodes, or to write a job script, it sometimes adds lines that you didn’t ask for. These lines check whether a file exists, skip a barcode, or stop the script when something goes wrong. In this tutorial, you don’t write such lines yourself, so you may not know what they do. You will see them in code from LLMs and online, so this section gives a short overview.</p>
+<p>LLMs add such lines because they learned a lot of their code from large automated pipelines. That code is built to keep running when something goes wrong. In bioinformatic analyses you usually want the opposite: you want to see every problem, and no barcode should go missing from your count table without a clear warning message.</p>
+<p>All lines below would make your code run without an error message, also when they don’t fit your case. That makes them hard to notice.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -941,7 +937,7 @@ cut -f1 results/minimap2/barcode07.paf | sort -u | wc -l
 <li>chopper failed and the job stopped. But the chopper output file <code>barcode99_filtered.fastq.gz</code> was left behind, with a size of 20 bytes: a compressed file without any reads</li>
 <li>I added the missing fastq file and submitted the job again. The script printed <code>Step 1 already complete, skipping Chopper</code>. The 20-byte file stayed, and seqkit counted 0 reads for this barcode</li>
 </ol>
-<p>So the explanation sounded right, but the check let a broken barcode through. <code>set -e</code> stops the script, but it doesn’t delete the file that the failed step had started. And <code>-s</code> only catches a file of 0 bytes.</p>
+<p>So the explanation sounded right, but the check let a broken barcode through. The issue with <code>set -e</code> is that it stops the script, but it doesn’t delete the file that the failed step had started. And <code>-s</code> only catches a file of 0 bytes.</p>
 <p><strong>Lessons</strong></p>
 <ul>
 <li>An LLM’s explanation of its own code can be wrong too. Test a check before you trust it, for example with a barcode that you break on purpose</li>
@@ -980,7 +976,7 @@ cut -f1 results/minimap2/barcode07.paf | sort -u | wc -l
 <li>An LLM sees a web page differently than you do in a browser. It does not click or change settings. Ask what it could actually see</li>
 <li>Context you give can be bent to fit the answer instead of testing it</li>
 <li>An honest “I could not check this” is a good sign, not a weak answer</li>
-<li>An empty result can be a failed command, not a finding. In the same session, a download returned nothing because a redirect was not followed. That looked like “0 sequences”</li>
+<li>An empty result can be a failed command, not a finding. In the same session, a download returned nothing because the website sent the download to another address, and the command did not go there. That looked like “0 sequences”</li>
 </ul>
 </div>
 </div>
@@ -1018,7 +1014,7 @@ cut -f1 results/minimap2/barcode07.paf | sort -u | wc -l
 </section>
 <section id="writing-down-your-use-of-an-llm-in-your-notebook" class="level2" data-number="7.10">
 <h2 data-number="7.10" class="anchored" data-anchor-id="writing-down-your-use-of-an-llm-in-your-notebook"><span class="header-section-number">7.10</span> Writing down your use of an LLM in your notebook</h2>
-<p>In this course, you don’t use an LLM for your analysis. Later, for example in your thesis or in a research project, you may be allowed to. Check the rules of your course or your research group first. If you do use an LLM, add a short section to your notebook, such as <code>## LLM use</code>. You don’t need to write down every question. Write down:</p>
+<p>In this course, you don’t use an LLM for your analysis. Later, for example in your thesis or in a research project, you may be allowed to. Check the rules of your course or your research group first. If you do use an LLM, add a short section to your notebook, such as <code>## LLM use</code>. If you did the exercises on this page, add this section to your notebook now. You don’t need to write down every question. Write down:</p>
 <ul>
 <li><strong>Which tool and which model, and when.</strong> Write down the model, not only the tool: the default model of a tool can change from one month to the next, and another model can give another answer to the same question</li>
 <li><strong>What you used it for</strong>, for example to explain error messages, or to write a first version of a loop</li>

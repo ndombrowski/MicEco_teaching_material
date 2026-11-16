@@ -6,9 +6,9 @@ engine: knitr
 
 # Amplicon long-read analysis
 
-Now that we have learned how to use the command line to issue commands and use an HPC we can now analyse our long-read amplicon data and:
+Now that you have learned how to use the command line to issue commands and use an HPC you are ready to analyse your long-read amplicon data and:
 
-- Perform quality filtering by choosing appropriate cutoffs based on our quality assessment we did in the prior section
+- Perform quality filtering by choosing appropriate cutoffs based on the quality assessment you did in the prior section
 - Align the quality filtered reads to a reference database 
 - Generate a count matrix
 
@@ -18,7 +18,7 @@ This chapter has three parts:
 2.  **Your own analysis**: during day 2, you get a count table with the samples of all groups, and the code that made it. You analyse the table yourself, and you make your own figures for your presentation
 3.  **Optional, if you have time left**: run the workflow on all your barcodes with a loop (bonus section), or work through the page on [LLMs](llm_usage.qmd)
 
-**Important**: All of this should be run on the Crunchomics HPC, so be sure that you connected with `ssh -X user@omics-h0.science.uva.nl`.
+**Important**: All of this should be run on the Crunchomics HPC, so be sure that you connected with `ssh -X uvanetid@omics-h0.science.uva.nl`. Also, make sure that you are in your project folder (`cd ~/personal/data_analysis`).
 
 ## `chopper`: Quality cleaning 
 
@@ -47,14 +47,14 @@ Use your NanoPlot quality plots from the previous section and choose some qualit
 Do the following:
 
 - Create a new folder to store the results and name the output file `barcodeX_filtered.fastq.gz`
-- Request 1 task, 2 CPUs and 20G of memory with `srun`, and ensure chopper itself also uses 2 threads
+- Request 1 task, 2 CPUs, 20G of memory and 30 minutes of runtime with `srun`, and ensure chopper itself also uses 2 threads
 - Investigate the Nanoplot LengthvsQualityScatterPlot_dot.html that you generated in the last exercise and decide on the right thresholds to use with chopper to:
   - Discard sequences that are too long or too short
-  - Discard reads with a too low phred score
+  - Discard reads with a too low phred score (Q10 means 1 error in 10 bases, Q20 means 1 in 100).
   - Trim low-quality bases from the read ends
 - Check the [tools manual](https://github.com/wdecoster/chopper) carefully for how to deal with `.gz` files. Hint: Closely check the example section
 
-> **IMPORTANT**: After chopper finished you will see something like "Kept 1772 reads out of 3785 reads". If you see less than 50% of the reads remaining use less strict length and quality filters. You need enough reads for the next steps
+**IMPORTANT**: After chopper finished you will see something like "Kept 1772 reads out of 3785 reads". If you see less than 50% of the reads remaining use less strict length and quality filters. You need enough reads for the next steps
 
 
 **Task 2: Assess the quality of the filtering step**
@@ -63,9 +63,9 @@ Investigate the quality of the filtered FASTQ file by running:
 
 -  NanoPlot
 -  seqkit
-   -  **Important**: Be sure that you name the output file something like `barcodeX_filtered.tsv`, we need this file later!
+   -  **Important**: Name the output file `results/seqkit/barcodeX_filtered.tsv`. You need this file later for the count table.
 
-Afterwards open NanoPlots and seqkit. Investigate the outputs and record:
+Afterwards open NanoPlots and seqkit (copy it to your computer, as in the HPC chapter). Investigate the outputs and record:
 
  - The total number of sequences that went into the analysis
  - The total number of sequences that passed the quality filtering
@@ -79,7 +79,7 @@ Afterwards open NanoPlots and seqkit. Investigate the outputs and record:
 ...
 
 # Run chopper
-srun --ntasks=1 --cpus-per-task=2 --mem=20G chopper ...
+srun --ntasks=1 --cpus-per-task=2 --mem=20G --time=00:30:00 chopper ...
 
 # Deactivate the conda environment 
 ...
@@ -105,7 +105,7 @@ mkdir results/chopper
 conda activate chopper_0.15.0
 
 # Run chopper
-srun --ntasks=1 --cpus-per-task=2 --mem=20G chopper \
+srun --ntasks=1 --cpus-per-task=2 --mem=20G --time=00:30:00 chopper \
     -i data/barcodeX.fastq.gz \
     -q 12 \
     --trim-approach trim-by-quality --cutoff 12 \
@@ -121,7 +121,7 @@ conda activate nanoplot_1.48.0
 
 mkdir -p results/nanoplot/cleaned
 
-srun --ntasks=1 --cpus-per-task=2 --mem=10G NanoPlot \
+srun --ntasks=1 --cpus-per-task=2 --mem=10G --time=00:30:00 NanoPlot \
     --fastq results/chopper/barcodeX_filtered.fastq.gz \
     -t 2 \
     --tsv_stats \
@@ -131,7 +131,7 @@ srun --ntasks=1 --cpus-per-task=2 --mem=10G NanoPlot \
 conda deactivate
 
 # Run seqkit 
-srun --ntasks=1 --cpus-per-task=1 --mem=5G seqkit stats results/chopper/barcodeX_filtered.fastq.gz  \
+srun --ntasks=1 --cpus-per-task=1 --mem=5G --time=00:10:00 seqkit stats results/chopper/barcodeX_filtered.fastq.gz  \
     -Tao results/seqkit/barcodeX_filtered.tsv --threads 1
 
 ```
@@ -139,7 +139,7 @@ srun --ntasks=1 --cpus-per-task=1 --mem=5G seqkit stats results/chopper/barcodeX
 Below are the results for the example file `barcode07.fastq.gz`. Your own barcode will give different numbers. Your sample most likely has more reads than this example, and the share of reads that pass depends on how the sequencing went.
 
 - Input: 3,785 reads
-- Passed filtering: 1,772 reads (47%). This is just under the 50% we recommend above. For this file, you could loosen the length or quality cutoffs a little. You ideally want to keep 50%-90% of the reads for the downstream analyses, depending on the quality of the data and how many reads you generated.
+- Passed filtering: 1,772 reads (47%). This is just under the 50% recommendation from above. For this file, you could loosen the length or quality cutoffs a little. You ideally want to keep 50%-90% of the reads for the downstream analyses, depending on the quality of the data and how many reads you generated.
 
 This is the NanoPlot read length against read quality plot for `barcode07` after chopper. Compare it with the plot before filtering in the HPC chapter. The short reads, the very long reads and the reads with a quality below 12 are gone. All reads are now between 1,400 and 1,540 bp:
 
@@ -171,7 +171,7 @@ Assume that your average read quality is **Q12**. The Phred score (Q) is a measu
 
 $$P=10^{-Q/10}$$
 
-In R we can compute this with:
+In R, you can compute this with:
 
 ```{r}
 #| eval: true
@@ -181,15 +181,17 @@ percent_error <- P_error * 100
 message("Error rate: ", round(percent_error, 2), "%")
 ```
 
-This shows that with a mean Phred quality of 12, each base has roughly a 6% chance of being incorrect. For a 1,500 bp 16S amplicon we expect 90 errors per sequence with such a quality score. While Nanopore long reads are useful because they capture the full 16S rRNA gene, a high level of errors can make species-level identification unreliable.
+This tells you that with a mean Phred quality of 12, each base has roughly a 6% chance of being incorrect. For a 1,500 bp 16S amplicon you expect 90 errors per sequence with such a quality score. While Nanopore long reads are useful because they capture the full 16S rRNA gene, a high level of errors can make species-level identification unreliable.
 
-To classify our filtered Nanopore reads, we use **Minimap2** to map each read against a reference database of 16S rRNA sequences from all the strains used in your lab experiments. Mapping identifies the reference sequence most similar to each read. The read is then aligned base-by-base to the corresponding reference sequence to check for exact matches or mismatches. Depending on the similarity, one or more hits may be recorded for each read.
+To classify your filtered Nanopore reads, you use **Minimap2** to map each read against a reference database of 16S rRNA sequences from all the strains used in your lab experiments. Mapping identifies the reference sequence most similar to each read. The read is then aligned base-by-base to the corresponding reference sequence to check for exact matches or mismatches. Depending on the similarity, one or more hits may be recorded for each read.
 
 Mapping tools like Minimap2 are well-suited for Nanopore data because they tolerate mismatches as well as small insertions and deletions, which are common in error-prone long reads. The output of Minimap2 is a **PAF** (Pairwise mApping Format) file, which contains information about how well each read maps to the reference sequences.
 
-Some reads may map equally well to multiple reference sequences (**multi-mappers**), particularly if the strains have highly similar 16S sequences (for example the different Pseudomonas strains you worked with in the lab). These multi-mapping reads are important to keep in mind when summarizing taxonomic abundances.
+Some reads match more than one reference sequence (**multi-mappers**). This can happen if the strains have highly similar 16S sequences (for example the different Pseudomonas strains you worked with in the lab). These multi-mapping reads are important to keep in mind when summarizing taxonomic abundances.
 
-Crunchomics already has minimap2 installed. However, it is an older version (`minimap2 --version` prints `2.22-r1105-dirty`). The word "dirty" means that it was built from a changed copy of the code, so nobody else can install exactly this version. So, like for chopper, we install a recent version with mamba:
+minimap2 then writes one line per hit. The best hit is the **primary alignment**, the other hits are **secondary alignments**. minimap2 also gives each alignment a **mapping quality**. For a primary alignment, it tells you how sure minimap2 is that this is the right reference: 60 means very sure, a low value means that another reference fits almost as well. Secondary alignments always get a mapping quality of 0.
+
+Crunchomics already has minimap2 installed. However, it is an older version (`minimap2 --version` prints `2.22-r1105-dirty`). The word "dirty" means that it was built from a changed copy of the code, so nobody else can install exactly this version. So, like for chopper, you install a recent version with mamba:
 
 ```{bash}
 mamba create -n minimap2_2.31 -c bioconda minimap2=2.31
@@ -212,16 +214,16 @@ This file (`amplicons_nr.fasta`) contains one to two representative 16S rRNA seq
 
 Next, you will map your filtered reads against the reference database using minimap2.
 
-Before running, make sure to check all the available options with `minimap2 -h` and then make sure that you:
+Before running, make sure to check all the available options with `minimap2 -h` (or check the tools [manual](https://github.com/lh3/minimap2)) and then make sure that you:
 
 - Create a folder to store your results
 - Activate the `minimap2_2.31` environment before you run minimap2, and deactivate it afterwards
-- Use srun with 1 task, 2 CPUs and 20G of memory
+- Use srun with 1 task, 2 CPUs, 20G of memory and 30 minutes of runtime
 - Use `-cx map-ont` for accurate Nanopore vs reference mapping
-- Ensure that the output is in PAF format
+- When you name the output file use the `.paf` extension (minimap2 generates PAF files by default)
 - Provide both 
   -  `data/amplicons_nr.fasta` (the reference) 
-  -  `barcodeX_filtered.fastq.gz` (the cleaned fastq sequences)
+  -  `results/chopper/barcodeX_filtered.fastq.gz` (the cleaned fastq sequences, make sure that you adjust this to how you named the chopper output folder)
 - Use `> results/minimap2/barcodeX.paf` to store the output
 
 **Task 3: Explore the output**
@@ -271,7 +273,7 @@ mkdir results/minimap2
 conda activate minimap2_2.31
 
 # Run minimap2
-srun --ntasks=1 --cpus-per-task=2 --mem=20G minimap2 \
+srun --ntasks=1 --cpus-per-task=2 --mem=20G --time=00:30:00 minimap2 \
         -cx map-ont -t 2 \
         data/amplicons_nr.fasta \
         results/chopper/barcodeX_filtered.fastq.gz \
@@ -290,12 +292,12 @@ less -S results/minimap2/barcodeX.paf
 Answer:
 
 1. For the example file `barcode07`, there are 1,835 alignments for 1,772 reads. Your numbers will be different. If you see more alignments than there are reads, there might be different reasons for that:
-   1. If your experiment included Pseudomonas strains you likely will have more alignments than reads. The higher number of alignments occurs because some reads might align equally well to multiple reference 16S sequences, these are multi-mapping reads.
+   1. Some reads have a primary alignment (the best hit) and one or more secondary alignments (other hits). The `tp` tag after column 12 shows which is which: `tp:A:P` marks a primary alignment, `tp:A:S` a secondary one. `grep -c "tp:A:S" results/minimap2/barcodeX.paf` counts the secondary alignments. In `barcode07`, there are 1,772 primary alignments (one per read) and 63 secondary ones. You likely see more secondary alignments if your community has strains with very similar 16S sequences, such as several Pseudomonas strains.
    2. Some reads might only partially or weakly align to highly similar regions in the 16S rRNA gene
 2. Useful PAF columns for assessing alignment reliability include:
-   - Column 10: number of matching bases (can be use to calculate % identity)
-   - Column 11: total length of the alignment (including gaps; can be use to calculate % identity)
-   - Column 12: mapping quality. 0 is used to mark and thereby identify multi-mappers
+   - Column 10: number of matching bases (can be used to calculate % identity)
+   - Column 11: total length of the alignment (including gaps; can be used to calculate % identity)
+   - Column 12: mapping quality. A value between 1 and 29 means that minimap2 was not sure about the best hit. A 0 marks a secondary alignment, or a best hit with an equally good second hit
    - Columns 3–4: read start and end positions (can be used to calculate how much of the read aligned)
 
 Information on the PAF output:
@@ -331,23 +333,25 @@ Add a heading `### Mapping with minimap2`, and below it:
 
 ## Generate a count table
 
-Now that we have our alignment results, our goal is to summarize them into a count table, a matrix showing how many reads aligned to each reference 16S rRNA sequence. Before creating the count table, we first need to filter our results to make sure we only count high-confidence matches by:
+Now that you have your alignment results, your next goal is to summarize them into a count table, a matrix showing how many reads aligned to each reference 16S rRNA sequence. Before creating the count table, you first need to filter your results to make sure you only count high-confidence matches by:
 
 - Removing low-confidence hits by filtering out alignments with:
   - Low sequence identity (many mismatches)
   - Low coverage (only part of the read mapped to the reference)
-  - Low mapping quality (reads could map equally well elsewhere)
+  - Low mapping quality (1 to 29: minimap2 found a best hit, but another reference fits almost as well)
 - Selecting the single best alignment for each read (to handle multi-mappers)
   
-Afterwards, we can count how many reads map to each reference sequence. These counts can then be summarized at higher taxonomic levels (e.g., genus) to account for the uncertainty due to sequencing errors.
+Afterwards, you can count how many reads map to each reference sequence. These counts can then be summarized at higher taxonomic levels (e.g., genus) to account for the uncertainty due to sequencing errors.
 
-Instead of using a single pre-built program, we will use a custom Python script to perform this step. So why use a tool like Python or R for this?
+The filter keeps alignments with a mapping quality of 0 on purpose. For a genus with several very similar strains, such as Pseudomonas, minimap2 often can't tell which strain a read comes from. Keeping the secondary alignments means that the read still counts for the genus, even if the strain is unclear.
+
+Instead of using a single pre-built program, you will use a custom Python script to perform this step. You might wonder why you use a tool like Python or R for this and not do this directly via the terminal:
 
 Tools like Minimap2 produce large, text-based alignment files. While command-line tools are great for specific tasks (like counting lines or filtering by quality), programming languages like Python and R allow you to:
 
 - Combine multiple filtering criteria (e.g. identity, coverage, quality)
 - Parse complex data formats
-- Summarize and visualize results reproducible
+- Summarize and visualize results reproducibly
 
 
 ::: {.callout-question .callout-warning collapse=false}
@@ -355,7 +359,7 @@ Tools like Minimap2 produce large, text-based alignment files. While command-lin
 
 **Task 1: Install the necessary software**
 
-To run the required software, we first need to install some packages to parse the data. You can do this by running the following:
+To run the required software, you first need to install some packages to parse the data. You can do this by running the following:
 
 ```{bash}
 mamba create -n python_3.10.18 -c conda-forge python=3.10.18 matplotlib pandas
@@ -371,7 +375,7 @@ wget https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/refs
 wget https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/refs/heads/main/data/accession_to_genus.tsv -P data
 ```
 
-- `paf_to_matrix.py` is the python script that filters alignment results and generates count tables
+- `paf_to_matrix.py` is a custom python script we wrote that filters alignment results and generates count tables
 - `accession_to_genus.tsv` is a two-column tab-delimited file linking each 16S rRNA gene accession to its genus
 
 You can inspect the script’s help menu to understand its required inputs by typing `python scripts/paf_to_matrix.py -h`. The main arguments are:
@@ -379,7 +383,7 @@ You can inspect the script’s help menu to understand its required inputs by ty
 1. `-i`: path to the folder containing PAF alignment files
 2. `-o`: output folder
 3. `-t`: path to two-column TSV file linking accessions to genus names
-4. `-s`: (optional) seqkit stats file generated with _Tao, used to calculate unmapped reads
+4. `-s`: (optional) seqkit stats file generated with `-Tao`, used to calculate unmapped reads
 5. Filtering thresholds for identity, coverage, and mapping quality
 
 
@@ -387,13 +391,13 @@ You can inspect the script’s help menu to understand its required inputs by ty
 
 Now, use `paf_to_matrix.py` to convert your alignment results into a count table. You will need to:
 
-- Make sure to activate the conda environment we setup in Task 1
+- Make sure to activate the conda environment you set up in Task 1
 - Provide the path to your PAF alignment folder (`-i`)
-- Add your seqkit stats file (`-s`)
+- Add your seqkit stats file of your filtered reads (`-s`)
 - Include the accession-to-genus mapping file (`-t`)
 - Choose the folder in which you want to save your results (`-o`)
 
-> Hint: Python scripts like this one are not computationally demanding, you can safely run it on the login node without using srun.
+**Hint:** Python scripts like this one are not computationally demanding, you can safely run it on the login node without using srun.
 
 ```{bash}
 # Activate the python conda environment 
@@ -416,14 +420,14 @@ python scripts/paf_to_matrix.py \
 
 - Print a brief summary of the filtering to the screen
 - Generate several tables:
-  - `otu_table_multimappers.tsv`: A count table based on all alignments, including multi-mappers
-  - `otu_table.tsv`: A count table based on only best (primary) hits per read
+  - `otu_table_multimappers.tsv`: A count table based on all alignments that pass the filter. A read with a secondary alignment counts more than once.
+  - `otu_table.tsv`: A count table with one hit per read: the best one that passed the filter
   - `otu_table_genus.tsv`: A count table summarized at the genus rank
 - Make three histograms: `identity_hist.png`, `qcov_hist.png` and `mapq_hist.png`. They show the identity, the query coverage and the mapping quality of all alignments, before the filtering
 
 Inspect the outputs and answer the following:
 
-1. How many reads were lost due to the filtering? Check the options of `python scripts/paf_to_matrix.py -h` and think about whether there are any parameters you would change in case too many reads were removed?
+1. How many alignments were removed due to the filtering? Check the options of `python scripts/paf_to_matrix.py -h` and think about whether there are any parameters you would change in case too many reads were removed?
 2. Are the taxa listed in your count tables consistent with the strains used in your experiment?
 3. Do the relative abundances of taxa match your expectations? If not, what biological or technical factors could explain the differences? Hint: in the [command line chapter](cli.qmd), you saw that strains can carry different numbers of 16S copies.
 4. Open the three histograms. To view them, copy them to your own computer, as you did for the NanoPlot output. The script removes alignments with an identity below 0.9, a query coverage below 0.9, or a mapping quality between 1 and 29. Where do these cutoffs fall in your histograms? Which filter do you think removed most of your alignments? Write your answer in your notebook.
@@ -449,7 +453,7 @@ conda deactivate
 ```
 
 1. For the example file `barcode07`, the filtering removed 40 of 1,835 alignments (2%). Note that the summary counts alignments, not reads. If you had more alignments than reads, some of the removed alignments were likely secondary (less confident) alignments. You will also lose potential contaminations during this step. That is because reads coming from contaminant bacteria might still map to sequences in the reference database but with much lower sequence identity, and therefore will be discarded.
-2. Most reads map to Streptococcus and Lactococcus, consistent with the experiment. A few unassigned reads may come from contamination or poor-quality reads (10 reads in `barcode07`).
+2. Most reads map to Streptococcus and Lactococcus, consistent with the experiment. A few unassigned reads may come from contamination or poor-quality reads (10 reads in `barcode07`). Use `otu_table_genus.tsv` for your analysis. If your community has several strains of one genus, such as Pseudomonas, the strain rows in `otu_table.tsv` are not reliable: minimap2 often can't tell these strains apart.
 3. Streptococcus had ~8× more reads than Lactococcus (1,576 and 186 reads in `barcode07`). This may indicate stronger growth due to better adaptation to liquid media or competitive advantage in the co-culture. The 16S copy number can also play a role: a strain with more 16S copies gives more reads per cell, so read counts are not the same as cell numbers.
 4. These are the histograms for `barcode07`:
 
@@ -459,7 +463,7 @@ conda deactivate
 
    ![](../img/barcode07_mapq_hist.png){width=60%}
 
-   Almost all alignments cover the whole read (query coverage close to 1), and almost all have a mapping quality of 60. A small group has a mapping quality of 0. These are multi-mappers, and the script keeps them. The identity is mostly between 0.92 and 0.99, with a small tail below 0.9. So the identity filter removed most of the alignments: 35 of the 40. An identity of about 0.95 fits the read quality: with a mean quality of about 13.6, roughly 4% of the bases are wrong.
+   Almost all alignments cover the whole read (query coverage close to 1), and almost all have a mapping quality of 60. A small group has a mapping quality of 0. These are the 63 secondary alignments. The script keeps them on purpose, see the start of this section. The identity is mostly between 0.92 and 0.99, with a small tail below 0.9. So the identity filter removed most of the alignments: 35 of the 40. An identity of about 0.95 fits the read quality: with a mean quality of about 13.6, roughly 4% of the bases are wrong.
 
 :::
 :::
@@ -489,7 +493,7 @@ You now have a count table for one of your samples.
 
 ## Your own analysis of the count table
 
-When you have finished the tutorial, you get a count table with the samples of all groups, and the code that made it. The table was made with the same steps as your own barcode. Each group tested its own strain combinations, but other groups worked with related questions on human or soil strains. So you can also compare your samples with theirs. How far you go is up to you. For your presentation, you need at least your own figures of your own samples, for example a barplot of the genera in each sample.
+When you have finished the tutorial, you can download a count table with the samples of all groups from Canvas, together with the code that made it. The table was made with the same steps as your own barcode. Each group tested its own strain combinations, but other groups worked with related questions on human or soil strains. So for the next steps you can also compare your samples with theirs. How far you go is up to you. For your presentation, you need at least your own figures of your own samples, for example a barplot of the genera in each sample.
 
 ::: {.callout-notebook .callout-note collapse="false" title="Notebook checkpoint: Your own analysis"}
 Add a heading `## Analysis of the count table`, and below it:
@@ -503,7 +507,7 @@ Add a heading `## Analysis of the count table`, and below it:
 ::: {.callout-notebook .callout-note collapse="false" title="Notebook checkpoint: Before you hand in"}
 Your teachers read your notebook before your presentation, to prepare their questions. Take some time to make it complete.
 
-1.  At the top: does your notebook say what your community is, what your hypothesis was, and which samples you sequenced?
+1.  At the top: does your `## Project description` say what your community is, what your hypothesis was, and which samples you sequenced?
 2.  `## Software`: is every tool there, with its version and where it came from (pre-installed or a conda environment)?
 3.  Read your notebook from the top. Could someone repeat your work, from the lab to your figures, with your notebook alone?
 4.  `## Error log` and `## Questions`: is anything still open?
@@ -512,7 +516,7 @@ Your teachers read your notebook before your presentation, to prepare their ques
 
 ## Bonus: run the workflow on all your barcodes (optional)
 
-So far you analysed one barcode, your largest file. In the practical you prepared more samples than that, for example your community at day 0 and at day 2. In this bonus section you run chopper and minimap2 on all your barcodes with a `for` loop. Then you make one count table with one column per barcode.
+So far you analysed one barcode, your largest file. In the practical you prepared more samples than that, for example you have prepared different replicates, maybe even different strain combinations. In this bonus section you run chopper and minimap2 on all your barcodes with a `for` loop. Then you make one count table with one column per barcode.
 
 You don't need this section for the rest of the course. You get the count table for all samples during day 2, together with the code that made it. Do this section if you have time left, or if you want to see how that table was made.
 
@@ -551,7 +555,7 @@ Hint: run `python scripts/paf_to_matrix.py -h` and read what `-i` and `-s` expec
 - Look at all files from the practical with `ls -lh /zfs/omics/projects/education/miceco/data/practical/*.fastq.gz`. Find the barcodes that your group prepared.
 - Look at the file sizes too. Is one of your files much smaller than the others? Write it in your notebook, and watch what happens to it in the loop.
 - Use `nano` to make a file `barcodes.txt` in your `data_analysis` folder, with one barcode per line. Write the names exactly as in the file names, without `.fastq.gz`.
-- Write the list in your notebook. For each barcode, also write which sample it is (community, day).
+- Write the list in your notebook. For each barcode, also write which sample it is (community, day on which you generated the sample, and other relevant information).
 
 **Task 2: Copy the fastq files with a loop**
 
@@ -560,8 +564,18 @@ Write a `for` loop that reads `barcodes.txt` and copies each fastq file into you
 **Task 3: Run chopper and minimap2 on every barcode**
 
 - Use the same chopper cutoffs that you chose for your first barcode. Then all samples are filtered the same way, and you can compare them. Write the cutoffs in your notebook.
-- Before you run the loop, put `echo` in front of `srun`. The loop then only prints the commands. Do you see one chopper command per barcode in the first loop, and one minimap2 command per barcode in the second, with the right file names? Then remove the `echo` and run the loop.
+- Before you run the two loops, run the test loop below. It only prints the file names. It does not run chopper or minimap2. Is every barcode there, with the right file names?
 - While the loop runs, read what chopper prints for each barcode ("Kept ... reads out of ..."). Write the numbers in your notebook.
+
+```{bash}
+# Test loop: only prints the input and output file names
+for barcode in $(cat barcodes.txt); do
+    echo "chopper:  data/${barcode}.fastq.gz -> results/chopper/${barcode}_filtered.fastq.gz"
+    echo "minimap2: results/chopper/${barcode}_filtered.fastq.gz -> results/minimap2/${barcode}.paf"
+done
+```
+
+Then fill in the `...` and run the two loops:
 
 ```{bash}
 conda activate chopper_0.15.0
@@ -569,7 +583,7 @@ conda activate chopper_0.15.0
 for barcode in $(cat barcodes.txt); do
     echo "Now running chopper: ${barcode}"
 
-    srun --ntasks=1 --cpus-per-task=2 --mem=20G chopper \
+    srun --ntasks=1 --cpus-per-task=2 --mem=20G --time=00:30:00 chopper \
         -i ... \
         ... \
         > results/chopper/${barcode}_filtered.fastq.gz
@@ -582,7 +596,7 @@ conda activate minimap2_2.31
 for barcode in $(cat barcodes.txt); do
     echo "Now running minimap2: ${barcode}"
 
-    srun --ntasks=1 --cpus-per-task=2 --mem=20G minimap2 \
+    srun --ntasks=1 --cpus-per-task=2 --mem=20G --time=00:30:00 minimap2 \
         ... \
         > results/minimap2/${barcode}.paf
 done
@@ -612,7 +626,7 @@ Open `results/tables_all/otu_table_genus.tsv` and answer:
 3. Is the number of `unassigned` reads in a plausible range for each barcode?
 4. Did the script print a line that starts with `Warning`?
 
-Write the answers in your notebook.
+Write the answers in your notebook. Then go through "Before you hand in" again.
 
 ::: {.callout-answer .callout-warning collapse=true}
 # Click to see the answer
@@ -638,7 +652,7 @@ conda activate chopper_0.15.0
 for barcode in $(cat barcodes.txt); do
     echo "Now running chopper: ${barcode}"
 
-    srun --ntasks=1 --cpus-per-task=2 --mem=20G chopper \
+    srun --ntasks=1 --cpus-per-task=2 --mem=20G --time=00:30:00 chopper \
         -i data/${barcode}.fastq.gz \
         -q 12 \
         --trim-approach trim-by-quality --cutoff 12 \
@@ -654,7 +668,7 @@ conda activate minimap2_2.31
 for barcode in $(cat barcodes.txt); do
     echo "Now running minimap2: ${barcode}"
 
-    srun --ntasks=1 --cpus-per-task=2 --mem=20G minimap2 \
+    srun --ntasks=1 --cpus-per-task=2 --mem=20G --time=00:30:00 minimap2 \
         -cx map-ont -t 2 \
         data/amplicons_nr.fasta \
         results/chopper/${barcode}_filtered.fastq.gz \
@@ -671,7 +685,7 @@ ls -lh results/chopper/ results/minimap2/
 wc -l results/minimap2/*.paf
 
 # Task 5: one seqkit file for all barcodes, then one count table
-srun --ntasks=1 --cpus-per-task=1 --mem=5G seqkit stats results/chopper/*_filtered.fastq.gz \
+srun --ntasks=1 --cpus-per-task=1 --mem=5G --time=00:10:00 seqkit stats results/chopper/*_filtered.fastq.gz \
     -Tao results/seqkit/all_filtered.tsv --threads 1
 
 less -S results/seqkit/all_filtered.tsv

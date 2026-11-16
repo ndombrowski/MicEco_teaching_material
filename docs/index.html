@@ -190,7 +190,7 @@ ul.task-list li input[type="checkbox"] {
 <strong>Nina Dombrowski</strong>
 </p>
 <p>
-Institute for Biodiversity and Ecosystem Dynamics (IBED), University of Amsterdam (UVA)
+Institute for Biodiversity and Ecosystem Dynamics (IBED), University of Amsterdam (UvA)
 </p>
 <p>
 <a href="mailto:n.dombrowski@uva.nl">n.dombrowski@uva.nl</a>
@@ -198,14 +198,14 @@ Institute for Biodiversity and Ecosystem Dynamics (IBED), University of Amsterda
 </div>
 <section id="introduction" class="level1 unnumbered">
 <h1 class="unnumbered">Introduction</h1>
-<p>In this tutorial, you will learn how to work on the command line and use a High-Performance Computing (HPC) environment. This will allow you to analyse 16S long-reads and turn this data into a count table of microbial taxa.</p>
+<p>Research projects often generate data that is too big for a spreadsheet or spread over hundreds of files. The command line lets you work with large files and automate repetitive steps, and a High Performance Computer (HPC) lets you run analyses that are too slow for a laptop. This course will teach you how to use these tools: you analyse the 16S rRNA gene data from a Nanopore sequencing run and turn it into a count table of microbial taxa.</p>
 <p>This course is designed for students in microbial ecology with little or no prior experience using the command line. During this tutorial, you will learn how to:</p>
 <ol type="1">
-<li><p><strong>Install a Terminal</strong></p></li>
+<li><p><strong>Set up a Terminal</strong></p></li>
 <li><p><strong>Document your Code</strong></p>
 <ul>
-<li>Decide what software to use for code documentation</li>
-<li>How to use markdown and document workflows</li>
+<li>Know what to write down in your notebook</li>
+<li>Use markdown and code blocks in your notebooks</li>
 </ul></li>
 <li><p><strong>Navigate the Command Line</strong></p>
 <ul>
@@ -218,14 +218,15 @@ Institute for Biodiversity and Ecosystem Dynamics (IBED), University of Amsterda
 <li><p><strong>Work with an HPC</strong></p>
 <ul>
 <li>Connect to an HPC</li>
-<li>Understand job schedulers (e.g., SLURM)</li>
-<li>Run command-line tools (e.g., <code>fastqc</code>, <code>seqkit</code>)</li>
-<li>Set up and activating conda environments</li>
+<li>Install your own software</li>
+<li>Transfer files between your computer and the HPC</li>
+<li>Understand job schedulers</li>
+<li>Run command-line tools</li>
 </ul></li>
-<li><p><strong>Analyse long-read data</strong></p>
+<li><p><strong>Analyse 16S long-read data</strong></p>
 <ul>
 <li>Analyse sequence read quality</li>
-<li>Perform quality filtering of sequence read data</li>
+<li>Filter reads by quality and length</li>
 <li>Align quality-filtered reads to a reference database</li>
 <li>Generate a count table</li>
 </ul></li>
@@ -235,17 +236,26 @@ Institute for Biodiversity and Ecosystem Dynamics (IBED), University of Amsterda
 <li>Check its answers against the help page, the code and your own output</li>
 </ul></li>
 </ol>
-<p>The accompanying slides can be found here:</p>
+<section id="how-to-use-this-tutorial" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-use-this-tutorial">How to use this tutorial</h2>
+<ul>
+<li>Purple boxes are tasks. Try each yourself before you look at the answer.</li>
+<li>From the HPC chapter on, blue boxes tell you what to add to your notebook.</li>
+<li>Green boxes are tips. Optional boxes are collapsed and can be opened by clicking on the title.</li>
+<li>Sections marked “Bonus” or “optional” are extra. Only work on them if you have finished the rest of the material.</li>
+<li>When get stuck ask your teachers. During this course, do not use an LLM for your analysis.</li>
+</ul>
+<p>The course runs over two days. The accompanying slides can be found here:</p>
 <ul>
 <li><a href="https://ndombrowski.github.io/MicEco_teaching_material/slides/day01.html">Day1</a></li>
 <li><a href="https://ndombrowski.github.io/MicEco_teaching_material/slides/day02.html">Day2</a></li>
 </ul>
-</section></main></div>
 
 
+</section>
+</section>
 
-
- <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -655,7 +665,7 @@ Institute for Biodiversity and Ecosystem Dynamics (IBED), University of Amsterda
       </a>
   </div>
 </nav>
- <!-- /content -->
+</div> <!-- /content -->
 
 
 

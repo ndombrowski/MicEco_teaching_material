@@ -10,7 +10,7 @@ format:
 
 <div class="paper-authors">
   <p><strong>Nina Dombrowski</strong></p>
-  <p>Institute for Biodiversity and Ecosystem Dynamics (IBED), University of Amsterdam (UVA)</p>
+  <p>Institute for Biodiversity and Ecosystem Dynamics (IBED), University of Amsterdam (UvA)</p>
   <p><a href="mailto:n.dombrowski@uva.nl">n.dombrowski@uva.nl</a></p>
 </div>
 
@@ -18,15 +18,15 @@ format:
 
 # Introduction {.unnumbered} 
 
-In this tutorial, you will learn how to work on the command line and use a High-Performance Computing (HPC) environment. This will allow you to analyse 16S long-reads and turn this data into a count table of microbial taxa.
+Research projects often generate data that is too big for a spreadsheet or spread over hundreds of files. The command line lets you work with large files and automate repetitive steps, and a High Performance Computer (HPC) lets you run analyses that are too slow for a laptop. This course will teach you how to use these tools: you analyse the 16S rRNA gene data from a Nanopore sequencing run and turn it into a count table of microbial taxa.
 
 This course is designed for students in microbial ecology with little or no prior experience using the command line. During this tutorial, you will learn how to:
 
-1. **Install a Terminal**
+1. **Set up a Terminal**
 
 2. **Document your Code**
-    - Decide what software to use for code documentation
-    - How to use markdown and document workflows
+    - Know what to write down in your notebook
+    - Use markdown and code blocks in your notebooks
 
 3. **Navigate the Command Line**
     - Navigate the filesystem
@@ -38,13 +38,14 @@ This course is designed for students in microbial ecology with little or no prio
 
 5. **Work with an HPC**
     - Connect to an HPC
-    - Understand job schedulers (e.g., SLURM)
-    - Run command-line tools (e.g., `fastqc`, `seqkit`)
-    - Set up and activating conda environments
+    - Install your own software
+    - Transfer files between your computer and the HPC
+    - Understand job schedulers
+    - Run command-line tools
 
-6. **Analyse long-read data**
+6. **Analyse 16S long-read data**
     - Analyse sequence read quality
-    - Perform quality filtering of sequence read data
+    - Filter reads by quality and length
     - Align quality-filtered reads to a reference database 
     - Generate a count table
 
@@ -52,20 +53,22 @@ This course is designed for students in microbial ecology with little or no prio
     - Ask an LLM about code, options and error messages
     - Check its answers against the help page, the code and your own output
 
+## How to use this tutorial
 
-The accompanying slides can be found here:
+- Purple boxes are tasks. Try each yourself before you look at the answer.
+- From the HPC chapter on, blue boxes tell you what to add to your notebook.
+- Green boxes are tips. Optional boxes are collapsed and can be opened by clicking on the title.
+- Sections marked "Bonus" or "optional" are extra. Only work on them if you have finished the rest of the material.
+- When get stuck ask your teachers. During this course, do not use an LLM for your analysis.
+
+
+The course runs over two days. The accompanying slides can be found here:
 
 - [Day1](https://ndombrowski.github.io/MicEco_teaching_material/slides/day01.html)
 - [Day2](https://ndombrowski.github.io/MicEco_teaching_material/slides/day02.html)
 
 
 ::: {.content-hidden}
-
-```{bash}
-#| echo: true
-#| output-location: fragment
-ls ../data/*fasta.gz
-```
 
 ```{bash}
 # Standalone rendering 
@@ -116,4 +119,3 @@ X
 
 :::
 
-</div>

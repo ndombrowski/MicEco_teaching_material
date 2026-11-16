@@ -3907,29 +3907,29 @@ vertical-align: -.125em;
 </header>
 
 
-<p>You already keep a notebook for this course, with your lab work and your plans. In this tutorial, you also use it for your analysis: the commands you run, why you run them, and what you see. You hand in your notebook before your presentation, and your teachers read it to prepare their questions. One part of your grade is about how well you document your work.</p>
-<p>Good notes also help you. A command that makes sense today can be a mystery in a few weeks. With clear notes, you, a fellow student or your teachers can see what you did and why, and run it again.</p>
+<p>You already keep a notebook for this course in which you document your lab work and analyse your data in R. In this tutorial, you also use it for your analysis on the command line: the commands you run, why you run them, and what you see. You hand in your notebook before your presentation, and your teachers read it to prepare their questions.</p>
+<p>Good notes also help you: a command that makes sense today can be completely unclear in a few weeks. With clear notes, you, a fellow student or your teachers can see what you did and why, and run it again.</p>
 <section id="what-the-tutorial-asks-you-to-write-down" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="what-the-tutorial-asks-you-to-write-down"><span class="header-section-number">2.1</span> What the tutorial asks you to write down</h2>
-<p>From the HPC chapter on, blue notebook boxes tell you what to add to your notebook. Step by step, you build up these habits:</p>
+<p>From the chapter “Working on an HPC” on, blue notebook boxes tell you what to add to your notebook. Some boxes have a ‘Compare with my notes’ part. Write your own notes first, then open it. By doing this you will not only document your commands but also learn other good documentation habits:</p>
 <ul>
-<li>A comment above each command: what it does, and if it is not obvious, why</li>
-<li>Where your data came from, and when you got it</li>
-<li>A check after each step that makes or changes files, for example with <code>ls</code> or <code>wc -l</code></li>
-<li>One sentence after each number or figure: what it means for your data</li>
-<li>Your choices, and why you made them, for example the cutoffs for quality filtering</li>
-<li>Once you work on the HPC: where each command ran, with <code># On my computer</code> or <code># On Crunchomics</code></li>
+<li>Add a comment above each command: describe what it does, and if it is not obvious, why</li>
+<li>Write down where your data came from, and when you got it</li>
+<li>Check your files after each step that makes changes to them: is the file there, does the number of lines make sense?</li>
+<li>Inspect numbers or figures and write down what they mean for your data</li>
+<li>Explain your choices, for example the cutoffs for quality filtering</li>
+<li>Once you work on the HPC: write down where each command ran, with <code># On my computer</code> or <code># On Crunchomics</code></li>
 </ul>
 <p>Some boxes ask you to add these sections to your notebook:</p>
 <ul>
 <li><code>## Software</code>: the tools you used, their versions, and where they came from. This goes near the top</li>
-<li><code>## Error log</code>: the errors you got, and how you fixed them</li>
-<li><code>## Questions</code>: anything that is still unclear</li>
+<li><code>## Error log</code>: the errors you got, and how you fixed them. This goes at the end of your notebook.</li>
+<li><code>## Questions</code>: anything that is still unclear. This goes at the end of your notebook.</li>
 </ul>
 </section>
 <section id="code-blocks-in-your-notebook" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="code-blocks-in-your-notebook"><span class="header-section-number">2.2</span> Code blocks in your notebook</h2>
-<p>Your notebook is a Quarto (<code>.qmd</code>) or R Markdown (<code>.Rmd</code>) file. In both, a code block starts and ends with three backticks. What you write right after the first three backticks decides what happens to the code:</p>
+<p>Your notebook is a Quarto (<code>.qmd</code>) or R Markdown (<code>.Rmd</code>) file. In both, a code block starts and ends with three backticks. Watch out: a backtick (`) is not the same as a single quote (’). On many keyboards it is at the top left, below Esc. What you write right after the first three backticks decides what happens to the code:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This block is only shown. It is not run.</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> data</span>

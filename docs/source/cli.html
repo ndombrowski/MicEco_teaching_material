@@ -206,32 +206,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Contents</h2>
    
   <ul>
-  <li><a href="#pwd-find-out-where-we-are" id="toc-pwd-find-out-where-we-are" class="nav-link active" data-scroll-target="#pwd-find-out-where-we-are"><span class="header-section-number">3.1</span> <code>pwd</code>: Find out where we are</a></li>
+  <li><a href="#pwd-find-out-where-you-are" id="toc-pwd-find-out-where-you-are" class="nav-link active" data-scroll-target="#pwd-find-out-where-you-are"><span class="header-section-number">3.1</span> <code>pwd</code>: Find out where you are</a></li>
   <li><a href="#ls-list-the-contents-of-a-directory" id="toc-ls-list-the-contents-of-a-directory" class="nav-link" data-scroll-target="#ls-list-the-contents-of-a-directory"><span class="header-section-number">3.2</span> <code>ls</code>: List the contents of a directory</a></li>
   <li><a href="#the-structure-of-a-command" id="toc-the-structure-of-a-command" class="nav-link" data-scroll-target="#the-structure-of-a-command"><span class="header-section-number">3.3</span> The structure of a command</a></li>
   <li><a href="#getting-help" id="toc-getting-help" class="nav-link" data-scroll-target="#getting-help"><span class="header-section-number">3.4</span> Getting help</a></li>
   <li><a href="#mkdir-make-a-new-folder" id="toc-mkdir-make-a-new-folder" class="nav-link" data-scroll-target="#mkdir-make-a-new-folder"><span class="header-section-number">3.5</span> <code>mkdir</code>: Make a new folder</a></li>
   <li><a href="#cd-move-around-folders" id="toc-cd-move-around-folders" class="nav-link" data-scroll-target="#cd-move-around-folders"><span class="header-section-number">3.6</span> <code>cd</code>: Move around folders</a></li>
-  <li><a href="#wget-download-data" id="toc-wget-download-data" class="nav-link" data-scroll-target="#wget-download-data"><span class="header-section-number">3.7</span> <code>wget</code>: Download data</a></li>
-  <li><a href="#cp-copy-files" id="toc-cp-copy-files" class="nav-link" data-scroll-target="#cp-copy-files"><span class="header-section-number">3.8</span> <code>cp</code>: Copy files</a></li>
-  <li><a href="#mv-move-or-rename-files" id="toc-mv-move-or-rename-files" class="nav-link" data-scroll-target="#mv-move-or-rename-files"><span class="header-section-number">3.9</span> <code>mv</code>: Move (or rename) files</a></li>
-  <li><a href="#rm-remove-files-and-directories" id="toc-rm-remove-files-and-directories" class="nav-link" data-scroll-target="#rm-remove-files-and-directories"><span class="header-section-number">3.10</span> <code>rm</code>: Remove files and directories</a></li>
-  <li><a href="#gzip-uncompressing-files" id="toc-gzip-uncompressing-files" class="nav-link" data-scroll-target="#gzip-uncompressing-files"><span class="header-section-number">3.11</span> <code>gzip</code>: (Un)compressing files</a></li>
-  <li><a href="#exploring-file-contents" id="toc-exploring-file-contents" class="nav-link" data-scroll-target="#exploring-file-contents"><span class="header-section-number">3.12</span> Exploring file contents</a>
+  <li><a href="#error-messages-and-ctrlc-getting-unstuck" id="toc-error-messages-and-ctrlc-getting-unstuck" class="nav-link" data-scroll-target="#error-messages-and-ctrlc-getting-unstuck"><span class="header-section-number">3.7</span> Error messages and <code>Ctrl+C</code>: Getting unstuck</a></li>
+  <li><a href="#wget-download-data" id="toc-wget-download-data" class="nav-link" data-scroll-target="#wget-download-data"><span class="header-section-number">3.8</span> <code>wget</code>: Download data</a></li>
+  <li><a href="#cp-copy-files" id="toc-cp-copy-files" class="nav-link" data-scroll-target="#cp-copy-files"><span class="header-section-number">3.9</span> <code>cp</code>: Copy files</a></li>
+  <li><a href="#mv-move-or-rename-files" id="toc-mv-move-or-rename-files" class="nav-link" data-scroll-target="#mv-move-or-rename-files"><span class="header-section-number">3.10</span> <code>mv</code>: Move (or rename) files</a></li>
+  <li><a href="#rm-remove-files-and-directories" id="toc-rm-remove-files-and-directories" class="nav-link" data-scroll-target="#rm-remove-files-and-directories"><span class="header-section-number">3.11</span> <code>rm</code>: Remove files and directories</a></li>
+  <li><a href="#gzip-uncompress-files" id="toc-gzip-uncompress-files" class="nav-link" data-scroll-target="#gzip-uncompress-files"><span class="header-section-number">3.12</span> <code>gzip</code>: (Un)compress files</a></li>
+  <li><a href="#exploring-file-contents" id="toc-exploring-file-contents" class="nav-link" data-scroll-target="#exploring-file-contents"><span class="header-section-number">3.13</span> Exploring file contents</a>
   <ul class="collapse">
-  <li><a href="#cat-print-the-full-file" id="toc-cat-print-the-full-file" class="nav-link" data-scroll-target="#cat-print-the-full-file"><span class="header-section-number">3.12.1</span> <code>cat</code>: Print the full file</a></li>
-  <li><a href="#head-and-tail-view-parts-of-a-file" id="toc-head-and-tail-view-parts-of-a-file" class="nav-link" data-scroll-target="#head-and-tail-view-parts-of-a-file"><span class="header-section-number">3.12.2</span> <code>head</code> and <code>tail</code>: View parts of a file</a></li>
-  <li><a href="#less-view-the-full-file" id="toc-less-view-the-full-file" class="nav-link" data-scroll-target="#less-view-the-full-file"><span class="header-section-number">3.12.3</span> <code>less</code>: View the full file</a></li>
-  <li><a href="#zcat-decompress-and-print-to-screen" id="toc-zcat-decompress-and-print-to-screen" class="nav-link" data-scroll-target="#zcat-decompress-and-print-to-screen"><span class="header-section-number">3.12.4</span> <code>zcat</code>: Decompress and print to screen</a></li>
+  <li><a href="#cat-print-the-full-file" id="toc-cat-print-the-full-file" class="nav-link" data-scroll-target="#cat-print-the-full-file"><span class="header-section-number">3.13.1</span> <code>cat</code>: Print the full file</a></li>
+  <li><a href="#head-and-tail-view-parts-of-a-file" id="toc-head-and-tail-view-parts-of-a-file" class="nav-link" data-scroll-target="#head-and-tail-view-parts-of-a-file"><span class="header-section-number">3.13.2</span> <code>head</code> and <code>tail</code>: View parts of a file</a></li>
+  <li><a href="#less-view-the-full-file" id="toc-less-view-the-full-file" class="nav-link" data-scroll-target="#less-view-the-full-file"><span class="header-section-number">3.13.3</span> <code>less</code>: View the full file</a></li>
+  <li><a href="#zcat-decompress-and-print-to-screen" id="toc-zcat-decompress-and-print-to-screen" class="nav-link" data-scroll-target="#zcat-decompress-and-print-to-screen"><span class="header-section-number">3.13.4</span> <code>zcat</code>: Decompress and print to screen</a></li>
   </ul></li>
-  <li><a href="#wc-count-things" id="toc-wc-count-things" class="nav-link" data-scroll-target="#wc-count-things"><span class="header-section-number">3.13</span> <code>wc</code>: Count things</a></li>
-  <li><a href="#grep-print-lines-that-match-patterns" id="toc-grep-print-lines-that-match-patterns" class="nav-link" data-scroll-target="#grep-print-lines-that-match-patterns"><span class="header-section-number">3.14</span> <code>grep</code> : print lines that match patterns</a></li>
-  <li><a href="#working-with-multiple-files" id="toc-working-with-multiple-files" class="nav-link" data-scroll-target="#working-with-multiple-files"><span class="header-section-number">3.15</span> Working with multiple files</a>
+  <li><a href="#wc-count-things" id="toc-wc-count-things" class="nav-link" data-scroll-target="#wc-count-things"><span class="header-section-number">3.14</span> <code>wc</code>: Count things</a></li>
+  <li><a href="#grep-print-lines-that-match-patterns" id="toc-grep-print-lines-that-match-patterns" class="nav-link" data-scroll-target="#grep-print-lines-that-match-patterns"><span class="header-section-number">3.15</span> <code>grep</code> : print lines that match patterns</a></li>
+  <li><a href="#working-with-multiple-files" id="toc-working-with-multiple-files" class="nav-link" data-scroll-target="#working-with-multiple-files"><span class="header-section-number">3.16</span> Working with multiple files</a>
   <ul class="collapse">
-  <li><a href="#wildcards-match-multiple-files" id="toc-wildcards-match-multiple-files" class="nav-link" data-scroll-target="#wildcards-match-multiple-files"><span class="header-section-number">3.15.1</span> Wildcards (<code>*</code>): Match multiple files</a></li>
-  <li><a href="#cat-and-combining-and-saving-files" id="toc-cat-and-combining-and-saving-files" class="nav-link" data-scroll-target="#cat-and-combining-and-saving-files"><span class="header-section-number">3.15.2</span> <code>cat</code> and <code>&gt;</code> : Combining and saving files</a></li>
+  <li><a href="#wildcards-match-multiple-files" id="toc-wildcards-match-multiple-files" class="nav-link" data-scroll-target="#wildcards-match-multiple-files"><span class="header-section-number">3.16.1</span> Wildcards (<code>*</code>): Match multiple files</a></li>
+  <li><a href="#cat-and-combining-and-saving-files" id="toc-cat-and-combining-and-saving-files" class="nav-link" data-scroll-target="#cat-and-combining-and-saving-files"><span class="header-section-number">3.16.2</span> <code>cat</code> and <code>&gt;</code> : Combining and saving files</a></li>
   </ul></li>
-  <li><a href="#pipes" id="toc-pipes" class="nav-link" data-scroll-target="#pipes"><span class="header-section-number">3.16</span> Pipes</a></li>
+  <li><a href="#pipes" id="toc-pipes" class="nav-link" data-scroll-target="#pipes"><span class="header-section-number">3.17</span> Pipes</a></li>
   </ul>
 </nav>
     </div>
@@ -257,14 +258,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="pwd-find-out-where-we-are" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="pwd-find-out-where-we-are"><span class="header-section-number">3.1</span> <code>pwd</code>: Find out where we are</h2>
+<section id="pwd-find-out-where-you-are" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="pwd-find-out-where-you-are"><span class="header-section-number">3.1</span> <code>pwd</code>: Find out where you are</h2>
 <p>To get started, open your terminal, and get yourself oriented by typing your first command and then pressing enter:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The command <code>pwd</code> stands for <em>print working directory</em>. It tells you where you currently are in the file system, that is, which folder (directory) your shell is operating on right now. You should see something like this:</p>
-<pre><code>/Users/YourUserName</code></pre>
+<pre><code>/home/username</code></pre>
 <div class="callout callout-style-default callout-tip callout-titled" title="Tip: Finding the Desktop on Different Systems">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -280,9 +281,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Your home directory (i.e.&nbsp;the directory you start in whenever you open the terminal) varies slightly across operating systems. Here’s how to locate yourself and connect to familiar locations like the Desktop:</p>
 <p><strong>macOS</strong></p>
 <ul>
-<li>Your home directory is <code>/Users/YourUserName</code></li>
-<li>To open the folder you are currently in Finder:<code>open .</code></li>
-<li>Your desktop is at <code>/Users/YourUserName/Desktop</code></li>
+<li>Your home directory is <code>/Users/username</code></li>
+<li>To open the folder you are currently in Finder: <code>open .</code></li>
+<li>Your desktop is at <code>/Users/username/Desktop</code></li>
 </ul>
 <p><strong>MobaXterm (Windows)</strong></p>
 <ul>
@@ -293,17 +294,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Under Persistent home directory, choose a folder of your choice</li>
 </ul></li>
 <li>To open the folder you are currently in the Windows File explorer: <code>explorer.exe .</code></li>
-<li>Your Desktop is usually at: <code>/mnt/c/Users/YourUserName/Desktop</code> or <code>/mnt/c/Users/YourUserName/OneDrive/Desktop</code> (when using OneDrive)</li>
+<li>Your Desktop is usually at: <code>/mnt/c/Users/username/Desktop</code> or <code>/mnt/c/Users/username/OneDrive/Desktop</code> (when using OneDrive)</li>
 </ul>
 <p><strong>WSL2 (Windows)</strong></p>
 <ul>
-<li>Your home directory is<code>/home/YourUserName</code></li>
+<li>Your home directory is <code>/home/username</code></li>
 <li>To open the folder you are currently in the Windows File explorer: <code>explorer.exe .</code></li>
-<li>Your Desktop is usually at: <code>/mnt/c/Users/YourUserName/Desktop</code> or <code>/mnt/c/Users/YourUserName/OneDrive/Desktop</code> (when using OneDrive)</li>
+<li>Your Desktop is usually at: <code>/mnt/c/Users/username/Desktop</code> or <code>/mnt/c/Users/username/OneDrive/Desktop</code> (when using OneDrive)</li>
 </ul>
-<p>If you want to access the Uva OneDrive folder and/or if your OneDrive folder name includes spaces (like OneDrive - UvA), use quotes around the path:</p>
+<p>If you want to access the UvA OneDrive folder and/or if your OneDrive folder name includes spaces (like OneDrive - UvA), use quotes around the path:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">"/mnt/c/Users/YourUserName/OneDrive - UvA"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">"/mnt/c/Users/username/OneDrive - UvA"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -322,22 +323,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Folders (directories) appear in one color (often green or blue)</li>
 <li>Files appear in another (often white or bold)</li>
 </ul>
-<p>If your directory contains many items, the output can quickly become overwhelming. To make sense of it, we can use options and arguments to control how commands behave.</p>
+<p>If your directory contains many items, the output can quickly become overwhelming. To make sense of it, you can use options and arguments to control how commands behave.</p>
 </section>
 <section id="the-structure-of-a-command" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="the-structure-of-a-command"><span class="header-section-number">3.3</span> The structure of a command</h2>
 <p>A command generally has three parts:</p>
 <ul>
-<li>A command name: The program you want to run, i.e.&nbsp;<code>ls</code></li>
-<li>An option (or flag): A way to modify how the command behaves, i.e <code>-l</code> (long format)</li>
-<li>An optional argument: The input, i.e.&nbsp;a file or folder</li>
+<li>A <strong>command name</strong>: the program you want to run, i.e.&nbsp;<code>ls</code></li>
+<li>An <strong>option</strong> (or <strong>flag</strong>): a way to modify how the command behaves, e.g.&nbsp;<code>-l</code> shows the list in long format, with more details. Options usually start with a <code>-</code></li>
+<li>An <strong>argument</strong>: the input the command works on, e.g.&nbsp;a file or folder. Some commands work without an argument</li>
 </ul>
 <p><a href="../img/unix_command.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="../img/unix_command.png" class="img-fluid" style="width:70.0%"></a></p>
 <p>Try the following command in your current directory to “List (<code>ls</code>) the contents of the current folder and show details in long format (<code>-l</code>)”:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>After running this you should see a more detail list of the contents of your folder.In the example below you can now see additional information about who owns the files (i.e.&nbsp;access modes), how large the files are, when they were last modified and their name:</p>
+<p>After running this, you see your files and folders again but as a more detailed list. In the example below you can now see additional information about who is allowed to read and change the files (the access modes that determine exactly who can do what to a file or folder), who owns them, how large the files are, when they were last modified and of course their name:</p>
 <p><a href="../img/ls2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="../img/ls2.png" class="img-fluid" style="width:80.0%"></a></p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Tip: Using ls in practice">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
@@ -351,9 +352,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>Throughout this tutorial, you’ll notice that we will use <code>ls</code> frequently. There is a reason for that:</p>
-<p>When working with data, sanity checks are essential, because it is easy to make mistakes, overwrite files, or lose track of where things are. Using simple commands like <code>ls</code>, <code>pwd</code>, <code>wc</code>, or <code>grep</code> help you verify what is happening to your files at every step of an analysis workflow.</p>
-<p>These habits are not just for beginners, bioinformaticians rely on them constantly.</p>
+<p>Throughout this tutorial, you’ll notice that you will use <code>ls</code> frequently. There is a reason for that:</p>
+<p>When working with data, sanity checks are essential, because it is easy to make mistakes, overwrite files, or lose track of where things are. Using simple commands like <code>ls</code>, <code>pwd</code>, <code>wc</code>, or <code>grep</code> helps you verify what is happening to your files at every step of an analysis workflow.</p>
+<p>These habits are not just for beginners. Bioinformaticians rely on them constantly.</p>
 </div>
 </div>
 </div>
@@ -362,25 +363,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="3.4" class="anchored" data-anchor-id="getting-help"><span class="header-section-number">3.4</span> Getting help</h2>
 <p>At some point, you’ll want to know what options a command has or how it works. In this case, you should first check if <strong>manual pages</strong> (or <em>man pages</em>) are available for the command by typing <code>man</code> followed by the command name:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">man</span> ls</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">man</span> pwd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>This opens the manual entry for the command ls. You can scroll through it using:</p>
+<p>This opens the manual entry for the command pwd. You can scroll through it using:</p>
 <ul>
 <li>↑ / ↓ arrows or the space bar to move down</li>
 <li>b to move back up</li>
 <li>q to quit the manual</li>
 </ul>
+<p><strong>MobaXterm users:</strong> MobaXterm does not come with manual pages, so <code>man pwd</code> does not work. Use <code>pwd --help</code> instead (see below). If one way gives an error, try the next.</p>
 <p>Not all commands come with such a manual. Depending on the program, there are a few common patterns you can try to get help:</p>
 <ul>
-<li><code>man ls</code></li>
-<li><code>ls --help</code></li>
-<li><code>ls -h</code></li>
+<li><code>man pwd</code></li>
+<li><code>pwd --help</code></li>
+<li><code>pwd -h</code></li>
 </ul>
 </section>
 <section id="mkdir-make-a-new-folder" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="mkdir-make-a-new-folder"><span class="header-section-number">3.5</span> <code>mkdir</code>: Make a new folder</h2>
-<p>Before we start moving around, let’s first learn how to create new folders (also called directories). This is something we will do often, for example, to keep raw data, results, and scripts organized in separate places. The command we use for that is <code>mkdir</code>, which stands for <em>make directory</em>.</p>
-<p>For now, we will use <code>mkdir</code> to create a project folder with the name <code>data_analysis</code> for this tutorial. Don’t worry about how to move into the folder yet, we’ll cover that in the next section.</p>
+<p>Before you start moving around, let’s first learn how to create new folders (also called <strong>directories</strong>). This is something you will do often, for example, to keep raw data, results, and scripts organized in separate places. The command you use for that is <code>mkdir</code>, which stands for <em>make directory</em>.</p>
+<p>For now, you will use <code>mkdir</code> to create a project folder with the name <code>data_analysis</code> for this tutorial. Don’t worry about how to move into the folder yet. You will learn that in the next section.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Move into the home directory (the starting point of your system)</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span>
@@ -391,16 +393,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that the folder was created successfully</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>You should see a new folder called data_analysis appears in the list. We will use this folder as our project folder for all exercises in this tutorial. Next, let’s make a new <code>data</code> folder inside the new data_analysis folder by typing the following:</p>
+<p>You should see that a new folder called <code>data_analysis</code> appears in the list. You will use this folder as your project folder for all exercises in this tutorial. Next, let’s make a new <code>data</code> folder inside the new <code>data_analysis</code> folder by typing the following:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a data folder inside the data_analysis folder</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The `-p` option makes the parent directory (here: data), if it does not already exist</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The `-p` option makes the parent directory (here: data_analysis), if it does not already exist</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># It is useful to add `-p` when generating a folder inside a folder</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> data_analysis/data</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that the folder was created successfully</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice here, how we use ls with a flag and also with an optional argument?</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice here how you use ls with a flag and also with an optional argument?</span></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> data_analysis</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>You can also look at the folder you are currently in via the file browser you know from Windows or Mac. The command below opens the folder you are in right now. The dot (<code>.</code>) is short for “the current folder”:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Windows (MobaXterm or WSL2): open the current folder in File Explorer</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">explorer.exe</span> .</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Mac: open the current folder in Finder</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="ex">open</span> .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="Tip: Commenting your code">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
@@ -416,53 +426,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="callout-body-container callout-body">
 <p>Notice how I added <code>#</code> and some notes above each command?</p>
 <p>Anything written after <code>#</code> in Bash is a comment. A comment won’t be executed, but it helps you (and others) understand what the command does.</p>
-<p>In your own work, add short, meaningful comments above key steps. Avoid restating the obvious, instead, explain why you’re doing something or what it achieves.</p>
+<p>In your own work, add short, meaningful comments above key steps. Avoid restating the obvious. Instead, explain why you’re doing something or what it achieves.</p>
 </div>
 </div>
 </div>
 </section>
 <section id="cd-move-around-folders" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="cd-move-around-folders"><span class="header-section-number">3.6</span> <code>cd</code>: Move around folders</h2>
-<p>Now that we have our own project folder, let’s learn how to move around the file system.</p>
-<p>The file system is structured like a tree that starts from a single <strong>root</strong> directory (that is also denoted as <code>/</code> in bash). All other folders branch out from this root directory. For example, we can go from the root directory, to the users folder and from there into the john folder.</p>
+<p>Now that you have your own project folder, you will learn how to move around the file system with <code>cd</code> (short for change directory).</p>
+<p>The file system is structured like a tree that starts from a single <strong>root</strong> directory, written as a forward slash (<code>/</code>). All other folders branch out from this root directory. For example, you can go from the root directory to the home folder, and from there into the folder with your user name.</p>
 <p><a href="../img/filesystem.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="../img/filesystem.png" class="img-fluid" style="width:90.0%"></a></p>
-<p>There are two ways to specify a path to go the the portfolio folder:</p>
+<p>The location of a file or folder is written as a path: the folder names along the way, separated by <code>/</code>, e.g.&nbsp;<code>/home/username</code>. There are two ways to write a path, for example to the data folder:</p>
 <ul>
-<li><strong>Absolute path</strong>: starts from the root (e.g.&nbsp;<code>cd /users/john/portfolio</code>)</li>
-<li><strong>Relative path</strong>: starts from your current location (e.g.&nbsp;<code>cd portfolio</code> if you’re already in <code>/users/john</code>)</li>
+<li>An absolute path starts from the root, e.g.&nbsp;<code>cd /home/username/data_analysis/data</code></li>
+<li>A relative path starts from your current location, e.g.&nbsp;<code>cd data</code> if you are already in <code>/home/username/data_analysis</code></li>
 </ul>
-<blockquote class="blockquote">
-<p><strong>Tip</strong>: It is generally recommended to use the relative path from inside your project directory. That makes your code more portable and still allows you to run the code even if your computer setup changes.</p>
-</blockquote>
-<p>Let’s practice moving between folders (at each step, use <code>pwd</code> in case you feel that you get lost):</p>
+<p>It is generally recommended to use relative paths from inside your project folder. That makes your code more portable: it still works if you move the project folder or run it on another computer.</p>
+<p>Let’s practice moving between folders. At each step, use <code>pwd</code> if you feel that you get lost:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Move into the data analysis folder </span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> data_analysis </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check where you are </span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>You now should see something like <code>/Users/Name/data_analysis</code>. You can use the <code>cd</code> command in multiple ways to move around:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Move into the data folder</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> data</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Move into the data analysis folder </span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> data_analysis </span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Move one level up (..), i.e. go back to the data_analysis folder</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Quickly go back home (you now should be in the home directory)</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Move multiple levels down at once</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> data_analysis/data</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Move two levels up and go back into the home directory</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ../.. </span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co"># And go back to the data_analysis folder </span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> data_analysis</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check where you are </span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>In the code above, the tilde symbol (<code>~</code>) is a shortcut for your home directory. It’s equivalent to typing the full absolute path to your home (e.g.&nbsp;<code>cd /Users/YourName</code>) but it is much faster to type.</p>
+<p>You now should see something like <code>/home/username/data_analysis</code>. You can use the <code>cd</code> command in multiple ways to move around:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Move into the data folder</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> data</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Move one level up (..), i.e. go back to the data_analysis folder</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Quickly go back home (you now should be in the home directory)</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Move multiple levels down at once</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> data_analysis/data</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Move two levels up and go back into the home directory</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ../.. </span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co"># And go back to the data_analysis folder </span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> data_analysis</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>In the code above, the tilde symbol (<code>~</code>) is a shortcut for your home directory. It is the same as typing the full absolute path to your home (e.g.&nbsp;<code>cd /home/username</code>), but much faster to type. Two dots (<code>..</code>) always mean “the folder one level up”.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Tip: Command-line completion">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -475,15 +483,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>Here, are some other tips for faster navigation (and less typos):</p>
+<p>Here are some tips for faster navigation (and fewer typos):</p>
 <ul>
-<li>Use Tab for autocompletion: type the first few letters of a folder name and press Tab.</li>
-<li>If there’s more than one match, press Tab twice to see all options.</li>
-<li>Use ↑ / ↓ arrows to scroll through previously entered commands</li>
+<li>Use the Tab key for autocompletion: type the first few letters of a folder or file name and press Tab. For example, go to your home directory, type <code>cd data_</code> and press Tab. The shell fills in <code>data_analysis</code> for you. Then press Enter.</li>
+<li>If there is more than one match, the shell cannot decide which one you mean. Press Tab twice to see all options.</li>
+<li>Use the ↑ / ↓ arrow keys to scroll through commands you ran before. This is useful to rerun a command or to change a small part of it.</li>
 </ul>
-<blockquote class="blockquote">
-<p><strong>Tip</strong>: From now on try to use the Tab key once in a while so that you do not have to write everything yourself all the time.</p>
-</blockquote>
+<p>From now on, try to use the Tab key often, so that you do not have to type everything yourself.</p>
 </div>
 </div>
 </div>
@@ -519,11 +525,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> results </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> results </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span> </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> results </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> results </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span> </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -532,12 +538,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="wget-download-data" class="level2" data-number="3.7">
-<h2 data-number="3.7" class="anchored" data-anchor-id="wget-download-data"><span class="header-section-number">3.7</span> <code>wget</code>: Download data</h2>
-<p>Next, let’s download a fasta file that contains the sequence of a 16S rRNA gene. This file will be useful to learn about some other commands. Below, we use the <code>wget</code> command to fetch a fasta file from an online website as follows:</p>
+<section id="error-messages-and-ctrlc-getting-unstuck" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="error-messages-and-ctrlc-getting-unstuck"><span class="header-section-number">3.7</span> Error messages and <code>Ctrl+C</code>: Getting unstuck</h2>
+<p>Let’s make a mistake on purpose. From inside your data_analysis folder, list a folder with a typo in its name:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the example fasta file into the current directory</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot303.fasta.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A typo on purpose: the folder is called data, not dta</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> dta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This prints something like this:</p>
+<pre><code>ls: cannot access 'dta': No such file or directory</code></pre>
+<p>An error message is how the shell tells you what went wrong. Read it from left to right:</p>
+<ul>
+<li><code>ls</code>: the command that ran into a problem</li>
+<li><code>cannot access 'dta'</code>: what it tried to do, and with which file or folder</li>
+<li><code>No such file or directory</code>: why it did not work</li>
+</ul>
+<p>The exact wording can be a bit different on your system, but you will find the same three parts.</p>
+<p><code>No such file or directory</code> is the error you will see most often. It usually has one of three causes:</p>
+<ul>
+<li>There is a typo in the name. Use the Tab key, so that the shell fills in names for you.</li>
+<li>You are in a different folder than you think. Check with <code>pwd</code> and <code>ls</code>.</li>
+<li>The file does not exist yet, for example because an earlier step did not work.</li>
+</ul>
+<p>If you make a typo in the name of the command itself, for example <code>lss</code> instead of <code>ls</code>, the message contains <code>command not found</code>. The shell does not know a command with that name.</p>
+<p>Sometimes a command does not finish, or you start something by mistake. The prompt does not come back, and you can’t type a new command. Press <code>Ctrl+C</code> (also on a Mac) to stop the command and get your prompt back. Note that <code>Ctrl+C</code> does not close <code>man</code> or <code>less</code>. For these tools press <code>q</code> to quit them.</p>
+</section>
+<section id="wget-download-data" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="wget-download-data"><span class="header-section-number">3.8</span> <code>wget</code>: Download data</h2>
+<p>Next, let’s download a fasta file that contains the sequence of a 16S rRNA gene of one of the strains you used in the lab. This file will be useful to learn about some other commands. Below, you use the <code>wget</code> command to fetch a fasta file from an online website as follows:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the example fasta file into the current directory</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot303.fasta.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -551,58 +582,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="callout-body-container callout-body">
 <p>For Mac users wget is not installed by default. If you do not want to install it, you can instead use the <code>curl</code> command:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -O: save the file under its original name</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -L: Tells curl that if the server tells it to go somewhere else, follow it until you reach the actual file</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-LO</span> https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot303.fasta.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -O: save the file under its original name</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># -L: Tells curl that if the server tells it to go somewhere else, follow it until you reach the actual file</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-LO</span> https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot303.fasta.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
-<p>After you download any kind of data, it is always a good idea to do some sanity check to see if the file is present and know how large it is (or whether it is empty and something went wrong during the download):</p>
+<p>After you download any kind of data, it is always a good idea to do a sanity check: is the file there, and how large is it? A file size of 0 means that something went wrong during the download.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List files in long (-l) and human-readable (-h) format</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># combining these two commands becomes -lh</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># You should see that the file exists and is not empty</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> LjRoot303.fasta.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List files in long (-l) and human-readable (-h) format</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># combining these two options becomes -lh</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># You should see that the file exists and is not empty</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> LjRoot303.fasta.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="cp-copy-files" class="level2" data-number="3.8">
-<h2 data-number="3.8" class="anchored" data-anchor-id="cp-copy-files"><span class="header-section-number">3.8</span> <code>cp</code>: Copy files</h2>
-<p><code>cp</code> duplicates files or directories. It is a useful feature to keep our files organized and not have every single file in a single folder but instead to organize your files into folder categories (useful folders can be: data, scripts and results).</p>
+<section id="cp-copy-files" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="cp-copy-files"><span class="header-section-number">3.9</span> <code>cp</code>: Copy files</h2>
+<p><code>cp</code> (short for copy) duplicates files or folders. When working with many files, a good folder structure is essential to keep track of files (useful folders are, for example, data, scripts and results).</p>
 <p>Let’s use <code>cp</code> to copy the downloaded file into <code>data</code> and to organize the data a bit better:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy the file into data </span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> LjRoot303.fasta.gz data/</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the content of both locations</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy the file into data </span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> LjRoot303.fasta.gz data/</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the content of both locations</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>When running the two <code>ls</code> commands, we see that we now have two copies of <code>LjRoot303.fasta.gz</code>, one file is in our working directory and the other one is in our data folder. Having large files in multiple locations is not ideal since we will use unnecessary space. However, we can use another command to move the file into our data folder instead of copying it.</p>
+<p>When running the two <code>ls</code> commands, you see that you now have two copies of <code>LjRoot303.fasta.gz</code>, one file is in your working directory and the other one is in your data folder. Having large files in multiple locations is not ideal since you use unnecessary space. However, you can use another command to move the file into your data folder instead of copying it.</p>
 </section>
-<section id="mv-move-or-rename-files" class="level2" data-number="3.9">
-<h2 data-number="3.9" class="anchored" data-anchor-id="mv-move-or-rename-files"><span class="header-section-number">3.9</span> <code>mv</code>: Move (or rename) files</h2>
-<p><code>mv</code> moves or renames files without creating a second copy:</p>
+<section id="mv-move-or-rename-files" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="mv-move-or-rename-files"><span class="header-section-number">3.10</span> <code>mv</code>: Move (or rename) files</h2>
+<p><code>mv</code> (short for move) moves files or folders to a new location without creating a second copy:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Move the file into data</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> LjRoot303.fasta.gz data/</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Move the file into data</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> LjRoot303.fasta.gz data/</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Notice that <code>mv</code> will move a file and, without asking, overwrite the existing file we had in the data folder when we ran <code>cp</code>. This means that if you run <code>mv</code> its best to make sure that you do not overwrite files by mistake.</p>
+<p>Notice that <code>mv</code> moved the file and, without asking and without showing, overwrote the copy that you had put into the data folder with <code>cp</code> (you would only know that if you carefully tracked the modification date of the file). So whenever you use <code>mv</code>, make sure that you do not overwrite files by mistake.</p>
+<p><code>mv</code> is also the command to rename a file: you “move” it to a new name, e.g.&nbsp;<code>mv old_name.txt new_name.txt</code>.</p>
 </section>
-<section id="rm-remove-files-and-directories" class="level2" data-number="3.10">
-<h2 data-number="3.10" class="anchored" data-anchor-id="rm-remove-files-and-directories"><span class="header-section-number">3.10</span> <code>rm</code>: Remove files and directories</h2>
-<p>To remove files and folders, we use the <code>rm</code> command. For example we could remove the <code>LjRoot303.fasta.gz</code> in case we don’t need it anymore:</p>
+<section id="rm-remove-files-and-directories" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="rm-remove-files-and-directories"><span class="header-section-number">3.11</span> <code>rm</code>: Remove files and directories</h2>
+<p>To remove files and folders, you use the <code>rm</code> command. For example, you could remove the <code>LjRoot303.fasta.gz</code> in case you don’t need it anymore:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove the fasta file from the data folder</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> data/LjRoot303.fasta.gz</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if that worked</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove the fasta file from the data folder</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> data/LjRoot303.fasta.gz</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if that worked</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>If we want to remove a folder, we need to tell <code>rm</code> that we want to remove folders using an option. To do this, we use <code>-r</code> , which allows us to remove directories and their contents recursively.</p>
+<p>If you want to remove a folder, you need to tell <code>rm</code> that you want to remove folders using an option. To do this, you use <code>-r</code> (short for <em>recursive</em>), which removes a folder together with everything inside it.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -615,7 +647,7 @@ Important
 <div class="callout-body-container callout-body">
 <p><strong>Unix does not have an undelete command.</strong></p>
 <p>This means that if you delete something with <code>rm</code>, it’s gone. Therefore, use <code>rm</code> with care and check what you write twice before pressing enter!</p>
-<p>Also, NEVER run <code>rm -r</code> or <code>rm -rf</code> on the root <code>/</code> folder or any important path. And yes, we have these combinations online. Therefore, always double check the path or file name before pressing enter when using the <code>rm</code> command.</p>
+<p>Also, NEVER run <code>rm -r</code> or <code>rm -rf</code> (<code>-f</code>: “force: don’t ask, don’t complain”) on the root <code>/</code> folder or any important path. Always double check the path or file name before pressing enter when using the <code>rm</code> command.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-question callout-titled">
@@ -636,8 +668,8 @@ Important
 <ul>
 <li>Use this path <code>https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/GCF_000714595.fasta.gz</code></li>
 </ul></li>
-<li>Make sure that the new file stored in the data folder</li>
-<li>Check the file size (hint: use the -h option with ls)</li>
+<li>Make sure that the new file is stored in the data folder</li>
+<li>Check the file size (hint: use the <code>-h</code> option with <code>ls</code>)</li>
 </ul>
 <div class="callout callout-style-default callout-answer callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
@@ -652,14 +684,14 @@ Important
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the file</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/GCF_000714595.fasta.gz</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Move the file to the data folder</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> GCF_000714595.fasta.gz data</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the file size</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the file</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/GCF_000714595.fasta.gz</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Move the file to the data folder</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> GCF_000714595.fasta.gz data</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the file size</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -668,26 +700,26 @@ Important
 </div>
 </div>
 </section>
-<section id="gzip-uncompressing-files" class="level2" data-number="3.11">
-<h2 data-number="3.11" class="anchored" data-anchor-id="gzip-uncompressing-files"><span class="header-section-number">3.11</span> <code>gzip</code>: (Un)compressing files</h2>
-<p>You might have noticed that the file we downloaded ends with <code>.gz</code>. This extension is used for files that are compressed to make the file smaller. This is useful for saving files and saving space, but this makes the file unreadable for a human. To be able to learn how to read the content of a file, let’s learn how to uncompress the file first.</p>
+<section id="gzip-uncompress-files" class="level2" data-number="3.12">
+<h2 data-number="3.12" class="anchored" data-anchor-id="gzip-uncompress-files"><span class="header-section-number">3.12</span> <code>gzip</code>: (Un)compress files</h2>
+<p>You might have noticed that the file you downloaded ends with <code>.gz</code>. This extension is used for files that are compressed to make the file smaller. This is useful for saving files and saving space, but this makes the file unreadable for a human. To be able to learn how to read the content of a file, let’s learn how to uncompress the file first.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download another file  </span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Here, we use the -P option to directly download the file into the data folder </span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-P</span> data https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot303.fasta.gz</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that this worked </span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># You now should see two files</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> data</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Uncompress the file with gzip </span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Here, we use -d to decompress the file </span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co"># (by default gzip will compress a file)</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="fu">gzip</span> <span class="at">-d</span> data/LjRoot303.fasta.gz </span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that this worked </span></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co"># We now should see that one file is uncompressed (i.e. it lost the gz extension)</span></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the LjRoot303.fasta.gz file again </span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Here, you use the -P option to directly download the file into the data folder </span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-P</span> data https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot303.fasta.gz</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that this worked </span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co"># You now should see two files</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> data</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Uncompress the file with gzip </span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Here, you use -d to decompress the file </span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co"># (by default gzip will compress a file)</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="fu">gzip</span> <span class="at">-d</span> data/LjRoot303.fasta.gz </span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that this worked </span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="co"># You now should see that one file is uncompressed (i.e. it lost the gz extension)</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -699,9 +731,9 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Mobaxterm by default comes with a wget version with less functionality and you might see error “wget: Unknown option P”. To solve this, you can install a newer version as follows (or use the curl command):</p>
+<p>Mobaxterm by default comes with a wget version with less functionality and you might see the error “wget: Unknown option P”. To solve this, you can install a newer version as follows (or use the curl command):</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">apt-get</span> install wget</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">apt-get</span> install wget</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -717,59 +749,61 @@ Important
 <div class="callout-body-container callout-body">
 <p>For Mac users that use <code>curl</code> instead of <code>wget</code>, you can redirect the file to a specific folder like this:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">--output-dir</span> data <span class="at">-LO</span> https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot303.fasta.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">--output-dir</span> data <span class="at">-LO</span> https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot303.fasta.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
 </section>
-<section id="exploring-file-contents" class="level2" data-number="3.12">
-<h2 data-number="3.12" class="anchored" data-anchor-id="exploring-file-contents"><span class="header-section-number">3.12</span> Exploring file contents</h2>
-<p>Now that we have the uncompressed file we can use different ways to explore the content of a file.</p>
-<section id="cat-print-the-full-file" class="level3" data-number="3.12.1">
-<h3 data-number="3.12.1" class="anchored" data-anchor-id="cat-print-the-full-file"><span class="header-section-number">3.12.1</span> <code>cat</code>: Print the full file</h3>
-<p>We can use <code>cat</code> print the entire file to the screen, this is useful for smaller files, but can get overwhelming for long ones where you would see hundreds of line just flying over the screen.</p>
+<section id="exploring-file-contents" class="level2" data-number="3.13">
+<h2 data-number="3.13" class="anchored" data-anchor-id="exploring-file-contents"><span class="header-section-number">3.13</span> Exploring file contents</h2>
+<p>Now that you have the uncompressed file, you can use different ways to explore the content of a file.</p>
+<section id="cat-print-the-full-file" class="level3" data-number="3.13.1">
+<h3 data-number="3.13.1" class="anchored" data-anchor-id="cat-print-the-full-file"><span class="header-section-number">3.13.1</span> <code>cat</code>: Print the full file</h3>
+<p>You can use <code>cat</code> to print the entire file to the screen. This is useful for smaller files, but can get overwhelming for long ones, where you would see hundreds of lines just flying over the screen.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> data/LjRoot303.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> data/LjRoot303.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="head-and-tail-view-parts-of-a-file" class="level3" data-number="3.12.2">
-<h3 data-number="3.12.2" class="anchored" data-anchor-id="head-and-tail-view-parts-of-a-file"><span class="header-section-number">3.12.2</span> <code>head</code> and <code>tail</code>: View parts of a file</h3>
-<p>To only print the first few or last few lines we can use the <code>head</code> and <code>tail</code> commands:</p>
+<section id="head-and-tail-view-parts-of-a-file" class="level3" data-number="3.13.2">
+<h3 data-number="3.13.2" class="anchored" data-anchor-id="head-and-tail-view-parts-of-a-file"><span class="header-section-number">3.13.2</span> <code>head</code> and <code>tail</code>: View parts of a file</h3>
+<p>To only print the first few or last few lines, you can use the <code>head</code> and <code>tail</code> commands:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the first 10 lines</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> data/LjRoot303.fasta</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the last 5 lines</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Here, the option -n allows us to control how many lines get printed</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-n</span> 5 data/LjRoot303.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the first 10 lines</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> data/LjRoot303.fasta</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the last 5 lines</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Here, the option -n lets you control how many lines get printed</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-n</span> 5 data/LjRoot303.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="less-view-the-full-file" class="level3" data-number="3.12.3">
-<h3 data-number="3.12.3" class="anchored" data-anchor-id="less-view-the-full-file"><span class="header-section-number">3.12.3</span> <code>less</code>: View the full file</h3>
-<p><code>less</code> let’s you view a file’s contents one screen at a time. This is useful when dealing with a large text file (such as a sequence data file) because it doesn’t load the entire file but accesses it page by page, resulting in fast loading speeds.</p>
+<section id="less-view-the-full-file" class="level3" data-number="3.13.3">
+<h3 data-number="3.13.3" class="anchored" data-anchor-id="less-view-the-full-file"><span class="header-section-number">3.13.3</span> <code>less</code>: View the full file</h3>
+<p><code>less</code> lets you view a file’s contents one screen at a time. This is useful when dealing with a large text file (such as a sequence data file) because it doesn’t load the entire file but accesses it page by page, resulting in fast loading speeds.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> data/LjRoot303.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> data/LjRoot303.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>The option <code>-S</code> keeps each long line on one line on the screen, instead of continuing it on the next line. Inside less, you can:</p>
 <ul>
-<li>You can use the arrow Up and Page arrow keys to move through the text file</li>
-<li>To exit less, type <code>q</code></li>
+<li>Use the → / ← arrow keys to see the rest of a long line</li>
+<li>Move up and down with the ↑ / ↓ arrow keys, or with Page Up / Page Down</li>
+<li>Press q to quit</li>
 </ul>
 </section>
-<section id="zcat-decompress-and-print-to-screen" class="level3" data-number="3.12.4">
-<h3 data-number="3.12.4" class="anchored" data-anchor-id="zcat-decompress-and-print-to-screen"><span class="header-section-number">3.12.4</span> <code>zcat</code>: Decompress and print to screen</h3>
-<p>When we used gzip above, we decompressed the file and that allowed us to read the content of the fasta file. This is perfect for smaller files, but not ideal for sequence data since these files get large and we might not want to decompress these files as they would clutter our system.</p>
+<section id="zcat-decompress-and-print-to-screen" class="level3" data-number="3.13.4">
+<h3 data-number="3.13.4" class="anchored" data-anchor-id="zcat-decompress-and-print-to-screen"><span class="header-section-number">3.13.4</span> <code>zcat</code>: Decompress and print to screen</h3>
+<p>When you used gzip above, you decompressed the file and that allowed you to read the content of the fasta file. This is perfect for smaller files, but not ideal for sequence data since these files get large and you might not want to decompress these files as they would clutter your system.</p>
 <p>Luckily, there is one useful tool in bash to decompress the file and print the content to the screen. <code>zcat</code> will print the content of a file to the screen but leave the file as is.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the content of the data folder </span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># We should have one compressed and one uncompressed file </span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> data</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Use zcat on the compressed file to view its content</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="fu">zcat</span> data/GCF_000714595.fasta.gz</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the content of the data folder </span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co"># We still should have one compressed and one uncompressed file </span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the content of the data folder </span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># You should have one compressed and one uncompressed file </span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> data</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Use zcat on the compressed file to view its content</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="fu">zcat</span> data/GCF_000714595.fasta.gz</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the content of the data folder </span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co"># You still should have one compressed and one uncompressed file </span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -781,9 +815,9 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For Mac users using the zsh shell, zcat might not work as expected. Try using gzcat instead:</p>
+<p>For Mac users, zcat might not work as expected. Try using gzcat instead:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gzcat</span> data/GCF_000714595.fasta.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gzcat</span> data/GCF_000714595.fasta.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -801,37 +835,38 @@ Important
 <div class="callout-body-container callout-body">
 <p>You can also edit the content of a text file and there are different programs available to do this on the command line, one such tool is <code>nano</code>, which should come with most command line interpreters. You can open any file as follows:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> data/LjRoot303.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> data/LjRoot303.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Once the document is open you can edit it however you want and then</p>
 <ul>
 <li>Close the document with <code>Control + X</code></li>
 <li>Type <code>y</code> to save changes and press enter</li>
 </ul>
+<p><strong>MobaXterm users:</strong> MobaXterm does not come with <code>nano</code>. Install it once with <code>apt-get install nano</code>.</p>
 </div>
 </div>
 </div>
 </section>
 </section>
-<section id="wc-count-things" class="level2" data-number="3.13">
-<h2 data-number="3.13" class="anchored" data-anchor-id="wc-count-things"><span class="header-section-number">3.13</span> <code>wc</code>: Count things</h2>
-<p>Another useful tool is the <code>wc</code> (short for <em>wordcount</em>) command that allows us to count the number of lines via <code>-l</code> in a file. It is an useful tool for sanity checking.</p>
+<section id="wc-count-things" class="level2" data-number="3.14">
+<h2 data-number="3.14" class="anchored" data-anchor-id="wc-count-things"><span class="header-section-number">3.14</span> <code>wc</code>: Count things</h2>
+<p>Another useful tool is the <code>wc</code> (short for <em>wordcount</em>) command that lets you count the number of lines via <code>-l</code> in a file. It is a useful tool for sanity checking.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> data/LjRoot303.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> data/LjRoot303.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>We see that this file contains 20 lines of text. For fasta files this is not very informative, but if you for example work with a dataframe with rows and columns where you filter rows using certain conditions this can become very useful for sanity checking.</p>
+<p>You see that this file contains 20 lines of text. For fasta files this is not very informative, but if you for example work with a dataframe with rows and columns where you filter rows using certain conditions this can become very useful for sanity checking.</p>
 </section>
-<section id="grep-print-lines-that-match-patterns" class="level2" data-number="3.14">
-<h2 data-number="3.14" class="anchored" data-anchor-id="grep-print-lines-that-match-patterns"><span class="header-section-number">3.14</span> <code>grep</code> : print lines that match patterns</h2>
-<p>The <code>grep</code> command searches for patterns in a file. We could for example use this to ask how many 16S rRNA gene sequences are in our fasta file by searching for the fasta header that always starts with a <code>&gt;</code>. The basic grep syntax is <code>grep "pattern" file</code>. Here, “pattern” is the text you want to search for, and file is the file you want to search in. The double quotes allow us to include special characters (like <code>&gt;</code>) safely.</p>
+<section id="grep-print-lines-that-match-patterns" class="level2" data-number="3.15">
+<h2 data-number="3.15" class="anchored" data-anchor-id="grep-print-lines-that-match-patterns"><span class="header-section-number">3.15</span> <code>grep</code> : print lines that match patterns</h2>
+<p>The <code>grep</code> command searches for patterns in a file. You could, for example, use this to ask how many 16S rRNA gene sequences are in your fasta file by searching for the fasta header that always starts with a <code>&gt;</code>. The basic grep syntax is <code>grep "pattern" file</code>. Here, “pattern” is the text you want to search for, and file is the file you want to search in. The double quotes let you include special characters (like <code>&gt;</code>) safely.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"&gt;"</span> data/LjRoot303.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"&gt;"</span> data/LjRoot303.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This prints all lines that match the pattern (here: <code>&gt;</code>). In a fasta file, <code>&gt;</code> is used to label the sequence headers. Depending on your terminal, the matches might be highlighted, which makes them easy to spot.</p>
-<p>If we only want to count the number of headers, we can use the <code>-c</code> option:</p>
+<p>If you only want to count the number of headers, you can use the <code>-c</code> option:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Root303 contains 1 16S rRNA gene sequence</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">"&gt;"</span> data/LjRoot303.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># LjRoot303 contains 1 16S rRNA gene sequence</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">"&gt;"</span> data/LjRoot303.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="Tip: The structure of sequence files">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="true" aria-label="Toggle callout">
@@ -884,13 +919,13 @@ Important
 <div id="callout-16" class="callout-16-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Uncompress </span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gzip</span> <span class="at">-d</span> data/GCF_000714595.fasta.gz</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the number of contigs </span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># LjRoot303 has 1 and and GCF_000714595 9 16S rRNA gene sequences</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">"&gt;"</span> data/LjRoot303.fasta</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">"&gt;"</span> data/GCF_000714595.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Uncompress </span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gzip</span> <span class="at">-d</span> data/GCF_000714595.fasta.gz</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the number of 16S rRNA gene sequences </span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="co"># LjRoot303 has 1 and GCF_000714595 has 9 16S rRNA gene sequences</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">"&gt;"</span> data/LjRoot303.fasta</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">"&gt;"</span> data/GCF_000714595.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Answer for question 3:</p>
 <p>Bacteria can carry multiple copies of the rRNA operon (16S–23S–5S). A higher copy number is often associated with fast-responding, fast-growing life strategies (more ribosomes → faster protein synthesis under nutrient-rich conditions).</p>
@@ -906,22 +941,22 @@ Important
 </div>
 </div>
 </section>
-<section id="working-with-multiple-files" class="level2" data-number="3.15">
-<h2 data-number="3.15" class="anchored" data-anchor-id="working-with-multiple-files"><span class="header-section-number">3.15</span> Working with multiple files</h2>
-<p>So far, we have worked with single files. In practice, sequencing data often comes as multiple files, for example, one file per strain or per sample. Let’s practice handling several files at once. Let’s begin by getting more genomes and not only download 16S sequences from strains isolated from <em>Lotus japonicus</em> (files with Lj prefix) but also sequences from strains coming from a human background (files with GCF prefix):</p>
-<p><strong>Hint</strong>: If you downloaded one of the genomes in the exercise before, then you don’t need to run this wget command.</p>
+<section id="working-with-multiple-files" class="level2" data-number="3.16">
+<h2 data-number="3.16" class="anchored" data-anchor-id="working-with-multiple-files"><span class="header-section-number">3.16</span> Working with multiple files</h2>
+<p>So far, you have worked with single files. In practice, sequencing data often comes as multiple files, for example, one file per strain or per sample. Let’s practice handling several files at once. Let’s begin by getting more fasta files and not only download 16S sequences from strains isolated from <em>Lotus japonicus</em> (files with Lj prefix) but also sequences from strains coming from a human background (files with GCF prefix):</p>
+<p><strong>Warning</strong>: If you downloaded one of the files in the exercise before, then you don’t need to run this wget command again. That is because wget does not overwrite a file that already exists but instead saves a second copy as <code>name.fasta.gz.1</code>. If this happens, delete that copy.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download some more data </span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-P</span> data https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/GCF_000009425.fasta.gz</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-P</span> data https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/GCF_000253315.fasta.gz</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-P</span> data https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot59.fasta.gz</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Check what was done</span></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download some more data </span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-P</span> data https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/GCF_000009425.fasta.gz</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-P</span> data https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/GCF_000253315.fasta.gz</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">-P</span> data https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/LjRoot59.fasta.gz</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Check what was done</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>We now should have 5 files, 3 of which are still compressed.</p>
+<p>You now should have 5 files, 3 of which are still compressed.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Hint: Downloading many files with a for loop">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -930,10 +965,15 @@ Important
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div id="callout-18" class="callout-18-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p>Once you understand how to use <code>wget</code>, you can easily scale it up to download multiple files automatically using a <strong>for loop</strong>.</p>
-<p>For example, suppose you have a list of all the accessions that were used in the lab experiments in a file called <code>accessions.txt</code>, one accession per line:</p>
+<p>First, make a file called <code>accessions.txt</code> in your <code>data_analysis</code> folder. It lists all the accessions that were used in the lab experiments, one accession per line. Open a new, empty file with <code>nano</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> accessions.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>MobaXterm users:</strong> MobaXterm does not come with <code>nano</code>. Install it once with <code>apt-get install nano</code>.</p>
+<p>Copy the list below and paste it into nano (right-click in MobaXterm and WSL, Cmd+V on a Mac):</p>
 <pre><code>GCF_000009425
 GCF_000253315
 GCF_000714595
@@ -946,68 +986,80 @@ LjRoot60
 Root401
 Root68
 Root935</code></pre>
-<p>You can then loop through all URLs and download them into the <code>data</code> folder like this:</p>
+<p>Then save the file and close nano: press <code>Ctrl+X</code>, type <code>y</code>, and press Enter to keep the file name. Check that the file looks right:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a playground folder</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> playground </span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Download all genomes at once</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> accession <span class="kw">in</span> <span class="va">$(</span><span class="fu">cat</span> accessions.txt<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">wget</span> <span class="at">-P</span> playground https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/<span class="va">${accession}</span>.fasta.gz</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the file: you should see 12 accessions, one per line</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> accessions.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>You can then loop through all accessions in the file and download each file into a new folder called <code>loop_download</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a new folder</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> loop_download </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Download all files at once</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> accession <span class="kw">in</span> <span class="va">$(</span><span class="fu">cat</span> accessions.txt<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">wget</span> <span class="at">-P</span> loop_download https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/main/data/<span class="va">${accession}</span>.fasta.gz</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that the download worked: you should see 12 files</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> loop_download</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here’s what happens:</p>
 <ul>
 <li><code>$(cat accessions.txt)</code> reads all lines from the file</li>
 <li><code>for accession in ...</code> goes through each line one by one and stores an accession name in the <code>accession</code> variable</li>
-<li><code>wget  -P playground github_path/${accession}.fasta.gz</code> downloads the compressed fasta file for each accession into the playground folder. Here, the <code>${accession}</code> will get replaced with one line in <code>accessions.txt</code></li>
+<li><code>wget -P loop_download github_path/${accession}.fasta.gz</code> downloads the compressed fasta file for each accession into the <code>loop_download</code> folder. Here, the <code>${accession}</code> will get replaced with one line in <code>accessions.txt</code></li>
 </ul>
 <p>You can use this same loop structure to run any command on multiple files automatically. This is one of the main reasons the CLI is so powerful. For example, you could in one command count the number of headers in all your fasta files:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download all genomes at once</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> accession <span class="kw">in</span> <span class="va">$(</span><span class="fu">cat</span> accessions.txt<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">$accession</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">zcat</span> playground/<span class="va">${accession}</span>.fasta.gz <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-c</span> <span class="st">"&gt;"</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the 16S rRNA gene sequences in each downloaded file</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Mac users: use gzcat instead of zcat</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> accession <span class="kw">in</span> <span class="va">$(</span><span class="fu">cat</span> accessions.txt<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">$accession</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">zcat</span> loop_download/<span class="va">${accession}</span>.fasta.gz <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-c</span> <span class="st">"&gt;"</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>Here, <code>zcat</code> prints the content of each compressed file, and the <code>|</code> sends that content to <code>grep -c "&gt;"</code>, which counts the headers. The <code>|</code> is called a pipe. You will learn more about pipes at the end of this page.</p>
 <p>You can also format this more nicely if you really want to but this is outside of the scope of this tutorial. A more detailed explanation about for-loops can be found <a href="https://scienceparkstudygroup.github.io/ibed-bioinformatics-page/source/core_tools/bash-for-loops.html">here</a>.</p>
 </div>
 </div>
 </div>
-<section id="wildcards-match-multiple-files" class="level3" data-number="3.15.1">
-<h3 data-number="3.15.1" class="anchored" data-anchor-id="wildcards-match-multiple-files"><span class="header-section-number">3.15.1</span> Wildcards (<code>*</code>): Match multiple files</h3>
-<p>Imagine we want to uncompress all the new files. Typing every a <code>gzip</code> command for every file will get tedious and you risk mistyping names. <strong>Wildcards</strong> are another tool that you can use to work with groups of files using pattern matching. One of the most useful wildcard is <code>*</code>, which is used to search for a particular character(s) for zero or more times. For example, <code>*.txt</code> would find all files with the .txt extension.</p>
+<section id="wildcards-match-multiple-files" class="level3" data-number="3.16.1">
+<h3 data-number="3.16.1" class="anchored" data-anchor-id="wildcards-match-multiple-files"><span class="header-section-number">3.16.1</span> Wildcards (<code>*</code>): Match multiple files</h3>
+<p>Imagine you want to uncompress all the new files. Typing a <code>gzip</code> command for every file will get tedious and you risk mistyping names.</p>
+<p>Luckily, the shell provides special characters to work with groups of files using pattern matching. These characters are called <strong>wildcards</strong>. The most useful wildcard is <code>*</code>, which stands for “any characters, any number of times (also zero times)”. For example, <code>*.txt</code> matches all files that end with <code>.txt</code>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List all files inside the data folder that end with gz</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># We should see only 3 files</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> data/<span class="pp">*</span>gz</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co"># List all uncompressed Lotus fasta files inside the data folder </span></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co"># using `Lj*.fasta*` means we look for filenames that </span></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="co"># start with Lj, are followed by any number of characters and end with .fasta</span></span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> data/Lj<span class="pp">*</span>.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List all files inside the data folder that end with gz</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co"># You should see only 3 files</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> data/<span class="pp">*</span>gz</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co"># List all uncompressed Lotus fasta files inside the data folder </span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co"># using `Lj*.fasta` means you look for filenames that </span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co"># start with Lj, are followed by any number of characters and end with .fasta</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> data/Lj<span class="pp">*</span>.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>We can use Wildcards with every bash command and, for example, use it to unzip every file at once:</p>
+<p>You can use wildcards with every bash command and, for example, use them to uncompress every file at once:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gzip</span> <span class="at">-d</span> data/<span class="pp">*</span>gz</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if that worked</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gzip</span> <span class="at">-d</span> data/<span class="pp">*</span>gz</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if that worked</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="cat-and-combining-and-saving-files" class="level3" data-number="3.15.2">
-<h3 data-number="3.15.2" class="anchored" data-anchor-id="cat-and-combining-and-saving-files"><span class="header-section-number">3.15.2</span> <code>cat</code> and <code>&gt;</code> : Combining and saving files</h3>
-<p>The cat command doesn’t just print files, it can also concatenate (join) multiple files into one. For example, we might want to combine all fasta sequences for the Lotus (<code>Lj</code>) strains and store the output in a new file called <code>lotus.fasta</code> in the results folder (a folder you should have generated in an earlier exercise).</p>
+<section id="cat-and-combining-and-saving-files" class="level3" data-number="3.16.2">
+<h3 data-number="3.16.2" class="anchored" data-anchor-id="cat-and-combining-and-saving-files"><span class="header-section-number">3.16.2</span> <code>cat</code> and <code>&gt;</code> : Combining and saving files</h3>
+<p>The <code>cat</code> command doesn’t just print files, it can also concatenate (join) multiple files into one. For example, you might want to combine all fasta sequences for the Lotus (<code>Lj</code>) strains and store the output in a new file called <code>lotus.fasta</code> in the results folder (a folder you should have generated in an earlier exercise).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the Lotus fasta files into one </span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># and store the output of the cat command in a new file </span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> data/Lj<span class="pp">*</span>.fasta <span class="op">&gt;</span> results/lotus.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the Lotus fasta files into one </span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co"># and store the output of the cat command in a new file </span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> data/Lj<span class="pp">*</span>.fasta <span class="op">&gt;</span> results/lotus.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here:</p>
 <ul>
-<li><code>cat data/Lj*</code> selects all files in the data folder that start with <code>Lj</code> and end with <code>.fasta</code>.</li>
-<li><code>&gt;</code> tells the shell to write the combined output into a new file that will be called lotus.fasta</li>
+<li><code>cat data/Lj*.fasta</code> selects all files in the data folder that start with <code>Lj</code> and end with <code>.fasta</code>.</li>
+<li><code>&gt;</code> tells the shell to write the combined output into a new file that will be called <code>lotus.fasta</code></li>
 </ul>
+<p>When you run this command nothing gets printed and the output goes into the file <code>results/lotus.fasta</code>.</p>
 <div class="callout callout-style-default callout-caution callout-titled" title="Important: Be careful with >">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1020,18 +1072,18 @@ Root935</code></pre>
 </div>
 <div id="callout-19" class="callout-19-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
-<p>The <code>&gt;</code> operator overwrites files without asking. If you want to add (append) to an existing file instead of replacing it, use <code>&gt;&gt;</code>:</p>
+<p>The <code>&gt;</code> operator overwrites files without asking. If you want to add (append) to an existing file instead of replacing it, use <code>&gt;&gt;</code>.</p>
 </div>
 </div>
 </div>
-<p>Whenever you combine or modify files it is a good idea to do some sanity checks. Luckily, we already learned about useful ways to do this:</p>
+<p>Whenever you combine or modify files it is a good idea to do some sanity checks. Luckily, you already learned about useful ways to do this:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check how many 16S sequences are found in individual Lotus strains </span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">"&gt;"</span> data/Lj<span class="pp">*</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check how many 16S sequences files are in concatenated file</span></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Important: the numbers should add up with the numbers from the command above</span></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">"&gt;"</span> results/lotus.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check how many 16S sequences are found in individual Lotus strains </span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">"&gt;"</span> data/Lj<span class="pp">*</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check how many 16S sequences are in the concatenated file</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Important: the numbers should add up with the numbers from the command above</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">"&gt;"</span> results/lotus.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-question callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="true" aria-label="Toggle callout">
@@ -1062,12 +1114,12 @@ Root935</code></pre>
 <div id="callout-20" class="callout-20-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> data/GCF<span class="pp">*</span>.fasta <span class="op">&gt;</span> results/human.fasta</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Count </span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">"&gt;"</span> data/GCF<span class="pp">*</span>.fasta </span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">"&gt;"</span> results/human.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> data/GCF<span class="pp">*</span>.fasta <span class="op">&gt;</span> results/human.fasta</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Count </span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">"&gt;"</span> data/GCF<span class="pp">*</span>.fasta </span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">"&gt;"</span> results/human.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>
@@ -1077,20 +1129,26 @@ Root935</code></pre>
 </div>
 </section>
 </section>
-<section id="pipes" class="level2" data-number="3.16">
-<h2 data-number="3.16" class="anchored" data-anchor-id="pipes"><span class="header-section-number">3.16</span> Pipes</h2>
-<p>So far, we’ve run one command at a time. But often, you might want to combine commands so that the output of one becomes the input of another. That’s what the pipe (<code>|</code>) does. It allows us to chain simple commands together to do more complex things.</p>
-<p>For example, we might want to ask how many sequences all human-associated strains have together but might not want to store a concatenated file to do so. Here, we could do the following instead:</p>
+<section id="pipes" class="level2" data-number="3.17">
+<h2 data-number="3.17" class="anchored" data-anchor-id="pipes"><span class="header-section-number">3.17</span> Pipes</h2>
+<p>So far, you have run one command at a time. But often, you might want to combine commands so that the output of one becomes the input of another. That’s what the pipe (<code>|</code>) does. It lets you chain simple commands together to do more complex things.</p>
+<p>For example, you might want to ask how many sequences all human-associated strains have together but might not want to store a concatenated file to do so. Here, you could do the following instead:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine two files and count the total number of 16S sequences in the combined file</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> data/GCF<span class="pp">*</span>.fasta <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-c</span> <span class="st">"&gt;"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine all human-associated files and count the total number of 16S sequences</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> data/GCF<span class="pp">*</span>.fasta <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-c</span> <span class="st">"&gt;"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here:</p>
 <ul>
 <li><code>cat data/GCF*.fasta</code> concatenates fasta files from all human-associated strains</li>
-<li>The pipe (<code>|</code>) sends the combined contigs directly to the <code>grep</code> command</li>
+<li>The pipe (<code>|</code>) sends the combined sequences directly to the <code>grep</code> command</li>
 <li><code>grep -c "&gt;"</code> only counts how many headers are found in the combined file</li>
 </ul>
+<p>A second common use of the pipe is to show only the first lines of a long output:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find all headers and show only the first 3</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"&gt;"</span> data/GCF_000714595.fasta <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Here, <code>grep</code> finds all 9 header lines, and <code>head -n 3</code> prints only the first 3. Later in this course, you will use the same pattern to look at the start of a large compressed file without uncompressing it: <code>zcat file.fastq.gz | head</code>.</p>
 
 
 </section>

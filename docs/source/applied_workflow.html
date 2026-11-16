@@ -269,9 +269,9 @@ window.Quarto = {
 </header>
 
 
-<p>Now that we have learned how to use the command line to issue commands and use an HPC we can now analyse our long-read amplicon data and:</p>
+<p>Now that you have learned how to use the command line to issue commands and use an HPC you are ready to analyse your long-read amplicon data and:</p>
 <ul>
-<li>Perform quality filtering by choosing appropriate cutoffs based on our quality assessment we did in the prior section</li>
+<li>Perform quality filtering by choosing appropriate cutoffs based on the quality assessment you did in the prior section</li>
 <li>Align the quality filtered reads to a reference database</li>
 <li>Generate a count matrix</li>
 </ul>
@@ -281,7 +281,7 @@ window.Quarto = {
 <li><strong>Your own analysis</strong>: during day 2, you get a count table with the samples of all groups, and the code that made it. You analyse the table yourself, and you make your own figures for your presentation</li>
 <li><strong>Optional, if you have time left</strong>: run the workflow on all your barcodes with a loop (bonus section), or work through the page on <a href="../source/llm_usage.html">LLMs</a></li>
 </ol>
-<p><strong>Important</strong>: All of this should be run on the Crunchomics HPC, so be sure that you connected with <code>ssh -X user@omics-h0.science.uva.nl</code>.</p>
+<p><strong>Important</strong>: All of this should be run on the Crunchomics HPC, so be sure that you connected with <code>ssh -X uvanetid@omics-h0.science.uva.nl</code>. Also, make sure that you are in your project folder (<code>cd ~/personal/data_analysis</code>).</p>
 <section id="chopper-quality-cleaning" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="chopper-quality-cleaning"><span class="header-section-number">6.1</span> <code>chopper</code>: Quality cleaning</h2>
 <p>In this section, you will learn how to perform quality filtering of your amplicon long-read data using <strong>chopper</strong>. Quality control is an essential first step to remove low quality reads that introduce errors in downstream analyses such as sequence alignment. Typical things you want to do are:</p>
@@ -313,28 +313,26 @@ window.Quarto = {
 <p>Do the following:</p>
 <ul>
 <li>Create a new folder to store the results and name the output file <code>barcodeX_filtered.fastq.gz</code></li>
-<li>Request 1 task, 2 CPUs and 20G of memory with <code>srun</code>, and ensure chopper itself also uses 2 threads</li>
+<li>Request 1 task, 2 CPUs, 20G of memory and 30 minutes of runtime with <code>srun</code>, and ensure chopper itself also uses 2 threads</li>
 <li>Investigate the Nanoplot LengthvsQualityScatterPlot_dot.html that you generated in the last exercise and decide on the right thresholds to use with chopper to:
 <ul>
 <li>Discard sequences that are too long or too short</li>
-<li>Discard reads with a too low phred score</li>
+<li>Discard reads with a too low phred score (Q10 means 1 error in 10 bases, Q20 means 1 in 100).</li>
 <li>Trim low-quality bases from the read ends</li>
 </ul></li>
 <li>Check the <a href="https://github.com/wdecoster/chopper">tools manual</a> carefully for how to deal with <code>.gz</code> files. Hint: Closely check the example section</li>
 </ul>
-<blockquote class="blockquote">
 <p><strong>IMPORTANT</strong>: After chopper finished you will see something like “Kept 1772 reads out of 3785 reads”. If you see less than 50% of the reads remaining use less strict length and quality filters. You need enough reads for the next steps</p>
-</blockquote>
 <p><strong>Task 2: Assess the quality of the filtering step</strong></p>
 <p>Investigate the quality of the filtered FASTQ file by running:</p>
 <ul>
 <li>NanoPlot</li>
 <li>seqkit
 <ul>
-<li><strong>Important</strong>: Be sure that you name the output file something like <code>barcodeX_filtered.tsv</code>, we need this file later!</li>
+<li><strong>Important</strong>: Name the output file <code>results/seqkit/barcodeX_filtered.tsv</code>. You need this file later for the count table.</li>
 </ul></li>
 </ul>
-<p>Afterwards open NanoPlots and seqkit. Investigate the outputs and record:</p>
+<p>Afterwards open NanoPlots and seqkit (copy it to your computer, as in the HPC chapter). Investigate the outputs and record:</p>
 <ul>
 <li>The total number of sequences that went into the analysis</li>
 <li>The total number of sequences that passed the quality filtering</li>
@@ -347,7 +345,7 @@ window.Quarto = {
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Run chopper</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>20G chopper ...</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>20G <span class="at">--time</span><span class="op">=</span>00:30:00 chopper ...</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Deactivate the conda environment </span></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span>
@@ -380,7 +378,7 @@ window.Quarto = {
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate chopper_0.15.0</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Run chopper</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>20G chopper <span class="dt">\</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>20G <span class="at">--time</span><span class="op">=</span>00:30:00 chopper <span class="dt">\</span></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">-i</span> data/barcodeX.fastq.gz <span class="dt">\</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">-q</span> 12 <span class="dt">\</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">--trim-approach</span> trim-by-quality <span class="at">--cutoff</span> 12 <span class="dt">\</span></span>
@@ -396,7 +394,7 @@ window.Quarto = {
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results/nanoplot/cleaned</span>
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>10G NanoPlot <span class="dt">\</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>10G <span class="at">--time</span><span class="op">=</span>00:30:00 NanoPlot <span class="dt">\</span></span>
 <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">--fastq</span> results/chopper/barcodeX_filtered.fastq.gz <span class="dt">\</span></span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">-t</span> 2 <span class="dt">\</span></span>
 <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">--tsv_stats</span> <span class="dt">\</span></span>
@@ -406,13 +404,13 @@ window.Quarto = {
 <span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span>
 <span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Run seqkit </span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>1 <span class="at">--mem</span><span class="op">=</span>5G seqkit stats results/chopper/barcodeX_filtered.fastq.gz  <span class="dt">\</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>1 <span class="at">--mem</span><span class="op">=</span>5G <span class="at">--time</span><span class="op">=</span>00:10:00 seqkit stats results/chopper/barcodeX_filtered.fastq.gz  <span class="dt">\</span></span>
 <span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">-Tao</span> results/seqkit/barcodeX_filtered.tsv <span class="at">--threads</span> 1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Below are the results for the example file <code>barcode07.fastq.gz</code>. Your own barcode will give different numbers. Your sample most likely has more reads than this example, and the share of reads that pass depends on how the sequencing went.</p>
 <ul>
 <li>Input: 3,785 reads</li>
-<li>Passed filtering: 1,772 reads (47%). This is just under the 50% we recommend above. For this file, you could loosen the length or quality cutoffs a little. You ideally want to keep 50%-90% of the reads for the downstream analyses, depending on the quality of the data and how many reads you generated.</li>
+<li>Passed filtering: 1,772 reads (47%). This is just under the 50% recommendation from above. For this file, you could loosen the length or quality cutoffs a little. You ideally want to keep 50%-90% of the reads for the downstream analyses, depending on the quality of the data and how many reads you generated.</li>
 </ul>
 <p>This is the NanoPlot read length against read quality plot for <code>barcode07</code> after chopper. Compare it with the plot before filtering in the HPC chapter. The short reads, the very long reads and the reads with a quality below 12 are gone. All reads are now between 1,400 and 1,540 bp:</p>
 <p><a href="../img/nanoplot_post_chopper.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="../img/nanoplot_post_chopper.png" class="img-fluid" style="width:90.0%"></a></p>
@@ -452,7 +450,7 @@ window.Quarto = {
 <p>Nanopore long-read sequencing can produce reads that span nearly the entire 16S rRNA gene, making it useful for identifying microbial species. However, these long reads come with a trade-off: they have a higher error rate compared to short-read technologies.</p>
 <p>Assume that your average read quality is <strong>Q12</strong>. The Phred score (Q) is a measure of how confident the sequencer is in each base call. The probability of a base being called incorrectly can be calculated as:</p>
 <p><span class="math display">\[P=10^{-Q/10}\]</span></p>
-<p>In R we can compute this with:</p>
+<p>In R, you can compute this with:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Q <span class="ot">&lt;-</span> <span class="dv">12</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>P_error <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span>Q<span class="sc">/</span><span class="dv">10</span>)</span>
@@ -462,11 +460,12 @@ window.Quarto = {
 <pre><code>Error rate: 6.31%</code></pre>
 </div>
 </div>
-<p>This shows that with a mean Phred quality of 12, each base has roughly a 6% chance of being incorrect. For a 1,500 bp 16S amplicon we expect 90 errors per sequence with such a quality score. While Nanopore long reads are useful because they capture the full 16S rRNA gene, a high level of errors can make species-level identification unreliable.</p>
-<p>To classify our filtered Nanopore reads, we use <strong>Minimap2</strong> to map each read against a reference database of 16S rRNA sequences from all the strains used in your lab experiments. Mapping identifies the reference sequence most similar to each read. The read is then aligned base-by-base to the corresponding reference sequence to check for exact matches or mismatches. Depending on the similarity, one or more hits may be recorded for each read.</p>
+<p>This tells you that with a mean Phred quality of 12, each base has roughly a 6% chance of being incorrect. For a 1,500 bp 16S amplicon you expect 90 errors per sequence with such a quality score. While Nanopore long reads are useful because they capture the full 16S rRNA gene, a high level of errors can make species-level identification unreliable.</p>
+<p>To classify your filtered Nanopore reads, you use <strong>Minimap2</strong> to map each read against a reference database of 16S rRNA sequences from all the strains used in your lab experiments. Mapping identifies the reference sequence most similar to each read. The read is then aligned base-by-base to the corresponding reference sequence to check for exact matches or mismatches. Depending on the similarity, one or more hits may be recorded for each read.</p>
 <p>Mapping tools like Minimap2 are well-suited for Nanopore data because they tolerate mismatches as well as small insertions and deletions, which are common in error-prone long reads. The output of Minimap2 is a <strong>PAF</strong> (Pairwise mApping Format) file, which contains information about how well each read maps to the reference sequences.</p>
-<p>Some reads may map equally well to multiple reference sequences (<strong>multi-mappers</strong>), particularly if the strains have highly similar 16S sequences (for example the different Pseudomonas strains you worked with in the lab). These multi-mapping reads are important to keep in mind when summarizing taxonomic abundances.</p>
-<p>Crunchomics already has minimap2 installed. However, it is an older version (<code>minimap2 --version</code> prints <code>2.22-r1105-dirty</code>). The word “dirty” means that it was built from a changed copy of the code, so nobody else can install exactly this version. So, like for chopper, we install a recent version with mamba:</p>
+<p>Some reads match more than one reference sequence (<strong>multi-mappers</strong>). This can happen if the strains have highly similar 16S sequences (for example the different Pseudomonas strains you worked with in the lab). These multi-mapping reads are important to keep in mind when summarizing taxonomic abundances.</p>
+<p>minimap2 then writes one line per hit. The best hit is the <strong>primary alignment</strong>, the other hits are <strong>secondary alignments</strong>. minimap2 also gives each alignment a <strong>mapping quality</strong>. For a primary alignment, it tells you how sure minimap2 is that this is the right reference: 60 means very sure, a low value means that another reference fits almost as well. Secondary alignments always get a mapping quality of 0.</p>
+<p>Crunchomics already has minimap2 installed. However, it is an older version (<code>minimap2 --version</code> prints <code>2.22-r1105-dirty</code>). The word “dirty” means that it was built from a changed copy of the code, so nobody else can install exactly this version. So, like for chopper, you install a recent version with mamba:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> minimap2_2.31 <span class="at">-c</span> bioconda minimap2=2.31</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -490,17 +489,17 @@ window.Quarto = {
 <p>This file (<code>amplicons_nr.fasta</code>) contains one to two representative 16S rRNA sequences per strain used in the lab. View the file with <code>head</code> and use <code>grep</code> to count how many sequences are in the file.</p>
 <p><strong>Task 2: Run minimap2</strong></p>
 <p>Next, you will map your filtered reads against the reference database using minimap2.</p>
-<p>Before running, make sure to check all the available options with <code>minimap2 -h</code> and then make sure that you:</p>
+<p>Before running, make sure to check all the available options with <code>minimap2 -h</code> (or check the tools <a href="https://github.com/lh3/minimap2">manual</a>) and then make sure that you:</p>
 <ul>
 <li>Create a folder to store your results</li>
 <li>Activate the <code>minimap2_2.31</code> environment before you run minimap2, and deactivate it afterwards</li>
-<li>Use srun with 1 task, 2 CPUs and 20G of memory</li>
+<li>Use srun with 1 task, 2 CPUs, 20G of memory and 30 minutes of runtime</li>
 <li>Use <code>-cx map-ont</code> for accurate Nanopore vs reference mapping</li>
-<li>Ensure that the output is in PAF format</li>
+<li>When you name the output file use the <code>.paf</code> extension (minimap2 generates PAF files by default)</li>
 <li>Provide both
 <ul>
 <li><code>data/amplicons_nr.fasta</code> (the reference)</li>
-<li><code>barcodeX_filtered.fastq.gz</code> (the cleaned fastq sequences)</li>
+<li><code>results/chopper/barcodeX_filtered.fastq.gz</code> (the cleaned fastq sequences, make sure that you adjust this to how you named the chopper output folder)</li>
 </ul></li>
 <li>Use <code>&gt; results/minimap2/barcodeX.paf</code> to store the output</li>
 </ul>
@@ -558,7 +557,7 @@ window.Quarto = {
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate minimap2_2.31</span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Run minimap2</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>20G minimap2 <span class="dt">\</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>20G <span class="at">--time</span><span class="op">=</span>00:30:00 minimap2 <span class="dt">\</span></span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">-cx</span> map-ont <span class="at">-t</span> 2 <span class="dt">\</span></span>
 <span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        data/amplicons_nr.fasta <span class="dt">\</span></span>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        results/chopper/barcodeX_filtered.fastq.gz <span class="dt">\</span></span>
@@ -577,14 +576,14 @@ window.Quarto = {
 <ol type="1">
 <li>For the example file <code>barcode07</code>, there are 1,835 alignments for 1,772 reads. Your numbers will be different. If you see more alignments than there are reads, there might be different reasons for that:
 <ol type="1">
-<li>If your experiment included Pseudomonas strains you likely will have more alignments than reads. The higher number of alignments occurs because some reads might align equally well to multiple reference 16S sequences, these are multi-mapping reads.</li>
+<li>Some reads have a primary alignment (the best hit) and one or more secondary alignments (other hits). The <code>tp</code> tag after column 12 shows which is which: <code>tp:A:P</code> marks a primary alignment, <code>tp:A:S</code> a secondary one. <code>grep -c "tp:A:S" results/minimap2/barcodeX.paf</code> counts the secondary alignments. In <code>barcode07</code>, there are 1,772 primary alignments (one per read) and 63 secondary ones. You likely see more secondary alignments if your community has strains with very similar 16S sequences, such as several Pseudomonas strains.</li>
 <li>Some reads might only partially or weakly align to highly similar regions in the 16S rRNA gene</li>
 </ol></li>
 <li>Useful PAF columns for assessing alignment reliability include:
 <ul>
-<li>Column 10: number of matching bases (can be use to calculate % identity)</li>
-<li>Column 11: total length of the alignment (including gaps; can be use to calculate % identity)</li>
-<li>Column 12: mapping quality. 0 is used to mark and thereby identify multi-mappers</li>
+<li>Column 10: number of matching bases (can be used to calculate % identity)</li>
+<li>Column 11: total length of the alignment (including gaps; can be used to calculate % identity)</li>
+<li>Column 12: mapping quality. A value between 1 and 29 means that minimap2 was not sure about the best hit. A 0 marks a secondary alignment, or a best hit with an equally good second hit</li>
 <li>Columns 3–4: read start and end positions (can be used to calculate how much of the read aligned)</li>
 </ul></li>
 </ol>
@@ -678,23 +677,24 @@ window.Quarto = {
 </section>
 <section id="generate-a-count-table" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="generate-a-count-table"><span class="header-section-number">6.3</span> Generate a count table</h2>
-<p>Now that we have our alignment results, our goal is to summarize them into a count table, a matrix showing how many reads aligned to each reference 16S rRNA sequence. Before creating the count table, we first need to filter our results to make sure we only count high-confidence matches by:</p>
+<p>Now that you have your alignment results, your next goal is to summarize them into a count table, a matrix showing how many reads aligned to each reference 16S rRNA sequence. Before creating the count table, you first need to filter your results to make sure you only count high-confidence matches by:</p>
 <ul>
 <li>Removing low-confidence hits by filtering out alignments with:
 <ul>
 <li>Low sequence identity (many mismatches)</li>
 <li>Low coverage (only part of the read mapped to the reference)</li>
-<li>Low mapping quality (reads could map equally well elsewhere)</li>
+<li>Low mapping quality (1 to 29: minimap2 found a best hit, but another reference fits almost as well)</li>
 </ul></li>
 <li>Selecting the single best alignment for each read (to handle multi-mappers)</li>
 </ul>
-<p>Afterwards, we can count how many reads map to each reference sequence. These counts can then be summarized at higher taxonomic levels (e.g., genus) to account for the uncertainty due to sequencing errors.</p>
-<p>Instead of using a single pre-built program, we will use a custom Python script to perform this step. So why use a tool like Python or R for this?</p>
+<p>Afterwards, you can count how many reads map to each reference sequence. These counts can then be summarized at higher taxonomic levels (e.g., genus) to account for the uncertainty due to sequencing errors.</p>
+<p>The filter keeps alignments with a mapping quality of 0 on purpose. For a genus with several very similar strains, such as Pseudomonas, minimap2 often can’t tell which strain a read comes from. Keeping the secondary alignments means that the read still counts for the genus, even if the strain is unclear.</p>
+<p>Instead of using a single pre-built program, you will use a custom Python script to perform this step. You might wonder why you use a tool like Python or R for this and not do this directly via the terminal:</p>
 <p>Tools like Minimap2 produce large, text-based alignment files. While command-line tools are great for specific tasks (like counting lines or filtering by quality), programming languages like Python and R allow you to:</p>
 <ul>
 <li>Combine multiple filtering criteria (e.g.&nbsp;identity, coverage, quality)</li>
 <li>Parse complex data formats</li>
-<li>Summarize and visualize results reproducible</li>
+<li>Summarize and visualize results reproducibly</li>
 </ul>
 <div class="callout callout-style-default callout-question callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="true" aria-label="Toggle callout">
@@ -709,7 +709,7 @@ window.Quarto = {
 <div id="callout-8" class="callout-8-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p><strong>Task 1: Install the necessary software</strong></p>
-<p>To run the required software, we first need to install some packages to parse the data. You can do this by running the following:</p>
+<p>To run the required software, you first need to install some packages to parse the data. You can do this by running the following:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mamba</span> create <span class="at">-n</span> python_3.10.18 <span class="at">-c</span> conda-forge python=3.10.18 matplotlib pandas</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -720,7 +720,7 @@ window.Quarto = {
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/ndombrowski/MicEco_teaching_material/refs/heads/main/data/accession_to_genus.tsv <span class="at">-P</span> data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li><code>paf_to_matrix.py</code> is the python script that filters alignment results and generates count tables</li>
+<li><code>paf_to_matrix.py</code> is a custom python script we wrote that filters alignment results and generates count tables</li>
 <li><code>accession_to_genus.tsv</code> is a two-column tab-delimited file linking each 16S rRNA gene accession to its genus</li>
 </ul>
 <p>You can inspect the script’s help menu to understand its required inputs by typing <code>python scripts/paf_to_matrix.py -h</code>. The main arguments are:</p>
@@ -728,21 +728,19 @@ window.Quarto = {
 <li><code>-i</code>: path to the folder containing PAF alignment files</li>
 <li><code>-o</code>: output folder</li>
 <li><code>-t</code>: path to two-column TSV file linking accessions to genus names</li>
-<li><code>-s</code>: (optional) seqkit stats file generated with _Tao, used to calculate unmapped reads</li>
+<li><code>-s</code>: (optional) seqkit stats file generated with <code>-Tao</code>, used to calculate unmapped reads</li>
 <li>Filtering thresholds for identity, coverage, and mapping quality</li>
 </ol>
 <p><strong>Task 3: Generate the count table</strong></p>
 <p>Now, use <code>paf_to_matrix.py</code> to convert your alignment results into a count table. You will need to:</p>
 <ul>
-<li>Make sure to activate the conda environment we setup in Task 1</li>
+<li>Make sure to activate the conda environment you set up in Task 1</li>
 <li>Provide the path to your PAF alignment folder (<code>-i</code>)</li>
-<li>Add your seqkit stats file (<code>-s</code>)</li>
+<li>Add your seqkit stats file of your filtered reads (<code>-s</code>)</li>
 <li>Include the accession-to-genus mapping file (<code>-t</code>)</li>
 <li>Choose the folder in which you want to save your results (<code>-o</code>)</li>
 </ul>
-<blockquote class="blockquote">
-<p>Hint: Python scripts like this one are not computationally demanding, you can safely run it on the login node without using srun.</p>
-</blockquote>
+<p><strong>Hint:</strong> Python scripts like this one are not computationally demanding, you can safely run it on the login node without using srun.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Activate the python conda environment </span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span> </span>
@@ -763,15 +761,15 @@ window.Quarto = {
 <li>Print a brief summary of the filtering to the screen</li>
 <li>Generate several tables:
 <ul>
-<li><code>otu_table_multimappers.tsv</code>: A count table based on all alignments, including multi-mappers</li>
-<li><code>otu_table.tsv</code>: A count table based on only best (primary) hits per read</li>
+<li><code>otu_table_multimappers.tsv</code>: A count table based on all alignments that pass the filter. A read with a secondary alignment counts more than once.</li>
+<li><code>otu_table.tsv</code>: A count table with one hit per read: the best one that passed the filter</li>
 <li><code>otu_table_genus.tsv</code>: A count table summarized at the genus rank</li>
 </ul></li>
 <li>Make three histograms: <code>identity_hist.png</code>, <code>qcov_hist.png</code> and <code>mapq_hist.png</code>. They show the identity, the query coverage and the mapping quality of all alignments, before the filtering</li>
 </ul>
 <p>Inspect the outputs and answer the following:</p>
 <ol type="1">
-<li>How many reads were lost due to the filtering? Check the options of <code>python scripts/paf_to_matrix.py -h</code> and think about whether there are any parameters you would change in case too many reads were removed?</li>
+<li>How many alignments were removed due to the filtering? Check the options of <code>python scripts/paf_to_matrix.py -h</code> and think about whether there are any parameters you would change in case too many reads were removed?</li>
 <li>Are the taxa listed in your count tables consistent with the strains used in your experiment?</li>
 <li>Do the relative abundances of taxa match your expectations? If not, what biological or technical factors could explain the differences? Hint: in the <a href="../source/cli.html">command line chapter</a>, you saw that strains can carry different numbers of 16S copies.</li>
 <li>Open the three histograms. To view them, copy them to your own computer, as you did for the NanoPlot output. The script removes alignments with an identity below 0.9, a query coverage below 0.9, or a mapping quality between 1 and 29. Where do these cutoffs fall in your histograms? Which filter do you think removed most of your alignments? Write your answer in your notebook.</li>
@@ -806,13 +804,13 @@ window.Quarto = {
 </div>
 <ol type="1">
 <li><p>For the example file <code>barcode07</code>, the filtering removed 40 of 1,835 alignments (2%). Note that the summary counts alignments, not reads. If you had more alignments than reads, some of the removed alignments were likely secondary (less confident) alignments. You will also lose potential contaminations during this step. That is because reads coming from contaminant bacteria might still map to sequences in the reference database but with much lower sequence identity, and therefore will be discarded.</p></li>
-<li><p>Most reads map to Streptococcus and Lactococcus, consistent with the experiment. A few unassigned reads may come from contamination or poor-quality reads (10 reads in <code>barcode07</code>).</p></li>
+<li><p>Most reads map to Streptococcus and Lactococcus, consistent with the experiment. A few unassigned reads may come from contamination or poor-quality reads (10 reads in <code>barcode07</code>). Use <code>otu_table_genus.tsv</code> for your analysis. If your community has several strains of one genus, such as Pseudomonas, the strain rows in <code>otu_table.tsv</code> are not reliable: minimap2 often can’t tell these strains apart.</p></li>
 <li><p>Streptococcus had ~8× more reads than Lactococcus (1,576 and 186 reads in <code>barcode07</code>). This may indicate stronger growth due to better adaptation to liquid media or competitive advantage in the co-culture. The 16S copy number can also play a role: a strain with more 16S copies gives more reads per cell, so read counts are not the same as cell numbers.</p></li>
 <li><p>These are the histograms for <code>barcode07</code>:</p>
 <p><a href="../img/barcode07_identity_hist.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="../img/barcode07_identity_hist.png" class="img-fluid" style="width:60.0%"></a></p>
 <p><a href="../img/barcode07_qcov_hist.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="../img/barcode07_qcov_hist.png" class="img-fluid" style="width:60.0%"></a></p>
 <p><a href="../img/barcode07_mapq_hist.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="../img/barcode07_mapq_hist.png" class="img-fluid" style="width:60.0%"></a></p>
-<p>Almost all alignments cover the whole read (query coverage close to 1), and almost all have a mapping quality of 60. A small group has a mapping quality of 0. These are multi-mappers, and the script keeps them. The identity is mostly between 0.92 and 0.99, with a small tail below 0.9. So the identity filter removed most of the alignments: 35 of the 40. An identity of about 0.95 fits the read quality: with a mean quality of about 13.6, roughly 4% of the bases are wrong.</p></li>
+<p>Almost all alignments cover the whole read (query coverage close to 1), and almost all have a mapping quality of 60. A small group has a mapping quality of 0. These are the 63 secondary alignments. The script keeps them on purpose, see the start of this section. The identity is mostly between 0.92 and 0.99, with a small tail below 0.9. So the identity filter removed most of the alignments: 35 of the 40. An identity of about 0.95 fits the read quality: with a mean quality of about 13.6, roughly 4% of the bases are wrong.</p></li>
 </ol>
 </div>
 </div>
@@ -870,7 +868,7 @@ window.Quarto = {
 </section>
 <section id="your-own-analysis-of-the-count-table" class="level2" data-number="6.5">
 <h2 data-number="6.5" class="anchored" data-anchor-id="your-own-analysis-of-the-count-table"><span class="header-section-number">6.5</span> Your own analysis of the count table</h2>
-<p>When you have finished the tutorial, you get a count table with the samples of all groups, and the code that made it. The table was made with the same steps as your own barcode. Each group tested its own strain combinations, but other groups worked with related questions on human or soil strains. So you can also compare your samples with theirs. How far you go is up to you. For your presentation, you need at least your own figures of your own samples, for example a barplot of the genera in each sample.</p>
+<p>When you have finished the tutorial, you can download a count table with the samples of all groups from Canvas, together with the code that made it. The table was made with the same steps as your own barcode. Each group tested its own strain combinations, but other groups worked with related questions on human or soil strains. So for the next steps you can also compare your samples with theirs. How far you go is up to you. For your presentation, you need at least your own figures of your own samples, for example a barplot of the genera in each sample.</p>
 <div class="callout callout-style-default callout-notebook callout-titled" title="Notebook checkpoint: Your own analysis">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="true" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -907,7 +905,7 @@ window.Quarto = {
 <div class="callout-body-container callout-body">
 <p>Your teachers read your notebook before your presentation, to prepare their questions. Take some time to make it complete.</p>
 <ol type="1">
-<li>At the top: does your notebook say what your community is, what your hypothesis was, and which samples you sequenced?</li>
+<li>At the top: does your <code>## Project description</code> say what your community is, what your hypothesis was, and which samples you sequenced?</li>
 <li><code>## Software</code>: is every tool there, with its version and where it came from (pre-installed or a conda environment)?</li>
 <li>Read your notebook from the top. Could someone repeat your work, from the lab to your figures, with your notebook alone?</li>
 <li><code>## Error log</code> and <code>## Questions</code>: is anything still open?</li>
@@ -918,7 +916,7 @@ window.Quarto = {
 </section>
 <section id="bonus-run-the-workflow-on-all-your-barcodes-optional" class="level2" data-number="6.6">
 <h2 data-number="6.6" class="anchored" data-anchor-id="bonus-run-the-workflow-on-all-your-barcodes-optional"><span class="header-section-number">6.6</span> Bonus: run the workflow on all your barcodes (optional)</h2>
-<p>So far you analysed one barcode, your largest file. In the practical you prepared more samples than that, for example your community at day 0 and at day 2. In this bonus section you run chopper and minimap2 on all your barcodes with a <code>for</code> loop. Then you make one count table with one column per barcode.</p>
+<p>So far you analysed one barcode, your largest file. In the practical you prepared more samples than that, for example you have prepared different replicates, maybe even different strain combinations. In this bonus section you run chopper and minimap2 on all your barcodes with a <code>for</code> loop. Then you make one count table with one column per barcode.</p>
 <p>You don’t need this section for the rest of the course. You get the count table for all samples during day 2, together with the code that made it. Do this section if you have time left, or if you want to see how that table was made.</p>
 <p>How long does it take? On the practical data, chopper takes about 6 seconds per barcode and minimap2 20 to 40 seconds. In a test with 8 barcodes, both loops together took about 4 minutes. So <code>srun</code> is enough and you don’t need a job script.</p>
 <section id="which-steps-run-once-per-barcode" class="level3" data-number="6.6.1">
@@ -984,41 +982,49 @@ window.Quarto = {
 <li>Look at all files from the practical with <code>ls -lh /zfs/omics/projects/education/miceco/data/practical/*.fastq.gz</code>. Find the barcodes that your group prepared.</li>
 <li>Look at the file sizes too. Is one of your files much smaller than the others? Write it in your notebook, and watch what happens to it in the loop.</li>
 <li>Use <code>nano</code> to make a file <code>barcodes.txt</code> in your <code>data_analysis</code> folder, with one barcode per line. Write the names exactly as in the file names, without <code>.fastq.gz</code>.</li>
-<li>Write the list in your notebook. For each barcode, also write which sample it is (community, day).</li>
+<li>Write the list in your notebook. For each barcode, also write which sample it is (community, day on which you generated the sample, and other relevant information).</li>
 </ul>
 <p><strong>Task 2: Copy the fastq files with a loop</strong></p>
 <p>Write a <code>for</code> loop that reads <code>barcodes.txt</code> and copies each fastq file into your <code>data</code> folder. Then check with <code>ls -lh data/*.fastq.gz</code> that every barcode is there.</p>
 <p><strong>Task 3: Run chopper and minimap2 on every barcode</strong></p>
 <ul>
 <li>Use the same chopper cutoffs that you chose for your first barcode. Then all samples are filtered the same way, and you can compare them. Write the cutoffs in your notebook.</li>
-<li>Before you run the loop, put <code>echo</code> in front of <code>srun</code>. The loop then only prints the commands. Do you see one chopper command per barcode in the first loop, and one minimap2 command per barcode in the second, with the right file names? Then remove the <code>echo</code> and run the loop.</li>
+<li>Before you run the two loops, run the test loop below. It only prints the file names. It does not run chopper or minimap2. Is every barcode there, with the right file names?</li>
 <li>While the loop runs, read what chopper prints for each barcode (“Kept … reads out of …”). Write the numbers in your notebook.</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate chopper_0.15.0</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> barcode <span class="kw">in</span> <span class="va">$(</span><span class="fu">cat</span> barcodes.txt<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"Now running chopper: </span><span class="va">${barcode}</span><span class="st">"</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>20G chopper <span class="dt">\</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">-i</span> ... <span class="dt">\</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        ... <span class="dt">\</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;</span> results/chopper/<span class="va">${barcode}</span>_filtered.fastq.gz</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate minimap2_2.31</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> barcode <span class="kw">in</span> <span class="va">$(</span><span class="fu">cat</span> barcodes.txt<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"Now running minimap2: </span><span class="va">${barcode}</span><span class="st">"</span></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>20G minimap2 <span class="dt">\</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>        ... <span class="dt">\</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;</span> results/minimap2/<span class="va">${barcode}</span>.paf</span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test loop: only prints the input and output file names</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> barcode <span class="kw">in</span> <span class="va">$(</span><span class="fu">cat</span> barcodes.txt<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"chopper:  data/</span><span class="va">${barcode}</span><span class="st">.fastq.gz -&gt; results/chopper/</span><span class="va">${barcode}</span><span class="st">_filtered.fastq.gz"</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"minimap2: results/chopper/</span><span class="va">${barcode}</span><span class="st">_filtered.fastq.gz -&gt; results/minimap2/</span><span class="va">${barcode}</span><span class="st">.paf"</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then fill in the <code>...</code> and run the two loops:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate chopper_0.15.0</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> barcode <span class="kw">in</span> <span class="va">$(</span><span class="fu">cat</span> barcodes.txt<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"Now running chopper: </span><span class="va">${barcode}</span><span class="st">"</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>20G <span class="at">--time</span><span class="op">=</span>00:30:00 chopper <span class="dt">\</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">-i</span> ... <span class="dt">\</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        ... <span class="dt">\</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;</span> results/chopper/<span class="va">${barcode}</span>_filtered.fastq.gz</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate minimap2_2.31</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> barcode <span class="kw">in</span> <span class="va">$(</span><span class="fu">cat</span> barcodes.txt<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"Now running minimap2: </span><span class="va">${barcode}</span><span class="st">"</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>20G <span class="at">--time</span><span class="op">=</span>00:30:00 minimap2 <span class="dt">\</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>        ... <span class="dt">\</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;</span> results/minimap2/<span class="va">${barcode}</span>.paf</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Task 4: Check the output of the loop</strong></p>
 <ul>
@@ -1040,7 +1046,7 @@ window.Quarto = {
 <li>Is the number of <code>unassigned</code> reads in a plausible range for each barcode?</li>
 <li>Did the script print a line that starts with <code>Warning</code>?</li>
 </ol>
-<p>Write the answers in your notebook.</p>
+<p>Write the answers in your notebook. Then go through “Before you hand in” again.</p>
 <div class="callout callout-style-default callout-answer callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1054,78 +1060,78 @@ window.Quarto = {
 <div id="callout-15" class="callout-15-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 1: list the barcodes</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> /zfs/omics/projects/education/miceco/data/practical/<span class="pp">*</span>.fastq.gz</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> barcodes.txt</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> barcodes.txt</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> barcodes.txt</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 2: copy the fastq files</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> barcode <span class="kw">in</span> <span class="va">$(</span><span class="fu">cat</span> barcodes.txt<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cp</span> /zfs/omics/projects/education/miceco/data/practical/<span class="va">${barcode}</span>.fastq.gz data</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data/<span class="pp">*</span>.fastq.gz</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 3: chopper and minimap2, once per barcode</span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co"># (use your own chopper cutoffs)</span></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate chopper_0.15.0</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> barcode <span class="kw">in</span> <span class="va">$(</span><span class="fu">cat</span> barcodes.txt<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"Now running chopper: </span><span class="va">${barcode}</span><span class="st">"</span></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>20G chopper <span class="dt">\</span></span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">-i</span> data/<span class="va">${barcode}</span>.fastq.gz <span class="dt">\</span></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">-q</span> 12 <span class="dt">\</span></span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">--trim-approach</span> trim-by-quality <span class="at">--cutoff</span> 12 <span class="dt">\</span></span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">--minlength</span> 1400 <span class="at">--maxlength</span> 1540 <span class="dt">\</span></span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">--threads</span> 2 <span class="kw">|</span> <span class="fu">gzip</span> <span class="dt">\</span></span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;</span> results/chopper/<span class="va">${barcode}</span>_filtered.fastq.gz</span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate minimap2_2.31</span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> barcode <span class="kw">in</span> <span class="va">$(</span><span class="fu">cat</span> barcodes.txt<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"Now running minimap2: </span><span class="va">${barcode}</span><span class="st">"</span></span>
-<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>    <span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>20G minimap2 <span class="dt">\</span></span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>        <span class="at">-cx</span> map-ont <span class="at">-t</span> 2 <span class="dt">\</span></span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>        data/amplicons_nr.fasta <span class="dt">\</span></span>
-<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>        results/chopper/<span class="va">${barcode}</span>_filtered.fastq.gz <span class="dt">\</span></span>
-<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;</span> results/minimap2/<span class="va">${barcode}</span>.paf</span>
-<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
-<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span>
-<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 4: check the output</span></span>
-<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> barcodes.txt</span>
-<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> results/chopper/<span class="pp">*</span>_filtered.fastq.gz <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
-<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> results/minimap2/<span class="pp">*</span>.paf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
-<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> results/chopper/ results/minimap2/</span>
-<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> results/minimap2/<span class="pp">*</span>.paf</span>
-<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 5: one seqkit file for all barcodes, then one count table</span></span>
-<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>1 <span class="at">--mem</span><span class="op">=</span>5G seqkit stats results/chopper/<span class="pp">*</span>_filtered.fastq.gz <span class="dt">\</span></span>
-<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">-Tao</span> results/seqkit/all_filtered.tsv <span class="at">--threads</span> 1</span>
-<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> results/seqkit/all_filtered.tsv</span>
-<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate python_3.10.18</span>
-<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> results/tables_all</span>
-<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/paf_to_matrix.py <span class="dt">\</span></span>
-<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>  <span class="at">-i</span> results/minimap2/ <span class="dt">\</span></span>
-<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>  <span class="at">-s</span> results/seqkit/all_filtered.tsv <span class="dt">\</span></span>
-<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a>  <span class="at">-t</span> data/accession_to_genus.tsv <span class="dt">\</span></span>
-<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a>  <span class="at">-o</span> results/tables_all</span>
-<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span>
-<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 6: look at the table</span></span>
-<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> results/tables_all/otu_table_genus.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 1: list the barcodes</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> /zfs/omics/projects/education/miceco/data/practical/<span class="pp">*</span>.fastq.gz</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> barcodes.txt</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> barcodes.txt</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> barcodes.txt</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 2: copy the fastq files</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> barcode <span class="kw">in</span> <span class="va">$(</span><span class="fu">cat</span> barcodes.txt<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cp</span> /zfs/omics/projects/education/miceco/data/practical/<span class="va">${barcode}</span>.fastq.gz data</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> data/<span class="pp">*</span>.fastq.gz</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 3: chopper and minimap2, once per barcode</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co"># (use your own chopper cutoffs)</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate chopper_0.15.0</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> barcode <span class="kw">in</span> <span class="va">$(</span><span class="fu">cat</span> barcodes.txt<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"Now running chopper: </span><span class="va">${barcode}</span><span class="st">"</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    <span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>20G <span class="at">--time</span><span class="op">=</span>00:30:00 chopper <span class="dt">\</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">-i</span> data/<span class="va">${barcode}</span>.fastq.gz <span class="dt">\</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">-q</span> 12 <span class="dt">\</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">--trim-approach</span> trim-by-quality <span class="at">--cutoff</span> 12 <span class="dt">\</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">--minlength</span> 1400 <span class="at">--maxlength</span> 1540 <span class="dt">\</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">--threads</span> 2 <span class="kw">|</span> <span class="fu">gzip</span> <span class="dt">\</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;</span> results/chopper/<span class="va">${barcode}</span>_filtered.fastq.gz</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate minimap2_2.31</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> barcode <span class="kw">in</span> <span class="va">$(</span><span class="fu">cat</span> barcodes.txt<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"Now running minimap2: </span><span class="va">${barcode}</span><span class="st">"</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>    <span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>2 <span class="at">--mem</span><span class="op">=</span>20G <span class="at">--time</span><span class="op">=</span>00:30:00 minimap2 <span class="dt">\</span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>        <span class="at">-cx</span> map-ont <span class="at">-t</span> 2 <span class="dt">\</span></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>        data/amplicons_nr.fasta <span class="dt">\</span></span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>        results/chopper/<span class="va">${barcode}</span>_filtered.fastq.gz <span class="dt">\</span></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;</span> results/minimap2/<span class="va">${barcode}</span>.paf</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 4: check the output</span></span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> barcodes.txt</span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> results/chopper/<span class="pp">*</span>_filtered.fastq.gz <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> results/minimap2/<span class="pp">*</span>.paf <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lh</span> results/chopper/ results/minimap2/</span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> results/minimap2/<span class="pp">*</span>.paf</span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 5: one seqkit file for all barcodes, then one count table</span></span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--ntasks</span><span class="op">=</span>1 <span class="at">--cpus-per-task</span><span class="op">=</span>1 <span class="at">--mem</span><span class="op">=</span>5G <span class="at">--time</span><span class="op">=</span>00:10:00 seqkit stats results/chopper/<span class="pp">*</span>_filtered.fastq.gz <span class="dt">\</span></span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">-Tao</span> results/seqkit/all_filtered.tsv <span class="at">--threads</span> 1</span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> results/seqkit/all_filtered.tsv</span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate python_3.10.18</span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> results/tables_all</span>
+<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/paf_to_matrix.py <span class="dt">\</span></span>
+<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>  <span class="at">-i</span> results/minimap2/ <span class="dt">\</span></span>
+<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>  <span class="at">-s</span> results/seqkit/all_filtered.tsv <span class="dt">\</span></span>
+<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a>  <span class="at">-t</span> data/accession_to_genus.tsv <span class="dt">\</span></span>
+<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a>  <span class="at">-o</span> results/tables_all</span>
+<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span>
+<span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a><span class="co"># Task 6: look at the table</span></span>
+<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> <span class="at">-S</span> results/tables_all/otu_table_genus.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ol type="1">
 <li>If you see more columns than barcodes, an old <code>.paf</code> file is still in <code>results/minimap2/</code>. If you see fewer, a barcode failed in the loop. Scroll back through what the loop printed. For example, chopper printed <code>Kept 0 reads out of 2 reads</code>, the filtered fastq file has 20 bytes and the <code>.paf</code> file has 0 lines. The script then leaves that barcode out of the table.</li>
